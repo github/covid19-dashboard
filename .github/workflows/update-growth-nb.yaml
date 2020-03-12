@@ -14,3 +14,5 @@ jobs:
     - name: install libraries
       run: |
         pip install matplotlib pandas seaborn papermill
+        cd _notebooks
+        papermill covid19_growth.ipynb covid19_growth.ipynb
