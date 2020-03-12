@@ -1,0 +1,16 @@
+name: Update Growth Notebook
+on: push
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+          
+    - name: install libraries
+      run: |
+        pip install matplotlib pandas seaborn papermill
