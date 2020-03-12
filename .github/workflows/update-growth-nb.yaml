@@ -6,13 +6,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Copy Repository Contents
+      uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
           
-    - name: install libraries
+    - name: update notebook
       run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         pip install matplotlib pandas seaborn papermill
+        sudo chmod -R 777 .
         cd _notebooks
         papermill covid19_growth.ipynb covid19_growth.ipynb
+        git add covid19_growth.ipynb
+        git commit -m'update covid19_growth.ipynb'
+        git push
