@@ -1,5 +1,7 @@
 name: Update Growth Notebook
-on: push
+on:
+  schedule:
+    - cron:  '0 * * * *'
 
 jobs:
   setup:
