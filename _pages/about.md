@@ -12,7 +12,7 @@ View [this project on GitHub](https://github.com/machine-learning-apps/covid19-d
 
 ---
 
-[^1]: Familiarity with [fastpages] is helpful.  All you need to do is include the appropriate front matter in your notebook.  See [this guide](https://github.com/fastai/fastpages#customizing-blog-posts-with-front-matter). You can submit a Pull Request at https://github.com/machine-learning-apps/covid19-dashboard.
+[^1]: Familiarity with [fastpages](https://github.com/fastai/fastpages) is helpful.  All you need to do is include the appropriate front matter in your notebook.  See [this guide](https://github.com/fastai/fastpages#customizing-blog-posts-with-front-matter). You can submit a Pull Request at [https://github.com/machine-learning-apps/covid19-dashboard](https://github.com/machine-learning-apps/covid19-dashboard).
 
 [^2]:  Feel free to get in touch on Twitter: [@HamelHusain](https://twitter.com/HamelHusain)
 
