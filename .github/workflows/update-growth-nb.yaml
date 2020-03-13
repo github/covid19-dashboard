@@ -19,12 +19,19 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
-    
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+      
+    - name: install plotly js dependencies
+      run: npm install -g electron@6.1.4 orca
+
     - name: install dependencies
       run: |
         pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil
         python3 -m ipykernel install --user --name python3
-        npm install -g electron@6.1.4 orca
         sudo chmod -R 777 .
         cd _notebooks
         ls
