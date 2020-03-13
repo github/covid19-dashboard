@@ -30,7 +30,7 @@ jobs:
         sudo chmod -R 777 .
         cd _notebooks
         ls
-        papermill covid19_growth.ipynb covid19_growth.ipynb
+        papermill 2020-03-12-covid19_growth.ipynb 2020-03-12-covid19_growth.ipynb
 
     - name: update notebook
       run: |
