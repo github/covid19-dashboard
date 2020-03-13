@@ -19,19 +19,22 @@ jobs:
     
     - name: install dependencies
       run: |
-        pip install matplotlib pandas seaborn papermill ipykernel jupyter
+        pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil
         python3 -m ipykernel install --user --name python3
+        npm install -g electron@6.1.4 orca
         sudo chmod -R 777 .
         cd _notebooks
         ls
         papermill 2020-03-12-covid19_growth.ipynb 2020-03-12-covid19_growth.ipynb
         papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
+        papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
 
     - name: update notebook
+      if: github.event != 'pull_request'
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add _notebooks/*.ipynb
-        git add images/covid*.png
+        git add images/
         git commit -m'updated JHU notebooks'
         git push
