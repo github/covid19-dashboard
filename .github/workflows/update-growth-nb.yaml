@@ -1,7 +1,7 @@
 name: Update Notebooks Using John Hopkins Dataset
 on:
   schedule:
-    - cron:  '*/30 * * * *'
+    - cron:  '*/60 * * * *'
   push:
     branches:
       - master 
@@ -42,8 +42,8 @@ jobs:
     - name: save files
       if: github.event != 'pull_request'
       run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
+        git config --global user.email "hamelsmu@users.noreply.github.com"
+        git config --global user.name "hamelsmu"
         git add _notebooks/*.ipynb
         git add images/
         git commit -m'updated JHU notebooks'
