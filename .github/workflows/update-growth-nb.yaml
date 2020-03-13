@@ -38,6 +38,34 @@ jobs:
         papermill 2020-03-12-covid19_growth.ipynb 2020-03-12-covid19_growth.ipynb
         papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
         papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
+  
+    - name: convert notebooks and word docs to posts
+      uses: ./_action_files
+
+    - name: setup directories for Jekyll build
+      run: |
+        rm -rf _site
+        sudo chmod -R 777 .
+
+    - name: Jekyll build
+      uses: docker://hamelsmu/fastpages-jekyll
+      with:
+        args: bash -c "gem install bundler && jekyll build -V"
+      env:
+        JEKYLL_ENV: 'production'
+        
+    - name: copy CNAME file into _site if CNAME exists
+      if: github.event != 'pull_request'
+      run: |
+        sudo chmod -R 777 _site/
+        cp CNAME _site/ 2>/dev/null || :
+        
+    - name: Deploy
+      if: github.event != 'pull_request'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+        publish_dir: ./_site
 
     - name: save files
       if: github.event != 'pull_request'
@@ -49,3 +77,7 @@ jobs:
         git commit -m'updated JHU notebooks'
         git push
 
+        - name: Copy Repository Contents
+        uses: actions/checkout@master
+        with:
+          persist-credentials: false
