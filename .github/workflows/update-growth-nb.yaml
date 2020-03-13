@@ -48,3 +48,4 @@ jobs:
         git add images/
         git commit -m'updated JHU notebooks'
         git push
+
