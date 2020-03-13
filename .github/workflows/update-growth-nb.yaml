@@ -1,13 +1,20 @@
 name: Update Growth Notebook
-on:
-  schedule:
-    - cron:  '0 * * * *'
+on: push
+#   schedule:
+#     - cron:  '0 * * * *'
 
 jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
 
+    - name: checkout latest fastpages
+      uses: actions/checkout@v2
+      with:
+        repository: 'CSSEGISandData/COVID-19'
+        path: 'COVID-19'
+        persist-credentials: false
+    
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
@@ -22,7 +29,6 @@ jobs:
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
         cd _notebooks
-        git clone https://github.com/CSSEGISandData/COVID-19.git COVID-19
         papermill covid19_growth.ipynb covid19_growth.ipynb
 
     - name: update notebook
