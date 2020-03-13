@@ -8,13 +8,6 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-
-    - name: checkout latest fastpages
-      uses: actions/checkout@v2
-      with:
-        repository: 'CSSEGISandData/COVID-19'
-        path: 'COVID-19'
-        persist-credentials: false
     
     - name: Copy Repository Contents
       uses: actions/checkout@v2
