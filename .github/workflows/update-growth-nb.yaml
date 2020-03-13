@@ -22,6 +22,7 @@ jobs:
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
         cd _notebooks
+        git clone https://github.com/CSSEGISandData/COVID-19.git COVID-19
         papermill covid19_growth.ipynb covid19_growth.ipynb
 
     - name: update notebook
