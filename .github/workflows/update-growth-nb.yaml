@@ -2,6 +2,9 @@ name: Update Notebooks Using John Hopkins Dataset
 on:
   schedule:
     - cron:  '*/30 * * * *'
+  push:
+    branches:
+      - master 
   pull_request: 
 
 jobs:
