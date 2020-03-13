@@ -29,6 +29,7 @@ jobs:
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
         cd _notebooks
+        ls
         papermill covid19_growth.ipynb covid19_growth.ipynb
 
     - name: update notebook
