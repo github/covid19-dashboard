@@ -36,7 +36,7 @@ jobs:
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git add _notebooks/covid19_growth.ipynb
+        git add _notebooks/2020-03-12-covid19_growth.ipynb
         git add images/diagram.png
-        git commit -m'update covid19_growth.ipynb'
+        git commit -m'update 2020-03-12-covid19_growth.ipynb'
         git push
