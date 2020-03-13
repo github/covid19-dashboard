@@ -1,7 +1,8 @@
-name: Update Growth Notebook
+name: Update Notebooks Using John Hopkins Dataset
 on:
   schedule:
     - cron:  '*/30 * * * *'
+  push:
 
 jobs:
   setup:
@@ -31,12 +32,13 @@ jobs:
         cd _notebooks
         ls
         papermill 2020-03-12-covid19_growth.ipynb 2020-03-12-covid19_growth.ipynb
+        papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
 
     - name: update notebook
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git add _notebooks/2020-03-12-covid19_growth.ipynb
-        git add images/diagram.png
-        git commit -m'update 2020-03-12-covid19_growth.ipynb'
+        git add _notebooks/
+        git add images/covid*.png
+        git commit -m'updated JHU notebooks'
         git push
