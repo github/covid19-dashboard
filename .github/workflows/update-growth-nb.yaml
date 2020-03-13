@@ -28,7 +28,7 @@ jobs:
     - name: install plotly js dependencies
       run: npm install -g electron@6.1.4 orca
 
-    - name: install dependencies
+    - name: run notebooks
       run: |
         pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil
         python3 -m ipykernel install --user --name python3
@@ -39,7 +39,7 @@ jobs:
         papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
         papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
 
-    - name: update notebook
+    - name: save files
       if: github.event != 'pull_request'
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
