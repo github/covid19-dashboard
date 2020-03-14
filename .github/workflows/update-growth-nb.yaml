@@ -35,11 +35,11 @@ jobs:
         sudo chmod -R 777 .
         cd _notebooks
         ls *.ipynb
-        papermill 2020-03-14-covid19_growth.ipynb 2020-03-14-covid19_growth.ipynb
-        papermill 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
-        papermill 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
-        papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
-        papermill 2020-03-13-Mortality_Rate.ipynb 2020-03-13-Mortality_Rate.ipynb
+        papermill --kernel python3 2020-03-14-covid19_growth.ipynb 2020-03-14-covid19_growth.ipynb
+        papermill --kernel python3 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
+        papermill --kernel python3 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
+        papermill --kernel python3 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
+        papermill --kernel python3 2020-03-13-Mortality_Rate.ipynb 2020-03-13-Mortality_Rate.ipynb
  
     - name: save files
       if: github.event != 'pull_request'
