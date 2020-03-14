@@ -47,7 +47,7 @@ jobs:
         git add _notebooks/
         git add images/
         git commit -m'updated JHU notebooks'
-        git push
+        git push -f
 
     - name: convert notebooks and word docs to posts
       uses: ./_action_files
