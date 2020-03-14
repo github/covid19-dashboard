@@ -1,4 +1,4 @@
-name: Update Notebooks Using John Hopkins Dataset
+name: Update Notebooks
 on:
   schedule:
     - cron:  '*/60 * * * *'
@@ -8,7 +8,7 @@ on:
   pull_request: 
 
 jobs:
-  setup:
+  update-notebooks:
     runs-on: ubuntu-latest
     steps:
     
