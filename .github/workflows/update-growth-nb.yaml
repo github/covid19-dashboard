@@ -1,7 +1,7 @@
 name: Update Notebooks Using John Hopkins Dataset
 on:
   schedule:
-    - cron:  '*/30 * * * *'
+    - cron:  '*/60 * * * *'
   push:
     branches:
       - master 
