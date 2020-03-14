@@ -37,7 +37,7 @@ jobs:
         ls
         papermill 2020-03-14-covid19_growth.ipynb 2020-03-14-covid19_growth.ipynb
         papermill 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
-        papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
+        papermill 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
         papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
  
     - name: save files
