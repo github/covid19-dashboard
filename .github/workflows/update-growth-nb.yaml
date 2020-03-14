@@ -38,7 +38,17 @@ jobs:
         papermill 2020-03-12-covid19_growth.ipynb 2020-03-12-covid19_growth.ipynb
         papermill 2020-03-13-covid19-us-states.ipynb 2020-03-13-covid19-us-states.ipynb
         papermill 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
-  
+ 
+    - name: save files
+      if: github.event != 'pull_request'
+      run: |
+        git config --global user.email "hamelsmu@users.noreply.github.com"
+        git config --global user.name "hamelsmu"
+        git add _notebooks/
+        git add images/
+        git commit -m'updated JHU notebooks'
+        git push
+
     - name: convert notebooks and word docs to posts
       uses: ./_action_files
 
@@ -66,18 +76,3 @@ jobs:
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
         publish_dir: ./_site
-
-    - name: save files
-      if: github.event != 'pull_request'
-      run: |
-        git config --global user.email "hamelsmu@users.noreply.github.com"
-        git config --global user.name "hamelsmu"
-        git add _notebooks/
-        git add images/
-        git commit -m'updated JHU notebooks'
-        git push
-
-        - name: Copy Repository Contents
-        uses: actions/checkout@master
-        with:
-          persist-credentials: false
