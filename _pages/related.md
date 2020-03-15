@@ -13,6 +13,7 @@ This website contains visualizations and analysis that are build from data sourc
 
 ## Blog Articles
 
+- [Why outbreaks like the corona virus spread expontentially, and how to flatten the curve](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/?itid=hp_hp-banner-low_virus-simulator520pm%3Ahomepage%2Fstory-ans): this is an excellent set of visualizations explaining the benefits of social distancing.
 -  ["COVID-19 outbreak response: first assessment of mobility changes in Italy following lockdown"](https://covid19mm.github.io/in-progress/2020/03/13/first-report-assessment.html), Mar 13, 2020 
 -  [Open letter from Italy to the interational scientific community](https://left.it/2020/03/13/covid_19-open-letter-from-italy-to-the-international-scientific-community/)  Mar 13, 2020 
 - [Covid-19, your community, and you — a data science perspective](https://www.fast.ai/2020/03/09/coronavirus/) Mar 9, 2020.
