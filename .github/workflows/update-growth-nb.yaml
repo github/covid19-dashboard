@@ -11,6 +11,10 @@ jobs:
   update-notebooks:
     runs-on: ubuntu-latest
     steps:
+    - name: See event name
+      run: echo "${EVENT}"
+      env:
+        EVENT: ${{ github.event }}
     
     - name: Copy Repository Contents
       uses: actions/checkout@v2
