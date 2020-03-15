@@ -16,19 +16,23 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Python
+      if: github.event != 'push'
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
 
     - name: Setup Node
+      if: github.event != 'push'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
       
     - name: install plotly js dependencies
+      if: github.event != 'push'
       run: npm install -g electron@6.1.4 orca
 
     - name: run notebooks
+      if: github.event != 'push'
       run: |
         pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd
         python3 -m ipykernel install --user --name python3
@@ -39,11 +43,17 @@ jobs:
         papermill --kernel python3 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
         papermill --kernel python3 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
         papermill --kernel python3 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
+ 
+    - name: run notebooks - modeling
+      if: github.event == 'schedule'
+      run: |
+        sudo chmod -R 777 .
+        cd _notebooks
         papermill --kernel python3 2020-03-15-covid19_growth_bayes.ipynb 2020-03-15-covid19_growth_bayes.ipynb
         papermill --kernel python3 2020-03-11-Mortality_Rate.ipynb 2020-03-11-Mortality_Rate.ipynb
  
     - name: save files
-      if: github.event != 'pull_request'
+      if: github.event == 'schedule'
       run: |
         git config --global user.email "hamelsmu@users.noreply.github.com"
         git config --global user.name "hamelsmu"
