@@ -11,24 +11,34 @@ jobs:
   update-notebooks:
     runs-on: ubuntu-latest
     steps:
+  
+    - name: See event name
+      run: |
+        echo "${EVENT}"
+      env:
+        EVENT: ${{ github.event_name }}
     
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
     - name: Set up Python
+      if: github.event_name != 'push'
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
 
     - name: Setup Node
+      if: github.event_name != 'push'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
       
     - name: install plotly js dependencies
+      if: github.event_name != 'push'
       run: npm install -g electron@6.1.4 orca
 
     - name: run notebooks
+      if: github.event_name != 'push'
       run: |
         pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd
         python3 -m ipykernel install --user --name python3
@@ -39,11 +49,17 @@ jobs:
         papermill --kernel python3 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
         papermill --kernel python3 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
         papermill --kernel python3 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
+ 
+    - name: run notebooks - modeling
+      if: github.event_name == 'schedule'
+      run: |
+        sudo chmod -R 777 .
+        cd _notebooks
         papermill --kernel python3 2020-03-15-covid19_growth_bayes.ipynb 2020-03-15-covid19_growth_bayes.ipynb
         papermill --kernel python3 2020-03-11-Mortality_Rate.ipynb 2020-03-11-Mortality_Rate.ipynb
  
     - name: save files
-      if: github.event != 'pull_request'
+      if: github.event_name == 'schedule'
       run: |
         git config --global user.email "hamelsmu@users.noreply.github.com"
         git config --global user.name "hamelsmu"
@@ -68,13 +84,13 @@ jobs:
         JEKYLL_ENV: 'production'
         
     - name: copy CNAME file into _site if CNAME exists
-      if: github.event != 'pull_request'
+      if: github.event_name != 'pull_request'
       run: |
         sudo chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
         
     - name: Deploy
-      if: github.event != 'pull_request'
+      if: github.event_name != 'pull_request'
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
