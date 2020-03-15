@@ -8,7 +8,7 @@ permalink: /related/
 
 This website contains visualizations and analysis that are build from data sources that are updated regularly. However, there are other useful sources of information beyond these visualiztions that may be helpful, which we have started to curate here:
 
-**Want to add something to this list?  [Edit this file on GitHub]() and make a pull request!**
+**Want to add something to this list?  [Edit this file on GitHub](https://github.com/machine-learning-apps/covid19-dashboard/blob/master/_pages/related.md) and make a pull request!**
 
 
 ## Data Sources
