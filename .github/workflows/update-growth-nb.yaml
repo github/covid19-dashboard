@@ -11,8 +11,10 @@ jobs:
   update-notebooks:
     runs-on: ubuntu-latest
     steps:
+  
     - name: See event name
-      run: echo "${EVENT}"
+      run: |
+        echo "${EVENT}"
       env:
         EVENT: ${{ github.event }}
     
