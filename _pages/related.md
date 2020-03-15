@@ -29,4 +29,4 @@ This website contains visualizations and analysis that are build from data sourc
 ## Projects
 
 - [https://ncov2019.live](https://ncov2019.live/data): A dashboard that presents global statistics about COVID-19 in a tabular format.
-- [Corona Virus Clinical Trials Dashboard](https://kishorevasan.shinyapps.io/coronavirus_clinical_trials/) : An interactive dashboard that tracks clinical trials related to COVID-19. Uses clinicaltrials.gov data and is updated using API calls.
+- [COVID-19 Clinical Trials Dashboard](https://kishorevasan.shinyapps.io/coronavirus_clinical_trials/) : An interactive dashboard that tracks clinical trials related to COVID-19. Uses clinicaltrials.gov data and is updated using API calls.
