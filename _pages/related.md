@@ -11,7 +11,7 @@ This website contains visualizations and analysis that are build from data sourc
 **Want to add something to this list?  [Edit this file on GitHub]() and make a pull request!**
 
 
-## Blog Articles
+## Articles
 
 - [Why outbreaks like the corona virus spread expontentially, and how to flatten the curve](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/?itid=hp_hp-banner-low_virus-simulator520pm%3Ahomepage%2Fstory-ans): Washington Post, March 14, 2020. this is an excellent set of visualizations explaining the benefits of social distancing.
 -  [COVID-19 outbreak response: first assessment of mobility changes in Italy following lockdown](https://covid19mm.github.io/in-progress/2020/03/13/first-report-assessment.html), Mar 13, 2020 
