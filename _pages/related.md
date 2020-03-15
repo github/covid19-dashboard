@@ -18,6 +18,7 @@ This website contains visualizations and analysis that are build from data sourc
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
 - Boston's Children's Hospital [Health Map project](https://healthmap.org/covid-19/).  Includes this [GitHub repo](https://github.com/beoutbreakprepared/nCoV2019) and this [Google sheet](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008/edit#gid=0)
 - [https://ncov2019.live](https://ncov2019.live/data): This is really a dashboard, but presents most of its data in a tabular format that can be scraped.
+- Official Italian government [GitHub repo](https://github.com/pcm-dpc/COVID-19). Updated regularly by the Italian Ministry of Health and Dipartimento di Protezione Civile. Contains multiple indicators such as number of total cases, number in ICU, number of tests done, etc.
 
 ## Articles
 
