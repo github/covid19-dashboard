@@ -17,6 +17,7 @@ This website contains visualizations and analysis that are build from data sourc
 - [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): this is what powers many of the visualizations on this site.  This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues).  This agggregates 14+ data sources from around the world.
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
 - Boston's Children's Hospital [Health Map project](https://healthmap.org/covid-19/).  Includes this [GitHub repo](https://github.com/beoutbreakprepared/nCoV2019) and this [Google sheet](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008/edit#gid=0)
+- [https://ncov2019.live](https://ncov2019.live/data): This is really a dashboard, but presents most of its data in a tabular format that can be scraped.
 
 ## Articles
 
