@@ -19,5 +19,9 @@ This website contains visualizations and analysis that are build from data sourc
 
 ## Data Sources
 
- - [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): this is what powers many of the visualizations on this site.  This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues).  This agggregates 14+ data sources from around the world.
+- The CDC's [page for COVD-19](https://www.cdc.gov/coronavirus/2019-ncov/index.html).
+- [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): this is what powers many of the visualizations on this site.  This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues).  This agggregates 14+ data sources from around the world.
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
+- [https://ncov2019.live](https://ncov2019.live/data): This is dashboard with up to date stats about COVID-19, primarily in a tabular format.  You could scrape this for a comprehensive dataset.
+- [Google Sheet from Boston Children's Hospital's HealthMap Project](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008): this is a link to the [Healthmap Dashboard](https://www.healthmap.org/covid-19/), along with a [GitHub repo with more resources](https://github.com/beoutbreakprepared/nCoV2019).
+
