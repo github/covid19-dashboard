@@ -14,7 +14,7 @@ This website contains visualizations and analysis that are build from data sourc
 ## Data Sources
 
 - The CDC's [page on the Coronavirus](https://www.cdc.gov/coronavirus/2019-ncov/index.html).
-- [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): this is what powers many of the visualizations on this site.  This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues).  This agggregates 14+ data sources from around the world.
+- [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): this is what powers many of the visualizations on this site.  This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues).  This aggregates 14+ data sources from around the world.
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
 - Boston's Children's Hospital [Health Map project](https://healthmap.org/covid-19/).  Includes this [GitHub repo](https://github.com/beoutbreakprepared/nCoV2019) and this [Google sheet](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008/edit#gid=0)
 - Official Italian government [GitHub repo](https://github.com/pcm-dpc/COVID-19). Updated regularly by the Italian Ministry of Health and Dipartimento di Protezione Civile. Contains multiple indicators such as number of total cases, number in ICU, number of tests done, etc.
