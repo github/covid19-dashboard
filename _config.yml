@@ -9,7 +9,7 @@
 title: COVID-19 Dashboards
 tagline: A site that displays up to date COVID-19 stats, powered by fastpages.
 description: A site that displays up to date COVID-19 stats, powered by fastpages.
-github_username: machine-learning-apps
+github_username: github
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "covid19-dashboard"
 
