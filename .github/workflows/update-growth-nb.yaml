@@ -52,7 +52,6 @@ jobs:
         papermill --kernel python3 2020-03-15-us-growth-by-state-map.ipynb 2020-03-15-us-growth-by-state-map.ipynb
         papermill --kernel python3 2020-03-17-covid19-compare-country-trajectories.ipynb 2020-03-17-covid19-compare-country-trajectories.ipynb
         papermill --kernel python3 2020-03-17-covid19-compare-country-death-trajectories.ipynb 2020-03-17-covid19-compare-country-death-trajectories.ipynb
-        papermill --kernel python3 2020-03-20-covid19-overview-us.ipynb 2020-03-20-covid19-overview-us.ipynb
         papermill --kernel python3 2020-03-21-covid19-overview.ipynb 2020-03-21-covid19-overview.ipynb
         papermill --kernel python3 2020-03-19-cases-and-deaths-per-million.ipynb 2020-03-19-cases-and-deaths-per-million.ipynb
 
