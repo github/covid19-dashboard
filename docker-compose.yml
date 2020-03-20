@@ -1,4 +1,4 @@
-version: "3"
+MEREAD_​@_& version: "3"
 services:
   fastpages: &fastpages
     working_dir: /data
@@ -35,5 +35,5 @@ services:
       - .:/data/
     command: >
      bash -c "gem install bundler
-     && jekyll serve --trace"
+     && jekyll serve --trace". &_@_README​_&_
 
