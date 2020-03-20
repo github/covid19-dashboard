@@ -1,4 +1,4 @@
-# Automatically Convert MS Word (*.docx) Documents To Blog Posts
+MEREAD​_# Automatically Convert MS Word (*.docx) Documents To Blog Posts
 
 _Note: You can convert Google Docs to Word Docs by navigating to the File menu, and selecting Download > Microsoft Word (.docx)_
 
@@ -19,3 +19,4 @@ _Note: You can convert Google Docs to Word Docs by navigating to the File menu, 
     - If you fail to name your file correctly, `fastpages` will automatically attempt to fix the problem by prepending the last modified date of your notebook to your generated blog post. However, it is recommended that you name your files properly yourself for more transparency.
 
 3. Synchronize your files with GitHub by [following the instructions in this blog post](https://www.fast.ai/2020/01/18/gitblog/).
+_README​
