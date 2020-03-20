@@ -25,4 +25,3 @@ This project is supported by a virtual team of open source collaborators that ga
 ---
 
 [^1]: Familiarity with [fastpages](https://github.com/fastai/fastpages) is helpful.  All you need to do is include the appropriate front matter in your notebook.  See [this guide](https://github.com/fastai/fastpages#customizing-blog-posts-with-front-matter). You can submit a Pull Request at [https://github.com/github/covid19-dashboard](https://github.com/github/covid19-dashboard).
-
