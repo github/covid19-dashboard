@@ -18,6 +18,9 @@ def load_individual_timeseries(name):
     df.index = pd.to_datetime(df.index)
     df.columns = ['country', 'state', 'type', 'cases']
     
+    # Fix South Korea
+    df.loc[df.country =='Korea, South', 'country'] = 'South Korea'
+
     # Move HK to country level
     df.loc[df.state =='Hong Kong', 'country'] = 'Hong Kong'
     df.loc[df.state =='Hong Kong', 'state'] = np.nan
