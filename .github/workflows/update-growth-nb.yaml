@@ -54,6 +54,7 @@ jobs:
         papermill --kernel python3 2020-03-17-covid19-compare-country-death-trajectories.ipynb 2020-03-17-covid19-compare-country-death-trajectories.ipynb
         papermill --kernel python3 2020-03-21-covid19-overview.ipynb 2020-03-21-covid19-overview.ipynb
         papermill --kernel python3 2020-03-19-cases-and-deaths-per-million.ipynb 2020-03-19-cases-and-deaths-per-million.ipynb
+		papermill --kernel python3 2020-03-21-covid19-cases-to-deaths.ipynb 2020-03-21-covid19-cases-to-deaths.ipynb
 
     - name: run notebooks - modeling
       if: github.event_name == 'schedule'
