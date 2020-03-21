@@ -4,8 +4,7 @@ on:
     - cron:  '*/60 * * * *'
   push:
     branches:
-      - master 
-  pull_request: 
+      - master
 
 jobs:
   update-notebooks:
