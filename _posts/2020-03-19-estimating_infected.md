@@ -539,7 +539,7 @@ $$I_t = (1+\hat{g})^j I_{t-j}$$
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Assumption 3</strong>: It takes on average 8 days to day after having the first symptoms.</p>
+<p><strong>Assumption 3</strong>: It takes on average 8 days to die after having the first symptoms.</p>
 
 </div>
 </div>
