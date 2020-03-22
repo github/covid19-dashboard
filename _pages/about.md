@@ -5,8 +5,8 @@ permalink: /about/
 ---
 
 ## About This Project
-
-This site was built by [Hamel Husain](https://twitter.com/HamelHusain).  
+ 
+This site was built by [Hamel Husain](https://twitter.com/HamelHusain).  The content on this site (analysis, visualizations, etc) was contributed by [these wonderful people](https://github.com/github/covid19-dashboard#contributors-).  
 
 **This website is powered by [fastpages](https://github.com/fastai/fastpages)**, a blogging platform that natively supports Jupyter notebooks in addition to other formats.  View [this project on GitHub](https://github.com/github/covid19-dashboard).
 
