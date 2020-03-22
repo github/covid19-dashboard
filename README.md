@@ -1,6 +1,6 @@
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://github.com/github/covid19-dashboard/workflows/CI/badge.svg) 
@@ -33,6 +33,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://twiecki.io/"><img src="https://avatars2.githubusercontent.com/u/674200?v=4" width="100px;" alt=""/><br /><sub><b>Thomas Wiecki</b></sub></a><br /><a href="#content-twiecki" title="Content">🖋</a> <a href="https://github.com/github/covid19-dashboard/commits?author=twiecki" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/jwrichar"><img src="https://avatars3.githubusercontent.com/u/52940005?v=4" width="100px;" alt=""/><br /><sub><b>Joseph Richards</b></sub></a><br /><a href="#content-jwrichar" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/aimran-adroll"><img src="https://avatars2.githubusercontent.com/u/31903245?v=4" width="100px;" alt=""/><br /><sub><b>Asif Imran</b></sub></a><br /><a href="#content-aimran-adroll" title="Content">🖋</a></td>
+    <td align="center"><a href="http://www.faingezicht.com"><img src="https://avatars0.githubusercontent.com/u/4804875?v=4" width="100px;" alt=""/><br /><sub><b>Avy Faingezicht</b></sub></a><br /><a href="#content-avyfain" title="Content">🖋</a></td>
   </tr>
 </table>
 
