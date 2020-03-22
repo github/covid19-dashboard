@@ -79,6 +79,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "nite",
+      "name": "Andrew Clancy",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/143404?v=4",
+      "profile": "https://github.com/nite",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
