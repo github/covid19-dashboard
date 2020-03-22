@@ -34,7 +34,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/jwrichar"><img src="https://avatars3.githubusercontent.com/u/52940005?v=4" width="100px;" alt=""/><br /><sub><b>Joseph Richards</b></sub></a><br /><a href="#content-jwrichar" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/aimran-adroll"><img src="https://avatars2.githubusercontent.com/u/31903245?v=4" width="100px;" alt=""/><br /><sub><b>Asif Imran</b></sub></a><br /><a href="#content-aimran-adroll" title="Content">🖋</a></td>
     <td align="center"><a href="http://www.faingezicht.com"><img src="https://avatars0.githubusercontent.com/u/4804875?v=4" width="100px;" alt=""/><br /><sub><b>Avy Faingezicht</b></sub></a><br /><a href="#content-avyfain" title="Content">🖋</a></td>
-  </tr>
+    <td align="center"><a href="http://jhoward.fastmail.fm"><img src="https://avatars1.githubusercontent.com/u/346999?v=4" width="100px;" alt=""/><br /><sub><b>Jeremy Howard</b></sub></a><br /><a href="#tool-jph00" title="Tools">🔧</a> <a href="#ideas-jph00" title="Ideas, Planning, & Feedback">🤔</a></td>
+ </tr>
   <tr>
     <td align="center"><a href="https://p.ier.re"><img src="https://avatars1.githubusercontent.com/u/1866496?v=4" width="100px;" alt=""/><br /><sub><b>Pierre Grimaud</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=pgrimaud" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/nite"><img src="https://avatars1.githubusercontent.com/u/143404?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Clancy</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=nite" title="Documentation">📖</a></td>

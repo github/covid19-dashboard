@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "jph00",
+      "name": "Jeremy Howard",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/346999?v=4",
+      "profile": "http://jhoward.fastmail.fm",
+      "contributions": [
+        "tool",
+        "ideas"
+       ]
+    },
+    {
       "login": "dansbecker",
       "name": "Dan Becker",
       "avatar_url": "https://avatars2.githubusercontent.com/u/1390442?v=4",
