@@ -15,6 +15,15 @@
         "ideas",
         "maintenance"
       ]
+    },
+    {
+      "login": "pratapvardhan",
+      "name": "Pratap Vardhan",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/3757165?v=4",
+      "profile": "https://twitter.com/PratapVardhan",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,

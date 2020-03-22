@@ -1,6 +1,6 @@
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://github.com/github/covid19-dashboard/workflows/CI/badge.svg) 
@@ -28,6 +28,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/dansbecker"><img src="https://avatars2.githubusercontent.com/u/1390442?v=4" width="100px;" alt=""/><br /><sub><b>Dan Becker</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/pulls?q=is%3Apr+reviewed-by%3Adansbecker" title="Reviewed Pull Requests">👀</a> <a href="#ideas-dansbecker" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-dansbecker" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://twitter.com/PratapVardhan"><img src="https://avatars0.githubusercontent.com/u/3757165?v=4" width="100px;" alt=""/><br /><sub><b>Pratap Vardhan</b></sub></a><br /><a href="#content-pratapvardhan" title="Content">🖋</a></td>
   </tr>
 </table>
 
