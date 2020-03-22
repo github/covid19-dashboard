@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "hamelsmu",
+      "name": "Hamel Husain",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1483922?v=4",
+      "profile": "http://hamel.io",
+      "contributions": [
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "covid19-dashboard",
+  "projectOwner": "github",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
