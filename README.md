@@ -1,6 +1,6 @@
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://github.com/github/covid19-dashboard/workflows/CI/badge.svg) 
@@ -39,6 +39,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://p.ier.re"><img src="https://avatars1.githubusercontent.com/u/1866496?v=4" width="100px;" alt=""/><br /><sub><b>Pierre Grimaud</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=pgrimaud" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/nite"><img src="https://avatars1.githubusercontent.com/u/143404?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Clancy</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=nite" title="Documentation">📖</a></td>
     <td align="center"><a href="http://kishorevasan.me"><img src="https://avatars1.githubusercontent.com/u/16017592?v=4" width="100px;" alt=""/><br /><sub><b>Kishore Vasan</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=kishorevasan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/bastien-boussouf"><img src="https://avatars3.githubusercontent.com/u/29279482?v=4" width="100px;" alt=""/><br /><sub><b>Bastien</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=bastien-boussouf" title="Documentation">📖</a></td>
   </tr>
 </table>
 
