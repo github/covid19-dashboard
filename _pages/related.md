@@ -18,6 +18,8 @@ This website contains visualizations and analysis that are build from data sourc
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
 - Boston's Children's Hospital [Health Map project](https://healthmap.org/covid-19/).  Includes this [GitHub repo](https://github.com/beoutbreakprepared/nCoV2019) and this [Google sheet](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008/edit#gid=0)
 - Official Italian government [GitHub repo](https://github.com/pcm-dpc/COVID-19). Updated regularly by the Italian Ministry of Health and Dipartimento di Protezione Civile. Contains multiple indicators such as number of total cases, number in ICU, number of tests done, etc.
+- [Folding@Home Dataset](https://github.com/FoldingAtHome/coronavirus) A dataset that can assist researchers simulating potentially druggable protein targets.
+- [Temporal variation in transmission dataset](https://github.com/cmmid/CovidGlobalNow): data that can be used to identify changes in the reproduction number, rate of spread, and doubling time during the course of the COVID-19 outbreak whilst accounting for potential biases due to delays in case reporting.
 
 ## Articles
 
@@ -33,3 +35,6 @@ This website contains visualizations and analysis that are build from data sourc
 - [Search Trends for Coronavirus Symptoms, by Country](https://coronavirustracker.webflow.io/): shows earch-trends for coronavirus symptoms in the native language of the top-50 populated countries in the world (excl. China).
 - [Python Open Source Dashboard](https://covid19-dash.herokuapp.com): Interactive Covid-19 Dashboard, built from scratch in python on open source Plotly Dash with very few lines of code, including an animating global timeline map. Read 'About this Dashboard' in the Dashboard itself. It's open source and open for collaboration.  
 - [COVID-19 Tracker: Days since N](https://mentalbreaks.shinyapps.io/covid19/): A shiny app that allows users to select countries and compare cumulative outcomes and growth rates on a standardized x-axis. Easy download of plots and filtered data tables in PNG and CSV formats, respectively.
+- [Effectiveness of airport screening at detecting travellers infected with novel coronavirus COVID-19](https://cmmid.github.io/visualisations/traveller-screening): Simulation that illustrates the impact of airport screening.
+-  [Covid-19 Online Screening Tool - screencovid.com](https://github.com/tconley/screencovid.com):  Assess your risk for COVID-19.
+- [Coronavirus Diary](https://github.com/joshua-s/coronavirus-diary): Coronavirus Diary is a mobile application that allows users to complete daily health checkups and receive personalized symptom assessments. If the user experiences symptoms in line with the disease, they will be prompted to contact their physician.
