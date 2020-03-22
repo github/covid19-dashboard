@@ -43,6 +43,15 @@
         "content",
         "code"
       ]
+    },
+    {
+      "login": "jwrichar",
+      "name": "Joseph Richards",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/52940005?v=4",
+      "profile": "https://github.com/jwrichar",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
