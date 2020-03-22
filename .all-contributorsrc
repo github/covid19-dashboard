@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jph00",
+      "name": "Jeremy Howard",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/346999?v=4",
+      "profile": "http://jhoward.fastmail.fm",
+      "contributions": [
+        "tool",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "covid19-dashboard",
+  "projectOwner": "github",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
