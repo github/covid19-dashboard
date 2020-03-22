@@ -1,6 +1,6 @@
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://github.com/github/covid19-dashboard/workflows/CI/badge.svg) 
@@ -31,6 +31,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://twitter.com/PratapVardhan"><img src="https://avatars0.githubusercontent.com/u/3757165?v=4" width="100px;" alt=""/><br /><sub><b>Pratap Vardhan</b></sub></a><br /><a href="#content-pratapvardhan" title="Content">🖋</a></td>
     <td align="center"><a href="http://www.jbduarte.com"><img src="https://avatars1.githubusercontent.com/u/6477875?v=4" width="100px;" alt=""/><br /><sub><b>Joao B. Duarte</b></sub></a><br /><a href="#content-jbduarte" title="Content">🖋</a></td>
     <td align="center"><a href="https://twiecki.io/"><img src="https://avatars2.githubusercontent.com/u/674200?v=4" width="100px;" alt=""/><br /><sub><b>Thomas Wiecki</b></sub></a><br /><a href="#content-twiecki" title="Content">🖋</a> <a href="https://github.com/github/covid19-dashboard/commits?author=twiecki" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jwrichar"><img src="https://avatars3.githubusercontent.com/u/52940005?v=4" width="100px;" alt=""/><br /><sub><b>Joseph Richards</b></sub></a><br /><a href="#content-jwrichar" title="Content">🖋</a></td>
   </tr>
 </table>
 
