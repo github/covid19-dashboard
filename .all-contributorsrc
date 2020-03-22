@@ -97,6 +97,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "bastien-boussouf",
+      "name": "Bastien",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/29279482?v=4",
+      "profile": "https://github.com/bastien-boussouf",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
