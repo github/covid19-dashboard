@@ -33,6 +33,16 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "twiecki",
+      "name": "Thomas Wiecki",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/674200?v=4",
+      "profile": "https://twiecki.io/",
+      "contributions": [
+        "content",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
