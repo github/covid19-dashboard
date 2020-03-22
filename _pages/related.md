@@ -18,7 +18,7 @@ This website contains visualizations and analysis that are build from data sourc
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
 - Boston's Children's Hospital [Health Map project](https://healthmap.org/covid-19/).  Includes this [GitHub repo](https://github.com/beoutbreakprepared/nCoV2019) and this [Google sheet](https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008/edit#gid=0)
 - Official Italian government [GitHub repo](https://github.com/pcm-dpc/COVID-19). Updated regularly by the Italian Ministry of Health and Dipartimento di Protezione Civile. Contains multiple indicators such as number of total cases, number in ICU, number of tests done, etc.
-- [Folding@Home Dataset](https://github.com/FoldingAtHome/coronavirus) A dataset that can assist researchers simulating potentially druggable protein targets.
+- [Folding@Home Dataset](https://github.com/FoldingAtHome/coronavirus):  A dataset that can assist researchers simulating potentially druggable protein targets.
 - [Temporal variation in transmission dataset](https://github.com/cmmid/CovidGlobalNow): data that can be used to identify changes in the reproduction number, rate of spread, and doubling time during the course of the COVID-19 outbreak whilst accounting for potential biases due to delays in case reporting.
 
 ## Articles
