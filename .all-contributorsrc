@@ -124,6 +124,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "omoju",
+      "name": "Omoju Miller",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1815882?v=4",
+      "profile": "http://www.linkedin.com/in/omojumiller",
+      "contributions": [
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
