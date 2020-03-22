@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "dansbecker",
+      "name": "Dan Becker",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1390442?v=4",
+      "profile": "https://github.com/dansbecker",
+      "contributions": [
+        "review",
+        "ideas",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "covid19-dashboard",
+  "projectOwner": "github",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
