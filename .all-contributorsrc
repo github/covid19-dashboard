@@ -88,6 +88,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "kishorevasan",
+      "name": "Kishore Vasan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16017592?v=4",
+      "profile": "http://kishorevasan.me",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
