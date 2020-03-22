@@ -1,6 +1,6 @@
 [//]: # (This template replaces README.md when someone creates a new repo with the fastpages template.)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://github.com/github/covid19-dashboard/workflows/CI/badge.svg) 
@@ -41,6 +41,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://kishorevasan.me"><img src="https://avatars1.githubusercontent.com/u/16017592?v=4" width="100px;" alt=""/><br /><sub><b>Kishore Vasan</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=kishorevasan" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/bastien-boussouf"><img src="https://avatars3.githubusercontent.com/u/29279482?v=4" width="100px;" alt=""/><br /><sub><b>Bastien</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=bastien-boussouf" title="Documentation">📖</a></td>
     <td align="center"><a href="https://mentalbreaks.rbind.io/"><img src="https://avatars2.githubusercontent.com/u/26304802?v=4" width="100px;" alt=""/><br /><sub><b>Anthony Nguyen</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=anguyen1210" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/MarkDacek"><img src="https://avatars1.githubusercontent.com/u/26177997?v=4" width="100px;" alt=""/><br /><sub><b>Mark Dacek</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=MarkDacek" title="Documentation">📖</a></td>
   </tr>
 </table>
 
