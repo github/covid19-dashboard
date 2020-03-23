@@ -6,7 +6,7 @@ comments: true
 author: Adrian Turcato
 categories: [growth, compare, interactive]
 hide: false
-image: images/outstanding_cases.png
+image: images/covid-outstanding-cases.png
 permalink: /outstanding_cases/
 toc: true
 nb_path: _notebooks/2020-03-23-cumulative-outstanding.ipynb
@@ -29,27 +29,14 @@ layout: notebook
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Estimated Infected Population By Country</span>
-
-<span class="n">by</span> <span class="n">days</span> <span class="n">since</span> <span class="n">outbreak</span>
-
-<span class="o">&gt;</span> <span class="n">Tip</span><span class="p">:</span> <span class="n">Click</span> <span class="p">(</span><span class="n">Shift</span><span class="o">+</span> <span class="k">for</span> <span class="n">multiple</span><span class="p">)</span> <span class="n">on</span> <span class="n">countries</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">legend</span> <span class="n">to</span> <span class="nb">filter</span> <span class="n">the</span> <span class="n">visualization</span><span class="o">.</span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Outstanding-Cases-by-Geography">Outstanding Cases by Geography<a class="anchor-link" href="#Outstanding-Cases-by-Geography"> </a></h2><p>Number of outstanding cases, i.e. number of individuals who are still currently ill. The color of the country reflects the reported case fatality rate (CFR), these rates do not reflect the true fatality rate of the virus but are heavily affected by the amount of testing which is performed in the country.
+{% include tip.html content='Click the buttons to toggle between greographies, or to change the scale. ' %}</p>
 
 </div>
-    {% endraw %}
-
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -473,25 +460,16 @@ layout: notebook
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">This</span> <span class="n">visualization</span> <span class="n">was</span> <span class="n">created</span> <span class="n">by</span> <span class="p">[</span><span class="n">Adrian</span> <span class="n">Turcato</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">jbduarte</span><span class="o">.</span><span class="n">com</span><span class="p">)</span><span class="o">.</span> <span class="n">Relevant</span> <span class="n">sources</span> <span class="n">are</span> <span class="n">listed</span> <span class="n">below</span><span class="p">:</span> 
-
-<span class="mf">1.</span> <span class="p">[</span><span class="mi">2019</span> <span class="n">Novel</span> <span class="n">Coronavirus</span> <span class="n">COVID</span><span class="o">-</span><span class="mi">19</span> <span class="p">(</span><span class="mi">2019</span><span class="o">-</span><span class="n">nCoV</span><span class="p">)</span> <span class="n">Data</span> <span class="n">Repository</span> <span class="n">by</span> <span class="n">Johns</span> <span class="n">Hopkins</span> <span class="n">CSSE</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">systems</span><span class="o">.</span><span class="n">jhu</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">research</span><span class="o">/</span><span class="n">public</span><span class="o">-</span><span class="n">health</span><span class="o">/</span><span class="n">ncov</span><span class="o">/</span><span class="p">)</span> <span class="p">[</span><span class="n">GitHub</span> <span class="n">repository</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">CSSEGISandData</span><span class="o">/</span><span class="n">COVID</span><span class="o">-</span><span class="mi">19</span><span class="p">)</span><span class="o">.</span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This visualization was created by <a href="https://www.linkedin.com/in/adrian-turcato-9a543185/">Adrian Turcato</a>. Relevant sources are listed below:</p>
+<ol>
+<li><a href="https://systems.jhu.edu/research/public-health/ncov/">2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE</a> <a href="https://github.com/CSSEGISandData/COVID-19">GitHub repository</a>. </li>
+</ol>
 
 </div>
-    {% endraw %}
-
+</div>
+</div>
 </div>
  
 
