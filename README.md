@@ -50,7 +50,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/jenniechow"><img src="https://avatars1.githubusercontent.com/u/36515276?v=4" width="100px;" alt=""/><br /><sub><b>Jennie Chow</b></sub></a><br /><a href="#content-jenniechow" title="Content">🖋</a> <a href="https://github.com/github/covid19-dashboard/pulls?q=is%3Apr+reviewed-by%3Ajenniechow" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://jhoward.fastmail.fm"><img src="https://avatars1.githubusercontent.com/u/346999?v=4" width="100px;" alt=""/><br /><sub><b>Jeremy Howard</b></sub></a><br /><a href="#tool-jph00" title="Tools">🔧</a> <a href="#ideas-jph00" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="http://www.linkedin.com/in/omojumiller"><img src="https://avatars2.githubusercontent.com/u/1815882?v=4" width="100px;" alt=""/><br /><sub><b>Omoju Miller</b></sub></a><br /><a href="#projectManagement-omoju" title="Project Management">📆</a></td>
->>>>>>> master
   </tr>
 </table>
 
