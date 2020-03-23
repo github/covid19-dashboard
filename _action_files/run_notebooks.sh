@@ -6,12 +6,13 @@ ERRORS=""
 
 for file in _notebooks/*.ipynb
 do
-    if papermill --kernel "${file}" "${file}"; then
+    if papermill --kernel python3 "${file}" "${file}"; then
         echo "Sucessfully refreshed ${file}"
         git add "${file}"
     else
         echo "ERROR Refreshing ${file}"
         ERRORS="${ERRORS}\n${file}"
+    fi
 done
 
 # Emit Errors If Exists So Downstream Task Can Open An Issue
