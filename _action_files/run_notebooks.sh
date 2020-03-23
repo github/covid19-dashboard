@@ -8,7 +8,7 @@ ERRORS=""
 for file in *.ipynb
 do
     if papermill --kernel python3 "${file}" "${file}"; then
-        echo "Sucessfully refreshed ${file}"
+        echo "Sucessfully refreshed ${file}\n\n\n\n"
         git add "${file}"
     else
         echo "ERROR Refreshing ${file}"
