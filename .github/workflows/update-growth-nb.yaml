@@ -30,7 +30,6 @@ jobs:
         node-version: '10.x'
 
     - name: Set up Python
-      if: github.event_name == 'schedule'
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
