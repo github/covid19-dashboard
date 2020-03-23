@@ -38,3 +38,4 @@ This website contains visualizations and analysis that are build from data sourc
 - [Effectiveness of airport screening at detecting travellers infected with novel coronavirus COVID-19](https://cmmid.github.io/visualisations/traveller-screening): Simulation that illustrates the impact of airport screening.
 -  [Covid-19 Online Screening Tool - screencovid.com](https://github.com/tconley/screencovid.com):  Assess your risk for COVID-19.
 - [Coronavirus Diary](https://github.com/joshua-s/coronavirus-diary): Coronavirus Diary is a mobile application that allows users to complete daily health checkups and receive personalized symptom assessments. If the user experiences symptoms in line with the disease, they will be prompted to contact their physician.
+- [A collection of Open Source COVID-19 projects](http://open-source-covid-19.weileizeng.com/). Is a collection of resources on open source, data, analysis, dashboards and maps.
