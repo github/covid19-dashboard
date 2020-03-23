@@ -1,7 +1,7 @@
 name: Update Notebooks
 on:
   schedule:
-    - cron:  '0 */4 * * *'
+    - cron:  '0 */6 * * *'
   issues:
     - types: [opened]
 
@@ -9,7 +9,7 @@ jobs:
   update-notebooks:
     if: |
       github.event_name == 'schedule' || 
-      ((github.event.issue.title == '[dashboard] Run Workflow')  && github.actor == "hamelsmu" ))
+      ((github.event.issue.title == '[dashboard] Refresh Notebooks')  && github.actor == "hamelsmu" ))
 
     runs-on: ubuntu-latest
     steps:
