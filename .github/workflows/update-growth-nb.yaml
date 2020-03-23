@@ -33,7 +33,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `Automated refresh of notebooks instantiated with run id ${run_id}.  You can view [progress here](https://github.com/github/covid19-dashboard/actions/runs/${run_id}).`
+            body: `Automated refresh of notebooks instantiated with run id [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}).`
           })
       env:
         RUN_ID: ${{ github.run_id	 }}
@@ -75,10 +75,11 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: "Error updating notebooks"
-            body: `These are the notebooks that failed to update properly: \n${err}\n\n See the Actions tab for more details.`
+            body: `These are the notebooks that failed to update properly: \n${err}\n\n See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
           })
       env:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+        RUN_ID: ${{ github.run_id	 }}
 
     - name: save notebooks & images
       run: |
@@ -128,7 +129,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `An error occurred when attempting to refresh one or more of the notebooks in run ${run_id}. These are the notebooks that failed to update properly: \n${err}\n\n See the [Actions tab](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
+            body: `An error occurred when attempting to refresh one or more of the notebooks in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}). These are the notebooks that failed to update properly: \n${err}`
           })
       env:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
@@ -145,7 +146,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `An error occurred in the workflow for run ${run_id} when attempting to refresh the notebooks. See the [Actions tab](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
+            body: `An workflow error occurred in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) when attempting to refresh the notebooks.`
           })
       env:
         RUN_ID: ${{ github.run_id	 }}
