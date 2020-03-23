@@ -3,7 +3,7 @@ on:
   schedule:
     - cron:  '0 */6 * * *'
   issues:
-    - types: [opened]
+    types: [opened]
 
 jobs:
   update-notebooks:
