@@ -8,93 +8,96 @@ on:
 
 jobs:
   update-notebooks:
-    if: |
-      (github.event_name == 'schedule') || 
-      (github.event.issue.title == "[dashboard] Refresh Notebooks"  && github.actor == "hamelsmu" && github.event_name == "issues")
-
+    # if: |
+    #   (github.event_name == 'schedule') || 
+    #   (github.event.issue.title == "[dashboard] Refresh Notebooks"  && github.actor == "hamelsmu" && github.event_name == "issues")
     runs-on: ubuntu-latest
     steps:
   
     - name: See event name
       run: |
-        echo "${EVENT}"
+        echo "title ${title}"
+        echo "actor ${title}"
+        echo "event_name ${event_name}"
       env:
-        EVENT: ${{ github.event_name }}
+        title: ${{ github.event.issue.title }}
+        actor: ${{ github.actor }}
+        event_name: ${{ github.event_name }}
     
-    - name: Copy Repository Contents
-      uses: actions/checkout@v2
+    # - name: Copy Repository Contents
+    #   uses: actions/checkout@v2
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
+    # - name: Setup Node
+    #   uses: actions/setup-node@v1
+    #   with:
+    #     node-version: '10.x'
 
-    - name: Set up Python
-      if: github.event_name == 'schedule'
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.6
+    # - name: Set up Python
+    #   if: github.event_name == 'schedule'
+    #   uses: actions/setup-python@v1
+    #   with:
+    #     python-version: 3.6
       
-    - name: install dependencies
-      run: |
-        sudo apt-get -y --force-yes install chromium-chromedriver
-        npm install -g electron@6.1.4 orca
-        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
-        python3 -m ipykernel install --user --name python3
-        sudo chmod -R 777 .
+    # - name: install dependencies
+    #   run: |
+    #     sudo apt-get -y --force-yes install chromium-chromedriver
+    #     npm install -g electron@6.1.4 orca
+    #     pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
+    #     python3 -m ipykernel install --user --name python3
+    #     sudo chmod -R 777 .
 
-    - name: update notebooks
-      id: update_nb
-      run: |
-        ./_action_files/run_notebooks.sh
+    # - name: update notebooks
+    #   id: update_nb
+    #   run: |
+    #     ./_action_files/run_notebooks.sh
 
-    - name: Create an issue if notebook update failure occurs
-      uses: actions/github-script@0.6.0
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          var err = process.env.ERROR_STRING;
-          github.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: "Error updating notebooks"
-            body: `These are the notebooks that failed to update properly: \n${err}\n\n See the Actions tab for more details.`
-          })
-      env:
-        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+    # - name: Create an issue if notebook update failure occurs
+    #   uses: actions/github-script@0.6.0
+    #   with:
+    #     github-token: ${{secrets.GITHUB_TOKEN}}
+    #     script: |
+    #       var err = process.env.ERROR_STRING;
+    #       github.issues.create({
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         title: "Error updating notebooks"
+    #         body: `These are the notebooks that failed to update properly: \n${err}\n\n See the Actions tab for more details.`
+    #       })
+    #   env:
+    #     ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
 
-    - name: save notebooks & images
-      run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git add images/
-        git commit -m'[bot] refresh notebooks'
-        git push -f
+    # - name: save notebooks & images
+    #   run: |
+    #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    #     git config --global user.name "github-actions[bot]"
+    #     git add images/
+    #     git commit -m'[bot] refresh notebooks'
+    #     git push -f
 
-    - name: convert notebooks and word docs to posts
-      uses: ./_action_files
+    # - name: convert notebooks and word docs to posts
+    #   uses: ./_action_files
 
-    - name: setup directories for Jekyll build
-      run: |
-        rm -rf _site
-        sudo chmod -R 777 .
+    # - name: setup directories for Jekyll build
+    #   run: |
+    #     rm -rf _site
+    #     sudo chmod -R 777 .
 
-    - name: Jekyll build
-      uses: docker://hamelsmu/fastpages-jekyll
-      with:
-        args: bash -c "gem install bundler && jekyll build -V"
-      env:
-        JEKYLL_ENV: 'production'
+    # - name: Jekyll build
+    #   uses: docker://hamelsmu/fastpages-jekyll
+    #   with:
+    #     args: bash -c "gem install bundler && jekyll build -V"
+    #   env:
+    #     JEKYLL_ENV: 'production'
         
-    - name: copy CNAME file into _site if CNAME exists
-      run: |
-        sudo chmod -R 777 _site/
-        cp CNAME _site/ 2>/dev/null || :
+    # - name: copy CNAME file into _site if CNAME exists
+    #   run: |
+    #     sudo chmod -R 777 _site/
+    #     cp CNAME _site/ 2>/dev/null || :
         
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
-        publish_dir: ./_site
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
+    # - name: Deploy
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+    #     publish_dir: ./_site
+    #     user_name: 'github-actions[bot]'
+    #     user_email: 'github-actions[bot]@users.noreply.github.com'
