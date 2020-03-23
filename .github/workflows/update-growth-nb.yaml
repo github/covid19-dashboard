@@ -20,30 +20,24 @@ jobs:
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      if: github.event_name == 'schedule'
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.6
-
     - name: Setup Node
       # if: github.event_name == 'schedule'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+
+    - name: Set up Python
+    if: github.event_name == 'schedule'
+    uses: actions/setup-python@v1
+    with:
+      python-version: 3.6
       
-    - name: install plotly js dependencies
-      # if: github.event_name == 'schedule'
-      run: npm install -g electron@6.1.4 orca
-
-    - name: install chromedriver for saving Altair
-      # if: github.event_name == 'schedule'
-      run: sudo apt-get -y --force-yes install chromium-chromedriver
-
     - name: install dependencies
       # if: github.event_name == 'schedule'
       run: |
-        pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
+        sudo apt-get -y --force-yes install chromium-chromedriver
+        npm install -g electron@6.1.4 orca
+        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
 
