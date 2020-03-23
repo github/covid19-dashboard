@@ -27,21 +27,21 @@ jobs:
         python-version: 3.6
 
     - name: Setup Node
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
       
     - name: install plotly js dependencies
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       run: npm install -g electron@6.1.4 orca
 
     - name: install chromedriver for saving Altair
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       run: sudo apt-get -y --force-yes install chromium-chromedriver
 
     - name: install dependencies
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       run: |
         pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
         python3 -m ipykernel install --user --name python3
@@ -49,7 +49,7 @@ jobs:
 
     - name: update notebooks
       id: update_nb
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       run: |
         ./_action_files/run_notebooks.sh
 

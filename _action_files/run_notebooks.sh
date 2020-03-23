@@ -7,8 +7,10 @@ ERRORS=""
 for file in _notebooks/*.ipynb
 do
     if papermill --kernel "${file}" "${file}"; then
+        echo "Sucessfully refreshed ${file}"
         git add "${file}"
     else
+        echo "ERROR Refreshing ${file}"
         ERRORS="${ERRORS}\n${file}"
 done
 
