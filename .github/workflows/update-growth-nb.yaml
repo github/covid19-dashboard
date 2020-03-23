@@ -1,4 +1,4 @@
-name: Update Notebooks
+name: Update Notebooks And Refresh Page
 on:
   schedule:
     - cron:  '0 */6 * * *'
