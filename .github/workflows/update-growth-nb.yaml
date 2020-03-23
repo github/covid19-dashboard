@@ -2,12 +2,15 @@ name: Update Notebooks
 on:
   schedule:
     - cron:  '0 */4 * * *'
-  push:
-    branches:
-      - master
+  issues:
+    - types: [opened]
 
 jobs:
   update-notebooks:
+    if: |
+      github.event_name == 'schedule' || 
+      ((github.event.issue.title == '[dashboard] Run Workflow')  && github.actor == "hamelsmu" ))
+
     runs-on: ubuntu-latest
     steps:
   
@@ -21,7 +24,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Node
-      if: github.event_name == 'schedule'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
@@ -33,7 +35,6 @@ jobs:
         python-version: 3.6
       
     - name: install dependencies
-      if: github.event_name == 'schedule'
       run: |
         sudo apt-get -y --force-yes install chromium-chromedriver
         npm install -g electron@6.1.4 orca
@@ -43,12 +44,10 @@ jobs:
 
     - name: update notebooks
       id: update_nb
-      if: github.event_name == 'schedule'
       run: |
         ./_action_files/run_notebooks.sh
 
     - name: Create an issue if notebook update failure occurs
-      if:  steps.update_nb.outputs.error_bool == 'true'
       uses: actions/github-script@0.6.0
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
@@ -64,7 +63,6 @@ jobs:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
 
     - name: save notebooks & images
-      if: github.event_name == 'schedule'
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
@@ -88,13 +86,11 @@ jobs:
         JEKYLL_ENV: 'production'
         
     - name: copy CNAME file into _site if CNAME exists
-      if: github.event_name != 'pull_request'
       run: |
         sudo chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
         
     - name: Deploy
-      if: github.event_name != 'pull_request'
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
