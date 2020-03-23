@@ -18,6 +18,10 @@ This project is supported by a virtual team of open source collaborators that ga
 See the [contributing guide](CONTRIBUTING.md).
 ## Contributors ✨
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -25,26 +29,27 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="http://hamel.io"><img src="https://avatars2.githubusercontent.com/u/1483922?v=4" width="100px;" alt=""/><br /><sub><b>Hamel Husain</b></sub></a><br /><a href="#maintenance-hamelsmu" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/dansbecker"><img src="https://avatars2.githubusercontent.com/u/1390442?v=4" width="100px;" alt=""/><br /><sub><b>Dan Becker</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/pulls?q=is%3Apr+reviewed-by%3Adansbecker" title="Reviewed Pull Requests">👀</a> <a href="#ideas-dansbecker" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-dansbecker" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://twitter.com/PratapVardhan"><img src="https://avatars0.githubusercontent.com/u/3757165?v=4" width="100px;" alt=""/><br /><sub><b>Pratap Vardhan</b></sub></a><br /><a href="#content-pratapvardhan" title="Content">🖋</a></td>
     <td align="center"><a href="http://www.jbduarte.com"><img src="https://avatars1.githubusercontent.com/u/6477875?v=4" width="100px;" alt=""/><br /><sub><b>Joao B. Duarte</b></sub></a><br /><a href="#content-jbduarte" title="Content">🖋</a></td>
     <td align="center"><a href="https://twiecki.io/"><img src="https://avatars2.githubusercontent.com/u/674200?v=4" width="100px;" alt=""/><br /><sub><b>Thomas Wiecki</b></sub></a><br /><a href="#content-twiecki" title="Content">🖋</a> <a href="https://github.com/github/covid19-dashboard/commits?author=twiecki" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/jwrichar"><img src="https://avatars3.githubusercontent.com/u/52940005?v=4" width="100px;" alt=""/><br /><sub><b>Joseph Richards</b></sub></a><br /><a href="#content-jwrichar" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/aimran-adroll"><img src="https://avatars2.githubusercontent.com/u/31903245?v=4" width="100px;" alt=""/><br /><sub><b>Asif Imran</b></sub></a><br /><a href="#content-aimran-adroll" title="Content">🖋</a></td>
-    <td align="center"><a href="http://www.faingezicht.com"><img src="https://avatars0.githubusercontent.com/u/4804875?v=4" width="100px;" alt=""/><br /><sub><b>Avy Faingezicht</b></sub></a><br /><a href="#content-avyfain" title="Content">🖋</a></td>
  </tr>
   <tr>
+    <td align="center"><a href="http://www.faingezicht.com"><img src="https://avatars0.githubusercontent.com/u/4804875?v=4" width="100px;" alt=""/><br /><sub><b>Avy Faingezicht</b></sub></a><br /><a href="#content-avyfain" title="Content">🖋</a></td>
     <td align="center"><a href="https://p.ier.re"><img src="https://avatars1.githubusercontent.com/u/1866496?v=4" width="100px;" alt=""/><br /><sub><b>Pierre Grimaud</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=pgrimaud" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/nite"><img src="https://avatars1.githubusercontent.com/u/143404?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Clancy</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=nite" title="Documentation">📖</a></td>
     <td align="center"><a href="http://kishorevasan.me"><img src="https://avatars1.githubusercontent.com/u/16017592?v=4" width="100px;" alt=""/><br /><sub><b>Kishore Vasan</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=kishorevasan" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/bastien-boussouf"><img src="https://avatars3.githubusercontent.com/u/29279482?v=4" width="100px;" alt=""/><br /><sub><b>Bastien</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=bastien-boussouf" title="Documentation">📖</a></td>
     <td align="center"><a href="https://mentalbreaks.rbind.io/"><img src="https://avatars2.githubusercontent.com/u/26304802?v=4" width="100px;" alt=""/><br /><sub><b>Anthony Nguyen</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=anguyen1210" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/MarkDacek"><img src="https://avatars1.githubusercontent.com/u/26177997?v=4" width="100px;" alt=""/><br /><sub><b>Mark Dacek</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=MarkDacek" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://www.linkedin.com/in/omojumiller"><img src="https://avatars2.githubusercontent.com/u/1815882?v=4" width="100px;" alt=""/><br /><sub><b>Omoju Miller</b></sub></a><br /><a href="#projectManagement-omoju" title="Project Management">📆</a></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/jenniechow"><img src="https://avatars1.githubusercontent.com/u/36515276?v=4" width="100px;" alt=""/><br /><sub><b>Jennie Chow</b></sub></a><br /><a href="#content-jenniechow" title="Content">🖋</a> <a href="https://github.com/github/covid19-dashboard/pulls?q=is%3Apr+reviewed-by%3Ajenniechow" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://jhoward.fastmail.fm"><img src="https://avatars1.githubusercontent.com/u/346999?v=4" width="100px;" alt=""/><br /><sub><b>Jeremy Howard</b></sub></a><br /><a href="#tool-jph00" title="Tools">🔧</a> <a href="#ideas-jph00" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://www.linkedin.com/in/omojumiller"><img src="https://avatars2.githubusercontent.com/u/1815882?v=4" width="100px;" alt=""/><br /><sub><b>Omoju Miller</b></sub></a><br /><a href="#projectManagement-omoju" title="Project Management">📆</a></td>
   </tr>
 </table>
 
