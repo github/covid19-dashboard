@@ -17,7 +17,7 @@ jobs:
     - name: See event name
       run: |
         echo "title ${title}"
-        echo "actor ${title}"
+        echo "actor ${actor}"
         echo "event_name ${event_name}"
       env:
         title: ${{ github.event.issue.title }}
