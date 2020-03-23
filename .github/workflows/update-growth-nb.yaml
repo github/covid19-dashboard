@@ -69,7 +69,7 @@ jobs:
       env:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
 
-    - name: commit notebooks
+    - name: save notebooks & images
       if: github.event_name == 'schedule'
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
