@@ -1,10 +1,11 @@
 #!/bin/sh
 set -e
 cd $(dirname "$0")/..
+cd _notebooks/
 
 ERRORS=""
 
-for file in _notebooks/*.ipynb
+for file in *.ipynb
 do
     if papermill --kernel python3 "${file}" "${file}"; then
         echo "Sucessfully refreshed ${file}"
@@ -19,7 +20,7 @@ done
 if [ -z "$ERRORS" ]
 then
     echo "::set-output name=error_bool::true"
-     echo "::set-output name=error_str::${ERRORS}"
+    echo "::set-output name=error_str::${ERRORS}"
 else
     echo "::set-output name=error_bool::false"
 fi
