@@ -13,6 +13,156 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "jph00",
+      "name": "Jeremy Howard",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/346999?v=4",
+      "profile": "http://jhoward.fastmail.fm",
+      "contributions": [
+        "tool",
+        "ideas"
+       ]
+    },
+    {
+      "login": "dansbecker",
+      "name": "Dan Becker",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1390442?v=4",
+      "profile": "https://github.com/dansbecker",
+      "contributions": [
+        "review",
+        "ideas",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "pratapvardhan",
+      "name": "Pratap Vardhan",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/3757165?v=4",
+      "profile": "https://twitter.com/PratapVardhan",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "jbduarte",
+      "name": "Joao B. Duarte",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6477875?v=4",
+      "profile": "http://www.jbduarte.com",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "twiecki",
+      "name": "Thomas Wiecki",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/674200?v=4",
+      "profile": "https://twiecki.io/",
+      "contributions": [
+        "content",
+        "code"
+      ]
+    },
+    {
+      "login": "jwrichar",
+      "name": "Joseph Richards",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/52940005?v=4",
+      "profile": "https://github.com/jwrichar",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "aimran-adroll",
+      "name": "Asif Imran",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/31903245?v=4",
+      "profile": "https://github.com/aimran-adroll",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "avyfain",
+      "name": "Avy Faingezicht",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4804875?v=4",
+      "profile": "http://www.faingezicht.com",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "pgrimaud",
+      "name": "Pierre Grimaud",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1866496?v=4",
+      "profile": "https://p.ier.re",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "nite",
+      "name": "Andrew Clancy",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/143404?v=4",
+      "profile": "https://github.com/nite",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "kishorevasan",
+      "name": "Kishore Vasan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16017592?v=4",
+      "profile": "http://kishorevasan.me",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "bastien-boussouf",
+      "name": "Bastien",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/29279482?v=4",
+      "profile": "https://github.com/bastien-boussouf",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "anguyen1210",
+      "name": "Anthony Nguyen",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26304802?v=4",
+      "profile": "https://mentalbreaks.rbind.io/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "MarkDacek",
+      "name": "Mark Dacek",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/26177997?v=4",
+      "profile": "https://github.com/MarkDacek",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "omoju",
+      "name": "Omoju Miller",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1815882?v=4",
+      "profile": "http://www.linkedin.com/in/omojumiller",
+      "contributions": [
+        "projectManagement"
+      ]
+    },
+    {
+      "login": "jenniechow",
+      "name": "Jennie Chow",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/36515276?v=4",
+      "profile": "https://github.com/jenniechow",
+      "contributions": [
+        "content",
+        "review"
+      ]
+>>>>>>> master
     }
   ],
   "contributorsPerLine": 7,
