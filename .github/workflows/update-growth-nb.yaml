@@ -147,8 +147,8 @@ jobs:
             repo: context.repo.repo,
             body: `An error occurred in the workflow for run ${run_id} when attempting to refresh the notebooks. See the [Actions tab]("https://github.com/github/covid19-dashboard/actions/runs/${run_id}") for more details.`
           })
-        env:
-          RUN_ID: ${{ github.run_id	 }}
+      env:
+        RUN_ID: ${{ github.run_id	 }}
 
     - name: Comment on and close issue if successful
       if: github.event_name == 'issues' 
