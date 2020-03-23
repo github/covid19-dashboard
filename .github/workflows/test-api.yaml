@@ -1,0 +1,24 @@
+name: Test API Access
+on: push
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Copy Repository Contents
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+      
+    - name: install dependencies
+      run: |
+        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
+        python3 -m ipykernel install --user --name python3
+        sudo chmod -R 777 .
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v2
