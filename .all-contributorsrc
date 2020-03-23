@@ -15,16 +15,6 @@
       ]
     },
     {
-      "login": "jph00",
-      "name": "Jeremy Howard",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/346999?v=4",
-      "profile": "http://jhoward.fastmail.fm",
-      "contributions": [
-        "tool",
-        "ideas"
-       ]
-    },
-    {
       "login": "dansbecker",
       "name": "Dan Becker",
       "avatar_url": "https://avatars2.githubusercontent.com/u/1390442?v=4",
@@ -145,15 +135,6 @@
       ]
     },
     {
-      "login": "omoju",
-      "name": "Omoju Miller",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/1815882?v=4",
-      "profile": "http://www.linkedin.com/in/omojumiller",
-      "contributions": [
-        "projectManagement"
-      ]
-    },
-    {
       "login": "jenniechow",
       "name": "Jennie Chow",
       "avatar_url": "https://avatars1.githubusercontent.com/u/36515276?v=4",
@@ -162,7 +143,25 @@
         "content",
         "review"
       ]
->>>>>>> master
+    },
+    {
+      "login": "jph00",
+      "name": "Jeremy Howard",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/346999?v=4",
+      "profile": "http://jhoward.fastmail.fm",
+      "contributions": [
+        "tool",
+        "ideas"
+       ]
+    },
+    {
+      "login": "omoju",
+      "name": "Omoju Miller",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1815882?v=4",
+      "profile": "http://www.linkedin.com/in/omojumiller",
+      "contributions": [
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
