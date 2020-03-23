@@ -49,6 +49,7 @@ jobs:
         ./_action_files/run_notebooks.sh
 
     - name: Create an issue if notebook update failure occurs
+      if: steps.update_nb.outputs.error_bool == 'true'
       uses: actions/github-script@0.6.0
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
@@ -98,3 +99,54 @@ jobs:
         publish_dir: ./_site
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Comment on issue if failure in updating notebooks
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'true'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var err = process.env.ERROR_STRING;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An error occurred when attempting to refresh one or more of the notebooks. These are the notebooks that failed to update properly: \n${err}\n\n See the Actions tab for more details.`
+          })
+      env:
+        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+  
+    - name: Comment on issue if failure in workflow
+      if: failure() && github.event_name == 'issues'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var err = process.env.ERROR_STRING;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An error occurred in the workflow when attempting to refresh the notebooks. See the Actions tab for more details.`
+          })
+
+    - name: Comment on and close issue if Successfull
+      if: github.event_name == 'issues' 
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'All notebooks updated successfully.'
+          })
+          github.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed'
+          })
+
+
