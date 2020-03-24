@@ -152,7 +152,7 @@
       "contributions": [
         "tool",
         "ideas"
-       ]
+      ]
     },
     {
       "login": "omoju",
@@ -161,6 +161,15 @@
       "profile": "http://www.linkedin.com/in/omojumiller",
       "contributions": [
         "projectManagement"
+      ]
+    },
+    {
+      "login": "vladpke",
+      "name": "Vlad Stan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1569786?v=4",
+      "profile": "https://github.com/vladpke",
+      "contributions": [
+        "maintenance"
       ]
     }
   ],
