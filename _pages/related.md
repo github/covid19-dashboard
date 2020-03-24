@@ -39,3 +39,4 @@ This website contains visualizations and analysis that are build from data sourc
 -  [Covid-19 Online Screening Tool - screencovid.com](https://github.com/tconley/screencovid.com):  Assess your risk for COVID-19.
 - [Coronavirus Diary](https://github.com/joshua-s/coronavirus-diary): Coronavirus Diary is a mobile application that allows users to complete daily health checkups and receive personalized symptom assessments. If the user experiences symptoms in line with the disease, they will be prompted to contact their physician.
 - [A collection of Open Source COVID-19 projects](http://open-source-covid-19.weileizeng.com/). Is a collection of resources on open source, data, analysis, dashboards and maps.
+- [corona-cli](https://github.com/AhmadAwais/corona-cli):  🦠 Track the Coronavirus disease (COVID-19) or the Novel Coronavirus Strain in the command line. Both worldwide for all countries, for one country, or for the US States. Fast response time (< 100ms).
