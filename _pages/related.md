@@ -30,6 +30,7 @@ This website contains visualizations and analysis that are build from data sourc
 
 ## Projects
 
+- [Covid-19 in US and Canada](https://coronavirus.1point3acres.com/): this is the best information I have seen for the US.  Even provides case details in some cases.  Really well organized dashboard with a plethora of information.
 - [https://ncov2019.live](https://ncov2019.live/data): A dashboard that presents global statistics about COVID-19 in a tabular format.
 - [COVID-19 Clinical Trials Dashboard](https://kishorevasan.shinyapps.io/coronavirus_clinical_trials/) : An interactive dashboard that tracks clinical trials related to COVID-19. Uses clinicaltrials.gov data and is updated using API calls.
 - [Search Trends for Coronavirus Symptoms, by Country](https://coronavirustracker.webflow.io/): shows earch-trends for coronavirus symptoms in the native language of the top-50 populated countries in the world (excl. China).
