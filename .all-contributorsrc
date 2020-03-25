@@ -180,6 +180,15 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "zachmayer",
+      "name": "Zach Mayer",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/581590?v=4",
+      "profile": "https://www.datacamp.com/courses/advanced-deep-learning-with-keras-in-python",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
