@@ -3,7 +3,7 @@ import numpy as np
 
 def load_individual_timeseries(name):
     base_url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series'
-    url = f'{base_url}/time_series_19-covid-{name}.csv'
+    url = f'{base_url}/time_series_covid19_{name}_global.csv'
     df = pd.read_csv(url, 
                      index_col=['Country/Region', 'Province/State', 'Lat', 'Long'])
     df['type'] = name.lower()
