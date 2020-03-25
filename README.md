@@ -19,7 +19,7 @@ See the [contributing guide](CONTRIBUTING.md).
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -53,6 +53,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/vladpke"><img src="https://avatars1.githubusercontent.com/u/1569786?v=4" width="100px;" alt=""/><br /><sub><b>Vlad Stan</b></sub></a><br /><a href="#maintenance-vladpke" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/adrianturcato"><img src="https://avatars3.githubusercontent.com/u/9288755?v=4" width="100px;" alt=""/><br /><sub><b>adrianturcato</b></sub></a><br /><a href="#content-adrianturcato" title="Content">🖋</a></td>
     <td align="center"><a href="https://www.datacamp.com/courses/advanced-deep-learning-with-keras-in-python"><img src="https://avatars2.githubusercontent.com/u/581590?v=4" width="100px;" alt=""/><br /><sub><b>Zach Mayer</b></sub></a><br /><a href="#maintenance-zachmayer" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/javaldro"><img src="https://avatars3.githubusercontent.com/u/31542321?v=4" width="100px;" alt=""/><br /><sub><b>Jared Valdron</b></sub></a><br /><a href="#content-javaldro" title="Content">🖋</a></td>
   </tr>
 </table>
 

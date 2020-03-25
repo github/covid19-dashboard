@@ -189,6 +189,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "javaldro",
+      "name": "Jared Valdron",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31542321?v=4",
+      "profile": "https://github.com/javaldro",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
