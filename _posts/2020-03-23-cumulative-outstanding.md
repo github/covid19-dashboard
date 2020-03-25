@@ -31,9 +31,8 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Outstanding-Cases-by-Geography">Outstanding Cases by Geography<a class="anchor-link" href="#Outstanding-Cases-by-Geography"> </a></h2><p>Number of outstanding cases, i.e. number of individuals who are still currently ill. The color of the country reflects the reported case fatality rate (CFR), these rates do not reflect the true fatality rate of the virus but are heavily affected by the amount of testing which is performed in the country.</p>
-<p>Test1
-{% include tip.html content='Click the buttons to toggle between greographies, or to change the scale. ' %}</p>
+<h2 id="Outstanding-Cases-by-Geography">Outstanding Cases by Geography<a class="anchor-link" href="#Outstanding-Cases-by-Geography"> </a></h2><p>Number of outstanding cases, i.e. number of individuals who are still currently ill. The color of the country reflects the reported case fatality rate (CFR), these rates do not reflect the true fatality rate of the virus but are heavily affected by the amount of testing which is performed in the country.
+{% include tip.html content='Click the buttons to toggle between greographies, or to change the scale. And hover over chart areas for more details.' %}</p>
 
 </div>
 </div>
@@ -53,13 +52,13 @@ layout: notebook
     <script src="https://d3js.org/d3.v2.min.js"></script>
     <style scoped>
         
-.chart {
+.chart, .bump-chart {
   font: 10px sans-serif;
   background: #fff;
   height: 575px;
 }
 
-#tooltip {
+.tooltip, .bump-tooltip {
   font: 10px sans-serif;
 }
 
@@ -102,354 +101,356 @@ layout: notebook
         var canadaData =[{"key": "Alberta", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 6, "date": "2/23/20", "confirmed": 6, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 0, "date": "2/23/20", "confirmed": 3, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Saskatchewan", "value": 0, "date": "2/23/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 6, "date": "2/24/20", "confirmed": 6, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 1, "date": "2/24/20", "confirmed": 4, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Saskatchewan", "value": 0, "date": "2/24/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 7, "date": "2/25/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 1, "date": "2/25/20", "confirmed": 4, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Saskatchewan", "value": 0, "date": "2/25/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 7, "date": "2/26/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 1, "date": "2/26/20", "confirmed": 4, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Saskatchewan", "value": 0, "date": "2/26/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 4, "date": "2/27/20", "confirmed": 7, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 3, "date": "2/27/20", "confirmed": 6, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Saskatchewan", "value": 0, "date": "2/27/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 4, "date": "2/28/20", "confirmed": 7, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 3, "date": "2/28/20", "confirmed": 6, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "2/28/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "2/28/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 5, "date": "2/29/20", "confirmed": 8, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 8, "date": "2/29/20", "confirmed": 11, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "2/29/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "2/29/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 5, "date": "3/1/20", "confirmed": 8, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 12, "date": "3/1/20", "confirmed": 15, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "3/1/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/1/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 5, "date": "3/2/20", "confirmed": 8, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 15, "date": "3/2/20", "confirmed": 18, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "3/2/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/2/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 6, "date": "3/3/20", "confirmed": 9, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 17, "date": "3/3/20", "confirmed": 20, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "3/3/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/3/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 9, "date": "3/4/20", "confirmed": 12, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 17, "date": "3/4/20", "confirmed": 20, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 1, "date": "3/4/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/4/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "British Columbia", "value": 10, "date": "3/5/20", "confirmed": 13, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 19, "date": "3/5/20", "confirmed": 22, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 2, "date": "3/5/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/5/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 1, "date": "3/6/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 18, "date": "3/6/20", "confirmed": 21, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 22, "date": "3/6/20", "confirmed": 25, "deaths": 0, "recovered": 3, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 2, "date": "3/6/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/6/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 2, "date": "3/7/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 17, "date": "3/7/20", "confirmed": 21, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 24, "date": "3/7/20", "confirmed": 28, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 3, "date": "3/7/20", "confirmed": 3, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/7/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 4, "date": "3/8/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 23, "date": "3/8/20", "confirmed": 27, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Grand Princess", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 25, "date": "3/8/20", "confirmed": 29, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 4, "date": "3/8/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/8/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 7, "date": "3/9/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 27, "date": "3/9/20", "confirmed": 32, "deaths": 1, "recovered": 4, "fatality": 0.03125}, {"key": "Grand Princess", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 30, "date": "3/9/20", "confirmed": 34, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 4, "date": "3/9/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/9/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 7, "date": "3/10/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 27, "date": "3/10/20", "confirmed": 32, "deaths": 1, "recovered": 4, "fatality": 0.03125}, {"key": "Grand Princess", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 32, "date": "3/10/20", "confirmed": 36, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 4, "date": "3/10/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/10/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 19, "date": "3/11/20", "confirmed": 19, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 34, "date": "3/11/20", "confirmed": 39, "deaths": 1, "recovered": 4, "fatality": 0.02564102564102564}, {"key": "Grand Princess", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 1, "date": "3/11/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 37, "date": "3/11/20", "confirmed": 41, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 8, "date": "3/11/20", "confirmed": 8, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/11/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 19, "date": "3/12/20", "confirmed": 19, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 41, "date": "3/12/20", "confirmed": 46, "deaths": 1, "recovered": 4, "fatality": 0.021739130434782608}, {"key": "Grand Princess", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Manitoba", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "New Brunswick", "value": 1, "date": "3/12/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 38, "date": "3/12/20", "confirmed": 42, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 9, "date": "3/12/20", "confirmed": 9, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 0, "date": "3/12/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Alberta", "value": 29, "date": "3/13/20", "confirmed": 29, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 59, "date": "3/13/20", "confirmed": 64, "deaths": 1, "recovered": 4, "fatality": 0.015625}, {"key": "Grand Princess", "value": 2, "date": "3/13/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 4, "date": "3/13/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 1, "date": "3/13/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/13/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/13/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/13/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 70, "date": "3/13/20", "confirmed": 74, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/13/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 17, "date": "3/13/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 2, "date": "3/13/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 29, "date": "3/14/20", "confirmed": 29, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 59, "date": "3/14/20", "confirmed": 64, "deaths": 1, "recovered": 4, "fatality": 0.015625}, {"key": "Grand Princess", "value": 2, "date": "3/14/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 4, "date": "3/14/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 1, "date": "3/14/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 0, "date": "3/14/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Northwest Territories", "value": 0, "date": "3/14/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/14/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 75, "date": "3/14/20", "confirmed": 79, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 0, "date": "3/14/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Quebec", "value": 17, "date": "3/14/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 2, "date": "3/14/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 39, "date": "3/15/20", "confirmed": 39, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 68, "date": "3/15/20", "confirmed": 73, "deaths": 1, "recovered": 4, "fatality": 0.0136986301369863}, {"key": "Grand Princess", "value": 2, "date": "3/15/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 4, "date": "3/15/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 2, "date": "3/15/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 1, "date": "3/15/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/15/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 0, "date": "3/15/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Ontario", "value": 100, "date": "3/15/20", "confirmed": 104, "deaths": 0, "recovered": 4, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 1, "date": "3/15/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 24, "date": "3/15/20", "confirmed": 24, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 2, "date": "3/15/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 56, "date": "3/16/20", "confirmed": 56, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 95, "date": "3/16/20", "confirmed": 103, "deaths": 4, "recovered": 4, "fatality": 0.038834951456310676}, {"key": "Grand Princess", "value": 2, "date": "3/16/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 7, "date": "3/16/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 6, "date": "3/16/20", "confirmed": 6, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 1, "date": "3/16/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/16/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 5, "date": "3/16/20", "confirmed": 5, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 172, "date": "3/16/20", "confirmed": 177, "deaths": 0, "recovered": 5, "fatality": 0.0}, {"key": "Prince Edward Island", "value": 1, "date": "3/16/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 50, "date": "3/16/20", "confirmed": 50, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 7, "date": "3/16/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 74, "date": "3/17/20", "confirmed": 74, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 95, "date": "3/17/20", "confirmed": 103, "deaths": 4, "recovered": 4, "fatality": 0.038834951456310676}, {"key": "Grand Princess", "value": 8, "date": "3/17/20", "confirmed": 8, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 8, "date": "3/17/20", "confirmed": 8, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 8, "date": "3/17/20", "confirmed": 8, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 3, "date": "3/17/20", "confirmed": 3, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/17/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 7, "date": "3/17/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 179, "date": "3/17/20", "confirmed": 185, "deaths": 1, "recovered": 5, "fatality": 0.005405405405405406}, {"key": "Prince Edward Island", "value": 1, "date": "3/17/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 74, "date": "3/17/20", "confirmed": 74, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 7, "date": "3/17/20", "confirmed": 7, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 97, "date": "3/18/20", "confirmed": 97, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 175, "date": "3/18/20", "confirmed": 186, "deaths": 7, "recovered": 4, "fatality": 0.03763440860215054}, {"key": "Grand Princess", "value": 9, "date": "3/18/20", "confirmed": 9, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 15, "date": "3/18/20", "confirmed": 15, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 11, "date": "3/18/20", "confirmed": 11, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 3, "date": "3/18/20", "confirmed": 3, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/18/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 12, "date": "3/18/20", "confirmed": 12, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 215, "date": "3/18/20", "confirmed": 221, "deaths": 1, "recovered": 5, "fatality": 0.004524886877828055}, {"key": "Prince Edward Island", "value": 1, "date": "3/18/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 94, "date": "3/18/20", "confirmed": 94, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Saskatchewan", "value": 8, "date": "3/18/20", "confirmed": 8, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 119, "date": "3/19/20", "confirmed": 119, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "British Columbia", "value": 220, "date": "3/19/20", "confirmed": 231, "deaths": 7, "recovered": 4, "fatality": 0.030303030303030304}, {"key": "Grand Princess", "value": 9, "date": "3/19/20", "confirmed": 9, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 17, "date": "3/19/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 11, "date": "3/19/20", "confirmed": 11, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 3, "date": "3/19/20", "confirmed": 3, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/19/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 14, "date": "3/19/20", "confirmed": 14, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 251, "date": "3/19/20", "confirmed": 257, "deaths": 1, "recovered": 5, "fatality": 0.0038910505836575876}, {"key": "Prince Edward Island", "value": 2, "date": "3/19/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 120, "date": "3/19/20", "confirmed": 121, "deaths": 1, "recovered": 0, "fatality": 0.008264462809917356}, {"key": "Saskatchewan", "value": 16, "date": "3/19/20", "confirmed": 16, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 145, "date": "3/20/20", "confirmed": 146, "deaths": 1, "recovered": 0, "fatality": 0.00684931506849315}, {"key": "British Columbia", "value": 259, "date": "3/20/20", "confirmed": 271, "deaths": 8, "recovered": 4, "fatality": 0.02952029520295203}, {"key": "Grand Princess", "value": 10, "date": "3/20/20", "confirmed": 10, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 17, "date": "3/20/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 11, "date": "3/20/20", "confirmed": 11, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 4, "date": "3/20/20", "confirmed": 4, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 0, "date": "3/20/20", "confirmed": 0, "deaths": 0, "recovered": 0, "fatality": 0}, {"key": "Nova Scotia", "value": 15, "date": "3/20/20", "confirmed": 15, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 301, "date": "3/20/20", "confirmed": 308, "deaths": 2, "recovered": 5, "fatality": 0.006493506493506494}, {"key": "Prince Edward Island", "value": 2, "date": "3/20/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 138, "date": "3/20/20", "confirmed": 139, "deaths": 1, "recovered": 0, "fatality": 0.007194244604316547}, {"key": "Saskatchewan", "value": 20, "date": "3/20/20", "confirmed": 20, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 194, "date": "3/21/20", "confirmed": 195, "deaths": 1, "recovered": 0, "fatality": 0.005128205128205128}, {"key": "British Columbia", "value": 410, "date": "3/21/20", "confirmed": 424, "deaths": 10, "recovered": 4, "fatality": 0.02358490566037736}, {"key": "Grand Princess", "value": 10, "date": "3/21/20", "confirmed": 10, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 18, "date": "3/21/20", "confirmed": 18, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 17, "date": "3/21/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 6, "date": "3/21/20", "confirmed": 6, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 1, "date": "3/21/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Nova Scotia", "value": 21, "date": "3/21/20", "confirmed": 21, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 368, "date": "3/21/20", "confirmed": 377, "deaths": 3, "recovered": 6, "fatality": 0.007957559681697613}, {"key": "Prince Edward Island", "value": 2, "date": "3/21/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 176, "date": "3/21/20", "confirmed": 181, "deaths": 5, "recovered": 0, "fatality": 0.027624309392265192}, {"key": "Saskatchewan", "value": 26, "date": "3/21/20", "confirmed": 26, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 258, "date": "3/22/20", "confirmed": 259, "deaths": 1, "recovered": 0, "fatality": 0.003861003861003861}, {"key": "British Columbia", "value": 410, "date": "3/22/20", "confirmed": 424, "deaths": 10, "recovered": 4, "fatality": 0.02358490566037736}, {"key": "Grand Princess", "value": 13, "date": "3/22/20", "confirmed": 13, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Manitoba", "value": 19, "date": "3/22/20", "confirmed": 19, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "New Brunswick", "value": 17, "date": "3/22/20", "confirmed": 17, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 6, "date": "3/22/20", "confirmed": 6, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 1, "date": "3/22/20", "confirmed": 1, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Nova Scotia", "value": 28, "date": "3/22/20", "confirmed": 28, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Ontario", "value": 414, "date": "3/22/20", "confirmed": 425, "deaths": 5, "recovered": 6, "fatality": 0.011764705882352941}, {"key": "Prince Edward Island", "value": 2, "date": "3/22/20", "confirmed": 2, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Quebec", "value": 214, "date": "3/22/20", "confirmed": 219, "deaths": 5, "recovered": 0, "fatality": 0.0228310502283105}, {"key": "Saskatchewan", "value": 52, "date": "3/22/20", "confirmed": 52, "deaths": 0, "recovered": 0, "fatality": 0.0}, {"key": "Alberta", "value": 258.0, "date": "3/23/20", "confirmed": 259.0, "deaths": 1.0, "recovered": 0.0, "fatality": 0.003861003861003861}, {"key": "British Columbia", "value": 410.0, "date": "3/23/20", "confirmed": 424.0, "deaths": 10.0, "recovered": 4.0, "fatality": 0.02358490566037736}, {"key": "Grand Princess", "value": 13.0, "date": "3/23/20", "confirmed": 13.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Manitoba", "value": 20.0, "date": "3/23/20", "confirmed": 20.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "New Brunswick", "value": 17.0, "date": "3/23/20", "confirmed": 17.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Newfoundland and Labrador", "value": 9.0, "date": "3/23/20", "confirmed": 9.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Northwest Territories", "value": 1.0, "date": "3/23/20", "confirmed": 1.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Nova Scotia", "value": 28.0, "date": "3/23/20", "confirmed": 28.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Ontario", "value": 414.0, "date": "3/23/20", "confirmed": 425.0, "deaths": 5.0, "recovered": 6.0, "fatality": 0.011764705882352941}, {"key": "Prince Edward Island", "value": 3.0, "date": "3/23/20", "confirmed": 3.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}, {"key": "Quebec", "value": 214.0, "date": "3/23/20", "confirmed": 219.0, "deaths": 5.0, "recovered": 0.0, "fatality": 0.0228310502283105}, {"key": "Saskatchewan", "value": 52.0, "date": "3/23/20", "confirmed": 52.0, "deaths": 0.0, "recovered": 0.0, "fatality": 0.0}];
         
         
-    console.log("d3",d3)
-    var margin, width, height;
-    var svg, tooltip, area, blank;
-    var y, x, yAxis, xAxis;
+    drawStream();
+    function drawStream(){
+        var margin, width, height;
+        var svg, tooltip, area, blank;
+        var y, x, yAxis, xAxis;
 
-    var data, layers, logScale;
-    var usaLayers, globalLayers, euLayers;
-    var dataClass, prevClass;
+        var data, layers, logScale;
+        var usaLayers, globalLayers, euLayers;
+        var dataClass, prevClass;
 
-    margin = {top: 20, right: 60, bottom: 100, left: 30};
-    width = 750 - margin.left - margin.right;
-    height = 550 - margin.top - margin.bottom;
+        margin = {top: 20, right: 60, bottom: 100, left: 30};
+        width = 750 - margin.left - margin.right;
+        height = 550 - margin.top - margin.bottom;
 
-    svg = d3.select(".chart").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        svg = d3.select(".chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var cs = d3.scale.linear()
-        .domain([0,0.5,1])
-        .interpolate(d3.interpolateRgb)
-        .range([d3.rgb('#cc0000'),d3.rgb(249, 247, 174),d3.rgb(0, 104, 55)]);
+        var cs = d3.scale.linear()
+            .domain([0,0.5,1])
+            .interpolate(d3.interpolateRgb)
+            .range([d3.rgb('#cc0000'),d3.rgb(249, 247, 174),d3.rgb(0, 104, 55)]);
 
-    var format = d3.time.format("%m/%d/%y");
-    function formatDate (d) {
-        d.date = format.parse(d.date);
-        d.value = +d.value;
-    } 
+        var format = d3.time.format("%m/%d/%y");
+        function formatDate (d) {
+            d.date = format.parse(d.date);
+            d.value = +d.value;
+        } 
 
-    // axis
-    x = d3.time.scale()
-        .range([0, width])
-        .clamp(true);
+        // axis
+        x = d3.time.scale()
+            .range([0, width])
+            .clamp(true);
 
-    xAxis = d3.svg.axis()
-        .orient("bottom")
-        .ticks(d3.time.weeks);
-        // .tickFormat(d3.time.format("%b %d"));
+        xAxis = d3.svg.axis()
+            .orient("bottom")
+            .ticks(d3.time.weeks);
+            // .tickFormat(d3.time.format("%b %d"));
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")");		
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")");		
 
-    yAxis = d3.svg.axis()
-        .orient("right") 
-        .tickFormat(d3.format(","));
+        yAxis = d3.svg.axis()
+            .orient("right") 
+            .tickFormat(d3.format(","));
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + width + ", 0)");
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + width + ", 0)");
 
-    // clipping paths
-    svg.append("defs")
-        .append("clipPath")
-        .attr("id","clip")
-        .append("rect")
-        .attr("width",width-3)
-        .attr("height",height-10)
-        .attr("x",0)
-        .attr("y",0);
+        // clipping paths
+        svg.append("defs")
+            .append("clipPath")
+            .attr("id","clip")
+            .append("rect")
+            .attr("width",width-3)
+            .attr("height",height-10)
+            .attr("x",0)
+            .attr("y",0);
 
-    svg.append("text")
-        .attr("text-anchor", "middle") 
-        .attr("transform", "translate("+ (width + margin.right*0.8) +","+(height/2)+")rotate(90)")  
-        .text("Current Outstanding Cases");
+        svg.append("text")
+            .attr("text-anchor", "middle") 
+            .attr("transform", "translate("+ (width + margin.right*0.8) +","+(height/2)+")rotate(90)")  
+            .text("Current Outstanding Cases");
 
-    svg.append("text")
-        .attr("text-anchor", "middle")  
-        .attr("transform", "translate("+ (width/2) +","+(height + 40)+")")  
-        .text("Date");
+        svg.append("text")
+            .attr("text-anchor", "middle")  
+            .attr("transform", "translate("+ (width/2) +","+(height + 40)+")")  
+            .text("Date");
 
-    area = d3.svg.area()
-        .interpolate("cardinal")
-        .x(d => x(d.date));
+        area = d3.svg.area()
+            .interpolate("cardinal")
+            .x(d => x(d.date));
 
-    blank = d3.svg.area()
-        .interpolate("cardinal")
-        .x(d => x(d.date));
+        blank = d3.svg.area()
+            .interpolate("cardinal")
+            .x(d => x(d.date));
 
-    usaData.forEach(formatDate);
-    usaLayers = prepareData(usaData);
+        usaData.forEach(formatDate);
+        usaLayers = prepareData(usaData);
 
-    globalData.forEach(formatDate);
-    globalLayers = prepareData(globalData);
+        globalData.forEach(formatDate);
+        globalLayers = prepareData(globalData);
 
-    europeData.forEach(formatDate);
-    euLayers = prepareData(europeData);
+        europeData.forEach(formatDate);
+        euLayers = prepareData(europeData);
 
-    canadaData.forEach(formatDate);
-    canadaLayers = prepareData(canadaData);
+        canadaData.forEach(formatDate);
+        canadaLayers = prepareData(canadaData);
 
-    dataClass = "globalData";
-    prevClass = "usaData";
-
-    data = globalData;
-    layers = globalLayers;
-    logScale = true;
-
-    drawScale();
-    drawLegend();
-    draw();
-
-    toggleScale = function (){
-        logScale = !logScale;
-        drawScale();
-    }
-    toggleUSA = function(){
-        prevClass = dataClass;
-        dataClass = "usaData";
-
-        data = usaData;
-        layers = usaLayers;
-        drawScale();
-        draw();
-    }
-    toggleGlobal = function (){
-        prevClass = dataClass;
         dataClass = "globalData";
+        prevClass = "usaData";
 
         data = globalData;
         layers = globalLayers;
-        drawScale(); 
-        draw();
-    }
-    toggleEU = function(){
-        prevClass = dataClass;
-        dataClass = "europeData";
+        logScale = true;
 
-        data = europeData;
-        layers = euLayers;
         drawScale();
+        drawLegend();
         draw();
-    }
-    toggleCanada = function(){
-        prevClass = dataClass;
-        dataClass = "canadaData";
 
-        data = canadaData;
-        layers = canadaLayers;
-        drawScale();
-        draw();
-    }
-    function drawScale(){
-        area.y0(d => {return y(d.y0 + 1)})
-            .y1(d => {return y(d.y0 + d.y + 1)});
-        blank.y0(d => height)
-            .y1(d => height);
+        toggleScale = function (){
+            logScale = !logScale;
+            drawScale();
+        }
+        toggleUSA = function(){
+            prevClass = dataClass;
+            dataClass = "usaData";
 
-        var yExt = d3.extent(data, d => {return d.y0 + d.y});
-        var logMin = 1000;
-        if(dataClass == "usaData") logMin = 300;
-        if(dataClass == "canadaData") logMin = 10;
-        y = d3.scale.log()
-            .range([height-10, 0])
-            .domain([logMin,yExt[1]])
-            .clamp(true);
-        if(!logScale){
-            y = d3.scale.linear()
+            data = usaData;
+            layers = usaLayers;
+            drawScale();
+            draw();
+        }
+        toggleGlobal = function (){
+            prevClass = dataClass;
+            dataClass = "globalData";
+
+            data = globalData;
+            layers = globalLayers;
+            drawScale(); 
+            draw();
+        }
+        toggleEU = function(){
+            prevClass = dataClass;
+            dataClass = "europeData";
+
+            data = europeData;
+            layers = euLayers;
+            drawScale();
+            draw();
+        }
+        toggleCanada = function(){
+            prevClass = dataClass;
+            dataClass = "canadaData";
+
+            data = canadaData;
+            layers = canadaLayers;
+            drawScale();
+            draw();
+        }
+        function drawScale(){
+            area.y0(d => {return y(d.y0 + 1)})
+                .y1(d => {return y(d.y0 + d.y + 1)});
+            blank.y0(d => height)
+                .y1(d => height);
+
+            var yExt = d3.extent(data, d => {return d.y0 + d.y});
+            var logMin = 1000;
+            if(dataClass == "usaData") logMin = 300;
+            if(dataClass == "canadaData") logMin = 10;
+            y = d3.scale.log()
                 .range([height-10, 0])
-                .domain(yExt)
+                .domain([logMin,yExt[1]])
                 .clamp(true);
+            if(!logScale){
+                y = d3.scale.linear()
+                    .range([height-10, 0])
+                    .domain(yExt)
+                    .clamp(true);
+            }
+            yAxis.scale(y);
+
+            x.domain(d3.extent(data, d => d.date));
+            xAxis.scale(x);
+
+            svg.selectAll(".y")
+                .transition("axis")
+                .duration(1000)
+                .call(yAxis);
+
+            svg.selectAll(".x")
+                .transition("axis")
+                .duration(1000)
+                .call(xAxis);
+                // .selectAll("text")  
+                // .style("text-anchor", "end")
+                // .attr("dx", "-.8em")
+                // .attr("dy", ".15em")
+                // .attr("transform", "rotate(-65)" );
+
+            svg.selectAll(".layer")
+                .transition("axis")
+                .duration(1000)
+                .attr("d", d => area(d.values))	
         }
-        yAxis.scale(y);
+        function draw(){
+            var leaving = svg.selectAll(`.${prevClass}`);
+            leaving.transition("load")
+                .duration(1000)
+                .attr("d", d => blank(d.values))
+                .remove();
 
-        x.domain(d3.extent(data, d => d.date));
-        xAxis.scale(x);
+            var countries = svg.selectAll(`.${dataClass}`)
+                .data(layers);
 
-        svg.selectAll(".y")
-            .transition("axis")
-            .duration(1000)
-            .call(yAxis);
-
-        svg.selectAll(".x")
-            .transition("axis")
-            .duration(1000)
-            .call(xAxis);
-            // .selectAll("text")  
-            // .style("text-anchor", "end")
-            // .attr("dx", "-.8em")
-            // .attr("dy", ".15em")
-            // .attr("transform", "rotate(-65)" );
-
-        svg.selectAll(".layer")
-            .transition("axis")
-            .duration(1000)
-            .attr("d", d => area(d.values))	
-    }
-    function draw(){
-        var leaving = svg.selectAll(`.${prevClass}`);
-        leaving.transition("load")
-            .duration(1000)
-            .attr("d", d => blank(d.values))
-            .remove();
-
-        var countries = svg.selectAll(`.${dataClass}`)
-            .data(layers);
-
-        countries.enter()
-            .append("path")
-            .attr("d", d => blank(d.values))
-            .on("mousemove", d => updateTooltip(d))
-            .on("mouseout", function(d, i) {
-                tooltip.style("visibility", "hidden");
-            })
-            .transition("load")
-            .duration(1000)
-            .attr("d", d => blank(d.values))
-            .attr("class", `layer ${dataClass}`)
-            .attr("d", d => area(d.values))
-            .attr("fill", d => {return `url(#${d.gradient})`})
-            .attr("clip-path","url(#clip)")
-            .attr("opacity", 1);
-    }
-    function drawLegend(){
-        var defs = svg.append("defs");
-
-        var gradient = defs.append("linearGradient")
-           .attr("id", "legend-grad")
-           .attr("x1", "0%")
-           .attr("x2", "100%")
-           .attr("y1", "0%")
-           .attr("y2", "0%");
-
-        for(var i = 0; i <= 10; i++){
-            gradient.append("stop")
-                .attr("offset", `${i*10}%`)
-                .attr("stop-color", cs(1-i/10)) // d3.interpolateRdYlGn(1-i/10))
-                .attr("stop-opacity", 1);
+            countries.enter()
+                .append("path")
+                .attr("d", d => blank(d.values))
+                .on("mousemove", d => updateTooltip(d))
+                .on("mouseout", function(d, i) {
+                    tooltip.style("visibility", "hidden");
+                })
+                .transition("load")
+                .duration(1000)
+                .attr("d", d => blank(d.values))
+                .attr("class", `layer ${dataClass}`)
+                .attr("d", d => area(d.values))
+                .attr("fill", d => {return `url(#${d.gradient})`})
+                .attr("clip-path","url(#clip)")
+                .attr("opacity", 1);
         }
-
-        var legend = svg.append("g")
-            .attr("id","legend")
-            .attr("transform", `translate(${(width/2)-150},${height+65})`)
-        legend.append("rect")
-            .attr("width",300)
-            .attr("height",15)
-            .attr("fill", "url(#legend-grad)");
-        legend.append("text")
-            .attr("text-anchor", "end") 
-            .attr("transform", "translate("+ -10 +","+10+")")  
-            .text("Case Fatality Rate (CFR)");
-
-        var lScale = d3.scale.linear()
-            .range([0, 300])
-            .domain([0.0,0.09]);
-
-        var lAxis = d3.svg.axis()
-            .orient("bottom") 
-            .scale(lScale)
-            .tickSize(18,0)
-            .tickFormat(d3.format(".1%"));
-
-        var l2 = svg.append("g")
-            .attr("class", "legend-axis axis")
-            .attr("transform", `translate(${(width/2)-150},${height+65})`)
-            .call(lAxis);
-
-        l2.selectAll("path")
-            .remove();
-    }
-    function prepareData(data){
-        console.log("fn: prepareData")
-        //manipulate data
-        var nest = d3.nest()
-            .key(function(d) { return d.key; });
-        var alphabetic = nest.entries(data);
-        var l = alphabetic.length;
-
-        //order data
-        for(var i = 0; i < l; i++){
-            var vals = alphabetic[i].values;
-            var lv = vals.length;
-            var current = vals[lv-1];
-            alphabetic[i].fatality = current.fatality;
-            alphabetic[i].current = current.value;
-            alphabetic[i].index = i
-        }
-        alphabetic.sort((a,b) => (a.current - b.current));
-
-        var stack = d3.layout.stack()
-          .offset("zero")
-          .order(() => alphabetic.map(e => e.index))
-          .values(d => d.values)
-          .x(d => d.date)
-          .y(d => d.value);
-
-        //add color gradients
-        for(var i = 0; i < l; i++){
-            var name = alphabetic[i].key.replace(/\s/g, '')
-            var id = `gradient-${name}`;
-            alphabetic[i].gradient = id;
-
+        function drawLegend(){
             var defs = svg.append("defs");
 
             var gradient = defs.append("linearGradient")
-               .attr("id", id)
+               .attr("id", "legend-grad")
                .attr("x1", "0%")
                .attr("x2", "100%")
                .attr("y1", "0%")
                .attr("y2", "0%");
 
-            var values = alphabetic[i].values;
-            var lv = alphabetic[i].values.length;
-
-            for(var j = 0; j < lv; j++){
-                var offset = `${Math.round(j*100/(lv-1))}%`;
-                var fr = values[j].fatality/0.09;
-                var col = cs(1-fr); //d3.interpolateRdYlGn(1-fr);
-
+            for(var i = 0; i <= 10; i++){
                 gradient.append("stop")
-                    .attr("offset", offset)
-                    .attr("stop-color", col)
-                    .attr("stop-opacity", 1);  
+                    .attr("offset", `${i*10}%`)
+                    .attr("stop-color", cs(1-i/10)) // d3.interpolateRdYlGn(1-i/10))
+                    .attr("stop-opacity", 1);
             }
-        }
 
-        var layers = stack(nest.entries(data));
-        for(var i = 0; i < l; i++){
-            var name = layers[i].key.replace(/\s/g, '')
-            var id = `gradient-${name}`;
-            layers[i].gradient = id;
-        }
-        return layers;
-    }
-    function updateTooltip(d){
-        current = d3.format(",")(d.values[d.values.length-1].value)
-        deaths = d3.format(",")(d.values[d.values.length-1].deaths)
-        recoveries = d3.format(",")(d.values[d.values.length-1].recovered)
-        fatality = d3.format(".1%")(d.values[d.values.length-1].fatality)
-        day = d3.time.format("%m/%d/%y")(d.values[d.values.length-1].date)
-        
-        var n = d.key;
-		if(n == "Korea, South") n = "South Korea";
-		if(n == "Taiwan*") n = "Taiwan";
+            var legend = svg.append("g")
+                .attr("id","legend")
+                .attr("transform", `translate(${(width/2)-150},${height+65})`)
+            legend.append("rect")
+                .attr("width",300)
+                .attr("height",15)
+                .attr("fill", "url(#legend-grad)");
+            legend.append("text")
+                .attr("text-anchor", "end") 
+                .attr("transform", "translate("+ -10 +","+10+")")  
+                .text("Case Fatality Rate (CFR)");
 
-        tooltip = svg.selectAll(".tooltip")
-            .data([n,day,`current cases: ${current}`,`deaths: ${deaths}`,`recoveries: ${recoveries}`,`CFR: ${fatality}`]);
-        tooltip.style("visibility", "visible")
-            .text(d => d);
-        tooltip.enter()
-            .append("text")
-            .attr("class", "tooltip")
-            .attr("x","0")
-            .attr("y",(d,i) => `${i}em`)
-            .attr("font-weight", (d,i) => i == 0 ? "bold" : "normal")
-            .attr("opacity",1)
-            .text(d => d);
+            var lScale = d3.scale.linear()
+                .range([0, 300])
+                .domain([0.0,0.09]);
+
+            var lAxis = d3.svg.axis()
+                .orient("bottom") 
+                .scale(lScale)
+                .tickSize(18,0)
+                .tickFormat(d3.format(".1%"));
+
+            var l2 = svg.append("g")
+                .attr("class", "legend-axis axis")
+                .attr("transform", `translate(${(width/2)-150},${height+65})`)
+                .call(lAxis);
+
+            l2.selectAll("path")
+                .remove();
+        }
+        function prepareData(data){
+            //manipulate data
+            var nest = d3.nest()
+                .key(function(d) { return d.key; });
+            var alphabetic = nest.entries(data);
+            var l = alphabetic.length;
+
+            //order data
+            for(var i = 0; i < l; i++){
+                var vals = alphabetic[i].values;
+                var lv = vals.length;
+                var current = vals[lv-1];
+                alphabetic[i].fatality = current.fatality;
+                alphabetic[i].current = current.value;
+                alphabetic[i].index = i
+            }
+            alphabetic.sort((a,b) => (a.current - b.current));
+
+            var stack = d3.layout.stack()
+              .offset("zero")
+              .order(() => alphabetic.map(e => e.index))
+              .values(d => d.values)
+              .x(d => d.date)
+              .y(d => d.value);
+
+            //add color gradients
+            for(var i = 0; i < l; i++){
+                var name = alphabetic[i].key.replace(/\s/g, '')
+                var id = `gradient-${name}`;
+                alphabetic[i].gradient = id;
+
+                var defs = svg.append("defs");
+
+                var gradient = defs.append("linearGradient")
+                   .attr("id", id)
+                   .attr("x1", "0%")
+                   .attr("x2", "100%")
+                   .attr("y1", "0%")
+                   .attr("y2", "0%");
+
+                var values = alphabetic[i].values;
+                var lv = alphabetic[i].values.length;
+
+                for(var j = 0; j < lv; j++){
+                    var offset = `${Math.round(j*100/(lv-1))}%`;
+                    var fr = values[j].fatality/0.09;
+                    var col = cs(1-fr); //d3.interpolateRdYlGn(1-fr);
+
+                    gradient.append("stop")
+                        .attr("offset", offset)
+                        .attr("stop-color", col)
+                        .attr("stop-opacity", 1);  
+                }
+            }
+
+            var layers = stack(nest.entries(data));
+            for(var i = 0; i < l; i++){
+                var name = layers[i].key.replace(/\s/g, '')
+                var id = `gradient-${name}`;
+                layers[i].gradient = id;
+            }
+            return layers;
+        }
+        function updateTooltip(d){
+            current = d3.format(",")(d.values[d.values.length-1].value)
+            deaths = d3.format(",")(d.values[d.values.length-1].deaths)
+            recoveries = d3.format(",")(d.values[d.values.length-1].recovered)
+            fatality = d3.format(".1%")(d.values[d.values.length-1].fatality)
+            day = d3.time.format("%m/%d/%y")(d.values[d.values.length-1].date)
+
+            var n = d.key;
+            if(n == "Korea, South") n = "South Korea";
+            if(n == "Taiwan*") n = "Taiwan";
+
+            tooltip = svg.selectAll(".tooltip")
+                .data([n,day,`current cases: ${current}`,`deaths: ${deaths}`,`recoveries: ${recoveries}`,`CFR: ${fatality}`]);
+            tooltip.style("visibility", "visible")
+                .attr("opacity",1)
+                .text(d => d);
+            tooltip.enter()
+                .append("text")
+                .attr("class", "tooltip")
+                .attr("x","0")
+                .attr("y",(d,i) => `${i}em`)
+                .attr("font-weight", (d,i) => i == 0 ? "bold" : "normal")
+                .attr("opacity",1)
+                .text(d => d);
+        }
     }
 
         
@@ -467,10 +468,338 @@ layout: notebook
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This visualization was created by <a href="https://www.linkedin.com/in/adrian-turcato-9a543185/">Adrian Turcato</a>. Relevant sources are listed below:</p>
-<ol>
-<li><a href="https://systems.jhu.edu/research/public-health/ncov/">2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE</a> <a href="https://github.com/CSSEGISandData/COVID-19">GitHub repository</a>. </li>
+<h2 id="Outstanding-Cases-as-Percent-of-Global-Total">Outstanding Cases as Percent of Global Total<a class="anchor-link" href="#Outstanding-Cases-as-Percent-of-Global-Total"> </a></h2><p>Number of outstanding cases as percent of global total. Only countries representing a significant contribution to global totals are shown.
+{% include tip.html content='Hover over chart areas for more details.' %}</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script src="https://d3js.org/d3.v2.min.js"></script>
+    <style scoped>
+        
+.chart, .bump-chart {
+  font: 10px sans-serif;
+  background: #fff;
+  height: 575px;
+}
+
+.tooltip, .bump-tooltip {
+  font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.buttons {
+  font: 11px sans-serif;
+  position: relative;
+  left: 50px;
+  top: 10px;
+}
+
+#toggle {
+  font: 11px sans-serif;
+  position: relative;
+  left: 660px;
+  top: 10px;
+} 
+    </style>
+    <div id="bumpchart">
+		<div class="bump-chart">
+		</div>
+	</div>
+    <script>
+        var topGlobalData =[[{"rank": 0, "place": "China", "count": 503, "pct": 0.9862745098039216, "date": "1/22/20"}, {"rank": -1, "place": "All Other", "count": 7, "pct": 0.013725490196078431, "date": "1/22/20"}], [{"rank": 0, "place": "China", "count": 595, "pct": 0.9834710743801653, "date": "1/23/20"}, {"rank": -1, "place": "All Other", "count": 10, "pct": 0.01652892561983471, "date": "1/23/20"}], [{"rank": 0, "place": "China", "count": 858, "pct": 0.9761092150170648, "date": "1/24/20"}, {"rank": -1, "place": "All Other", "count": 21, "pct": 0.023890784982935155, "date": "1/24/20"}], [{"rank": 0, "place": "China", "count": 1325, "pct": 0.9793052475979305, "date": "1/25/20"}, {"rank": -1, "place": "All Other", "count": 28, "pct": 0.020694752402069475, "date": "1/25/20"}], [{"rank": 0, "place": "China", "count": 1970, "pct": 0.9800995024875622, "date": "1/26/20"}, {"rank": -1, "place": "All Other", "count": 40, "pct": 0.01990049751243781, "date": "1/26/20"}], [{"rank": 0, "place": "China", "count": 2737, "pct": 0.983117816091954, "date": "1/27/20"}, {"rank": -1, "place": "All Other", "count": 47, "pct": 0.016882183908045977, "date": "1/27/20"}], [{"rank": 0, "place": "China", "count": 5277, "pct": 0.9882022471910112, "date": "1/28/20"}, {"rank": -1, "place": "All Other", "count": 63, "pct": 0.011797752808988765, "date": "1/28/20"}], [{"rank": 0, "place": "China", "count": 5834, "pct": 0.9876417809378704, "date": "1/29/20"}, {"rank": -1, "place": "All Other", "count": 73, "pct": 0.012358219062129677, "date": "1/29/20"}], [{"rank": 0, "place": "China", "count": 7835, "pct": 0.9892676767676768, "date": "1/30/20"}, {"rank": -1, "place": "All Other", "count": 85, "pct": 0.010732323232323232, "date": "1/30/20"}], [{"rank": 0, "place": "China", "count": 9375, "pct": 0.9876738305941846, "date": "1/31/20"}, {"rank": -1, "place": "All Other", "count": 117, "pct": 0.012326169405815424, "date": "1/31/20"}], [{"rank": 0, "place": "China", "count": 11357, "pct": 0.9879947803392779, "date": "2/1/20"}, {"rank": -1, "place": "All Other", "count": 138, "pct": 0.012005219660722053, "date": "2/1/20"}], [{"rank": 0, "place": "China", "count": 15806, "pct": 0.9907854322071084, "date": "2/2/20"}, {"rank": -1, "place": "All Other", "count": 147, "pct": 0.009214567792891619, "date": "2/2/20"}], [{"rank": 0, "place": "China", "count": 18677, "pct": 0.991769328802039, "date": "2/3/20"}, {"rank": -1, "place": "All Other", "count": 155, "pct": 0.008230671197960917, "date": "2/3/20"}], [{"rank": 0, "place": "China", "count": 22373, "pct": 0.992238779492638, "date": "2/4/20"}, {"rank": -1, "place": "All Other", "count": 175, "pct": 0.007761220507362072, "date": "2/4/20"}], [{"rank": 0, "place": "China", "count": 25762, "pct": 0.9928700813196131, "date": "2/5/20"}, {"rank": -1, "place": "All Other", "count": 185, "pct": 0.007129918680386943, "date": "2/5/20"}], [{"rank": 0, "place": "China", "count": 28477, "pct": 0.9923682743239476, "date": "2/6/20"}, {"rank": -1, "place": "All Other", "count": 219, "pct": 0.007631725676052412, "date": "2/6/20"}], [{"rank": 0, "place": "China", "count": 31393, "pct": 0.9915353273743722, "date": "2/7/20"}, {"rank": -1, "place": "All Other", "count": 268, "pct": 0.008464672625627744, "date": "2/7/20"}], [{"rank": 0, "place": "China", "count": 33413, "pct": 0.9915425247789186, "date": "2/8/20"}, {"rank": -1, "place": "All Other", "count": 285, "pct": 0.00845747522108137, "date": "2/8/20"}], [{"rank": 0, "place": "China", "count": 35705, "pct": 0.9918055555555556, "date": "2/9/20"}, {"rank": -1, "place": "All Other", "count": 295, "pct": 0.008194444444444445, "date": "2/9/20"}], [{"rank": 0, "place": "China", "count": 37424, "pct": 0.9899743406607941, "date": "2/10/20"}, {"rank": -1, "place": "All Other", "count": 379, "pct": 0.010025659339205883, "date": "2/10/20"}], [{"rank": 0, "place": "China", "count": 38638, "pct": 0.9905655540173307, "date": "2/11/20"}, {"rank": -1, "place": "All Other", "count": 368, "pct": 0.009434445982669333, "date": "2/11/20"}], [{"rank": 0, "place": "China", "count": 38560, "pct": 0.9899109182861398, "date": "2/12/20"}, {"rank": -1, "place": "All Other", "count": 393, "pct": 0.010089081713860294, "date": "2/12/20"}], [{"rank": 0, "place": "China", "count": 52309, "pct": 0.9925429774961102, "date": "2/13/20"}, {"rank": -1, "place": "All Other", "count": 393, "pct": 0.007457022503889795, "date": "2/13/20"}], [{"rank": 0, "place": "China", "count": 56860, "pct": 0.9922518497836103, "date": "2/14/20"}, {"rank": -1, "place": "All Other", "count": 444, "pct": 0.007748150216389781, "date": "2/14/20"}], [{"rank": 0, "place": "China", "count": 57452, "pct": 0.9910814400800427, "date": "2/15/20"}, {"rank": -1, "place": "All Other", "count": 517, "pct": 0.00891855991995722, "date": "2/15/20"}], [{"rank": 0, "place": "China", "count": 57992, "pct": 0.9898103739609825, "date": "2/16/20"}, {"rank": -1, "place": "All Other", "count": 597, "pct": 0.010189626039017564, "date": "2/16/20"}], [{"rank": 0, "place": "China", "count": 58108, "pct": 0.9881136599384427, "date": "2/17/20"}, {"rank": -1, "place": "All Other", "count": 699, "pct": 0.011886340061557298, "date": "2/17/20"}], [{"rank": 0, "place": "China", "count": 58002, "pct": 0.9868145703251272, "date": "2/18/20"}, {"rank": -1, "place": "All Other", "count": 775, "pct": 0.013185429674872825, "date": "2/18/20"}], [{"rank": 0, "place": "China", "count": 56541, "pct": 0.985103491532511, "date": "2/19/20"}, {"rank": -1, "place": "All Other", "count": 855, "pct": 0.014896508467489024, "date": "2/19/20"}], [{"rank": 0, "place": "China", "count": 54825, "pct": 0.983002528104997, "date": "2/20/20"}, {"rank": -1, "place": "All Other", "count": 948, "pct": 0.016997471895002957, "date": "2/20/20"}], [{"rank": 0, "place": "China", "count": 54608, "pct": 0.9807118997162458, "date": "2/21/20"}, {"rank": 1, "place": "Korea, South", "count": 186, "pct": 0.003340397255845695, "date": "2/21/20"}, {"rank": -1, "place": "All Other", "count": 888, "pct": 0.01594770302790848, "date": "2/21/20"}], [{"rank": 0, "place": "China", "count": 51859, "pct": 0.9741523433831126, "date": "2/22/20"}, {"rank": 1, "place": "Korea, South", "count": 415, "pct": 0.007795623180238565, "date": "2/22/20"}, {"rank": -1, "place": "All Other", "count": 961, "pct": 0.01805203343664882, "date": "2/22/20"}], [{"rank": 0, "place": "China", "count": 51390, "pct": 0.9677601596926669, "date": "2/23/20"}, {"rank": 1, "place": "Korea, South", "count": 578, "pct": 0.010884712440209408, "date": "2/23/20"}, {"rank": 2, "place": "Italy", "count": 150, "pct": 0.002824752363376144, "date": "2/23/20"}, {"rank": -1, "place": "All Other", "count": 984, "pct": 0.018530375503747504, "date": "2/23/20"}], [{"rank": 0, "place": "China", "count": 49631, "pct": 0.9597578898514851, "date": "2/24/20"}, {"rank": 1, "place": "Korea, South", "count": 807, "pct": 0.015605662128712871, "date": "2/24/20"}, {"rank": 2, "place": "Italy", "count": 221, "pct": 0.004273669554455446, "date": "2/24/20"}, {"rank": -1, "place": "All Other", "count": 1053, "pct": 0.020362778465346534, "date": "2/24/20"}], [{"rank": 0, "place": "China", "count": 47413, "pct": 0.9520682730923695, "date": "2/25/20"}, {"rank": 1, "place": "Korea, South", "count": 945, "pct": 0.01897590361445783, "date": "2/25/20"}, {"rank": 2, "place": "Italy", "count": 311, "pct": 0.006244979919678715, "date": "2/25/20"}, {"rank": -1, "place": "All Other", "count": 1131, "pct": 0.022710843373493977, "date": "2/25/20"}], [{"rank": 0, "place": "China", "count": 45365, "pct": 0.9403826620509526, "date": "2/26/20"}, {"rank": 1, "place": "Korea, South", "count": 1227, "pct": 0.02543479612777513, "date": "2/26/20"}, {"rank": 2, "place": "Italy", "count": 438, "pct": 0.009079413776663004, "date": "2/26/20"}, {"rank": -1, "place": "All Other", "count": 1211, "pct": 0.025103128044609357, "date": "2/26/20"}], [{"rank": 0, "place": "China", "count": 42924, "pct": 0.9198722756788034, "date": "2/27/20"}, {"rank": 1, "place": "Korea, South", "count": 1731, "pct": 0.03709577181064227, "date": "2/27/20"}, {"rank": 2, "place": "Italy", "count": 593, "pct": 0.012708141353963526, "date": "2/27/20"}, {"rank": 3, "place": "Iran", "count": 170, "pct": 0.003643143389837773, "date": "2/27/20"}, {"rank": -1, "place": "All Other", "count": 1245, "pct": 0.026680667766753104, "date": "2/27/20"}], [{"rank": 0, "place": "China", "count": 39809, "pct": 0.8938410759593147, "date": "2/28/20"}, {"rank": 1, "place": "Korea, South", "count": 2302, "pct": 0.05168736107057054, "date": "2/28/20"}, {"rank": 2, "place": "Italy", "count": 821, "pct": 0.01843411096391764, "date": "2/28/20"}, {"rank": 3, "place": "Iran", "count": 281, "pct": 0.0063093607562251615, "date": "2/28/20"}, {"rank": -1, "place": "All Other", "count": 1324, "pct": 0.029728091249971934, "date": "2/28/20"}], [{"rank": 0, "place": "China", "count": 37199, "pct": 0.8593374607281463, "date": "2/29/20"}, {"rank": 1, "place": "Korea, South", "count": 3107, "pct": 0.07177508778414342, "date": "2/29/20"}, {"rank": 2, "place": "Italy", "count": 1053, "pct": 0.024325448161153205, "date": "2/29/20"}, {"rank": 3, "place": "Iran", "count": 427, "pct": 0.009864165588615782, "date": "2/29/20"}, {"rank": -1, "place": "All Other", "count": 1502, "pct": 0.03469783773794123, "date": "2/29/20"}], [{"rank": 0, "place": "China", "count": 34898, "pct": 0.818107227418712, "date": "3/1/20"}, {"rank": 1, "place": "Korea, South", "count": 3689, "pct": 0.08648053074524698, "date": "3/1/20"}, {"rank": 2, "place": "Italy", "count": 1577, "pct": 0.03696931336005814, "date": "3/1/20"}, {"rank": 3, "place": "Iran", "count": 749, "pct": 0.01755866563518297, "date": "3/1/20"}, {"rank": 4, "place": "France", "count": 116, "pct": 0.0027193661063834775, "date": "3/1/20"}, {"rank": 5, "place": "Germany", "count": 114, "pct": 0.0026724804838596243, "date": "3/1/20"}, {"rank": -1, "place": "All Other", "count": 1514, "pct": 0.03549241625055677, "date": "3/1/20"}], [{"rank": 0, "place": "China", "count": 32368, "pct": 0.7777217136404047, "date": "3/2/20"}, {"rank": 1, "place": "Korea, South", "count": 4277, "pct": 0.10276556380499291, "date": "3/2/20"}, {"rank": 2, "place": "Italy", "count": 1835, "pct": 0.04409043946274538, "date": "3/2/20"}, {"rank": 3, "place": "Iran", "count": 1144, "pct": 0.027487445637809655, "date": "3/2/20"}, {"rank": 4, "place": "France", "count": 176, "pct": 0.004228837790432254, "date": "3/2/20"}, {"rank": 5, "place": "Germany", "count": 143, "pct": 0.003435930704726207, "date": "3/2/20"}, {"rank": 6, "place": "Spain", "count": 118, "pct": 0.0028352435185852614, "date": "3/2/20"}, {"rank": -1, "place": "All Other", "count": 1558, "pct": 0.03743482544030371, "date": "3/2/20"}], [{"rank": 0, "place": "China", "count": 29864, "pct": 0.7204477467914696, "date": "3/3/20"}, {"rank": 1, "place": "Korea, South", "count": 5128, "pct": 0.12370935057415806, "date": "3/3/20"}, {"rank": 2, "place": "Italy", "count": 2263, "pct": 0.05459326449869729, "date": "3/3/20"}, {"rank": 3, "place": "Iran", "count": 1968, "pct": 0.047476599440316514, "date": "3/3/20"}, {"rank": 4, "place": "France", "count": 188, "pct": 0.0045353662066969025, "date": "3/3/20"}, {"rank": 5, "place": "Germany", "count": 180, "pct": 0.004342371900028949, "date": "3/3/20"}, {"rank": 6, "place": "Spain", "count": 162, "pct": 0.003908134710026054, "date": "3/3/20"}, {"rank": 7, "place": "US", "count": 104, "pct": 0.002508925986683393, "date": "3/3/20"}, {"rank": -1, "place": "All Other", "count": 1595, "pct": 0.038478239891923186, "date": "3/3/20"}], [{"rank": 0, "place": "China", "count": 27402, "pct": 0.673333988598388, "date": "3/4/20"}, {"rank": 1, "place": "Korea, South", "count": 5545, "pct": 0.1362541773147238, "date": "3/4/20"}, {"rank": 2, "place": "Italy", "count": 2706, "pct": 0.06649302142716729, "date": "3/4/20"}, {"rank": 3, "place": "Iran", "count": 2278, "pct": 0.05597601729899745, "date": "3/4/20"}, {"rank": 4, "place": "France", "count": 272, "pct": 0.006683703558089247, "date": "3/4/20"}, {"rank": 5, "place": "Germany", "count": 246, "pct": 0.006044820129742481, "date": "3/4/20"}, {"rank": 6, "place": "Spain", "count": 218, "pct": 0.005356791822292117, "date": "3/4/20"}, {"rank": 7, "place": "US", "count": 131, "pct": 0.00321898958128563, "date": "3/4/20"}, {"rank": -1, "place": "All Other", "count": 1898, "pct": 0.04663849026931394, "date": "3/4/20"}], [{"rank": 0, "place": "China", "count": 25230, "pct": 0.6193234817615003, "date": "3/5/20"}, {"rank": 1, "place": "Korea, South", "count": 6012, "pct": 0.14757720064804358, "date": "3/5/20"}, {"rank": 2, "place": "Italy", "count": 3296, "pct": 0.0809072610339241, "date": "3/5/20"}, {"rank": 3, "place": "Iran", "count": 2667, "pct": 0.06546713142520497, "date": "3/5/20"}, {"rank": 4, "place": "Germany", "count": 466, "pct": 0.011438951347636114, "date": "3/5/20"}, {"rank": 5, "place": "France", "count": 362, "pct": 0.00888605233442977, "date": "3/5/20"}, {"rank": 6, "place": "Spain", "count": 254, "pct": 0.0062349648976385685, "date": "3/5/20"}, {"rank": 7, "place": "US", "count": 198, "pct": 0.004860326967450538, "date": "3/5/20"}, {"rank": 8, "place": "Switzerland", "count": 110, "pct": 0.002700181648583632, "date": "3/5/20"}, {"rank": 9, "place": "United Kingdom", "count": 107, "pct": 0.0026265403308949873, "date": "3/5/20"}, {"rank": -1, "place": "All Other", "count": 2036, "pct": 0.04997790760469341, "date": "3/5/20"}], [{"rank": 0, "place": "China", "count": 23702, "pct": 0.5582326479662734, "date": "3/6/20"}, {"rank": 1, "place": "Korea, South", "count": 6416, "pct": 0.15111048305424057, "date": "3/6/20"}, {"rank": 2, "place": "Italy", "count": 3916, "pct": 0.09223015144021292, "date": "3/6/20"}, {"rank": 3, "place": "Iran", "count": 3710, "pct": 0.08737841211521703, "date": "3/6/20"}, {"rank": 4, "place": "Germany", "count": 653, "pct": 0.015379542617584022, "date": "3/6/20"}, {"rank": 5, "place": "France", "count": 635, "pct": 0.014955604229963023, "date": "3/6/20"}, {"rank": 6, "place": "Spain", "count": 393, "pct": 0.009255988129725147, "date": "3/6/20"}, {"rank": 7, "place": "US", "count": 241, "pct": 0.005676063967592265, "date": "3/6/20"}, {"rank": 8, "place": "Switzerland", "count": 210, "pct": 0.004945947855578323, "date": "3/6/20"}, {"rank": 9, "place": "United Kingdom", "count": 154, "pct": 0.003627028427424103, "date": "3/6/20"}, {"rank": -1, "place": "All Other", "count": 2429, "pct": 0.05720813019618926, "date": "3/6/20"}], [{"rank": 0, "place": "China", "count": 22159, "pct": 0.5047033367498007, "date": "3/7/20"}, {"rank": 1, "place": "Korea, South", "count": 6862, "pct": 0.15629199407812322, "date": "3/7/20"}, {"rank": 2, "place": "Italy", "count": 5061, "pct": 0.11527160915613256, "date": "3/7/20"}, {"rank": 3, "place": "Iran", "count": 4009, "pct": 0.09131078464867327, "date": "3/7/20"}, {"rank": 4, "place": "France", "count": 934, "pct": 0.02127320350757317, "date": "3/7/20"}, {"rank": 5, "place": "Germany", "count": 781, "pct": 0.017788406787381847, "date": "3/7/20"}, {"rank": 6, "place": "Spain", "count": 460, "pct": 0.010477166609725544, "date": "3/7/20"}, {"rank": 7, "place": "US", "count": 378, "pct": 0.008609497779296208, "date": "3/7/20"}, {"rank": 8, "place": "Switzerland", "count": 264, "pct": 0.006012982576016399, "date": "3/7/20"}, {"rank": 9, "place": "United Kingdom", "count": 187, "pct": 0.004259195991344949, "date": "3/7/20"}, {"rank": -1, "place": "All Other", "count": 2810, "pct": 0.06400182211593212, "date": "3/7/20"}], [{"rank": 0, "place": "China", "count": 20335, "pct": 0.44890615686880503, "date": "3/8/20"}, {"rank": 1, "place": "Korea, South", "count": 7146, "pct": 0.1577518267511424, "date": "3/8/20"}, {"rank": 2, "place": "Italy", "count": 6387, "pct": 0.14099648998874148, "date": "3/8/20"}, {"rank": 3, "place": "Iran", "count": 4238, "pct": 0.09355614914236518, "date": "3/8/20"}, {"rank": 4, "place": "France", "count": 1103, "pct": 0.024349323384622177, "date": "3/8/20"}, {"rank": 5, "place": "Germany", "count": 1022, "pct": 0.02256120444159915, "date": "3/8/20"}, {"rank": 6, "place": "Spain", "count": 626, "pct": 0.013819289609042142, "date": "3/8/20"}, {"rank": 7, "place": "US", "count": 490, "pct": 0.010817015828163978, "date": "3/8/20"}, {"rank": 8, "place": "Switzerland", "count": 332, "pct": 0.007329080112143756, "date": "3/8/20"}, {"rank": 9, "place": "United Kingdom", "count": 253, "pct": 0.005585112254133645, "date": "3/8/20"}, {"rank": -1, "place": "All Other", "count": 3367, "pct": 0.07432835161924105, "date": "3/8/20"}], [{"rank": 0, "place": "China", "count": 18933, "pct": 0.40215382654686804, "date": "3/9/20"}, {"rank": 1, "place": "Italy", "count": 7985, "pct": 0.1696085303426156, "date": "3/9/20"}, {"rank": 2, "place": "Korea, South", "count": 7307, "pct": 0.15520720491089446, "date": "3/9/20"}, {"rank": 3, "place": "Iran", "count": 4530, "pct": 0.09622124514114573, "date": "3/9/20"}, {"rank": 4, "place": "France", "count": 1186, "pct": 0.025191699059028443, "date": "3/9/20"}, {"rank": 5, "place": "Germany", "count": 1156, "pct": 0.02455447227001423, "date": "3/9/20"}, {"rank": 6, "place": "Spain", "count": 1013, "pct": 0.021517024575713164, "date": "3/9/20"}, {"rank": 7, "place": "US", "count": 554, "pct": 0.011767454703795747, "date": "3/9/20"}, {"rank": 8, "place": "Switzerland", "count": 369, "pct": 0.007837889504874785, "date": "3/9/20"}, {"rank": 9, "place": "United Kingdom", "count": 300, "pct": 0.0063722678901421016, "date": "3/9/20"}, {"rank": -1, "place": "All Other", "count": 3746, "pct": 0.07956838505490771, "date": "3/9/20"}], [{"rank": 0, "place": "China", "count": 17567, "pct": 0.35186075391579535, "date": "3/10/20"}, {"rank": 1, "place": "Italy", "count": 8794, "pct": 0.17614068821856346, "date": "3/10/20"}, {"rank": 2, "place": "Korea, South", "count": 7212, "pct": 0.14445379161158514, "date": "3/10/20"}, {"rank": 3, "place": "Iran", "count": 5020, "pct": 0.10054881224211834, "date": "3/10/20"}, {"rank": 4, "place": "France", "count": 1747, "pct": 0.0349917878460121, "date": "3/10/20"}, {"rank": 5, "place": "Spain", "count": 1628, "pct": 0.0326082602251332, "date": "3/10/20"}, {"rank": 6, "place": "Germany", "count": 1437, "pct": 0.028782598245403197, "date": "3/10/20"}, {"rank": 7, "place": "US", "count": 923, "pct": 0.01848736129471618, "date": "3/10/20"}, {"rank": 8, "place": "Switzerland", "count": 485, "pct": 0.00971437727837199, "date": "3/10/20"}, {"rank": 9, "place": "United Kingdom", "count": 359, "pct": 0.007190642150382566, "date": "3/10/20"}, {"rank": -1, "place": "All Other", "count": 4754, "pct": 0.09522092697191845, "date": "3/10/20"}], [{"rank": 0, "place": "China", "count": 16116, "pct": 0.2970855531181448, "date": "3/11/20"}, {"rank": 1, "place": "Italy", "count": 10590, "pct": 0.1952181687466588, "date": "3/11/20"}, {"rank": 2, "place": "Korea, South", "count": 7407, "pct": 0.13654211292790386, "date": "3/11/20"}, {"rank": 3, "place": "Iran", "count": 5687, "pct": 0.10483529043080723, "date": "3/11/20"}, {"rank": 4, "place": "France", "count": 2230, "pct": 0.041108264051468286, "date": "3/11/20"}, {"rank": 5, "place": "Spain", "count": 2040, "pct": 0.03760576621748668, "date": "3/11/20"}, {"rank": 6, "place": "Germany", "count": 1880, "pct": 0.034656294357291645, "date": "3/11/20"}, {"rank": 7, "place": "US", "count": 1237, "pct": 0.022803104319132857, "date": "3/11/20"}, {"rank": 8, "place": "Switzerland", "count": 644, "pct": 0.011871624237285012, "date": "3/11/20"}, {"rank": 9, "place": "United Kingdom", "count": 432, "pct": 0.007963574022526591, "date": "3/11/20"}, {"rank": -1, "place": "All Other", "count": 5984, "pct": 0.11031024757129426, "date": "3/11/20"}], [{"rank": 0, "place": "China", "count": 14859, "pct": 0.2687028698529811, "date": "3/12/20"}, {"rank": 1, "place": "Italy", "count": 10590, "pct": 0.19150436716757988, "date": "3/12/20"}, {"rank": 2, "place": "Korea, South", "count": 7470, "pct": 0.1350838170672164, "date": "3/12/20"}, {"rank": 3, "place": "Iran", "count": 6687, "pct": 0.12092442901318289, "date": "3/12/20"}, {"rank": 4, "place": "France", "count": 2230, "pct": 0.040326226514041844, "date": "3/12/20"}, {"rank": 5, "place": "Germany", "count": 2050, "pct": 0.037071194777482414, "date": "3/12/20"}, {"rank": 6, "place": "Spain", "count": 2039, "pct": 0.03687227617135934, "date": "3/12/20"}, {"rank": 7, "place": "US", "count": 1611, "pct": 0.029132534042206913, "date": "3/12/20"}, {"rank": 8, "place": "Switzerland", "count": 644, "pct": 0.011645780213023744, "date": "3/12/20"}, {"rank": 9, "place": "United Kingdom", "count": 432, "pct": 0.007812076167742635, "date": "3/12/20"}, {"rank": -1, "place": "All Other", "count": 6687, "pct": 0.12092442901318289, "date": "3/12/20"}], [{"rank": 0, "place": "Italy", "count": 14955, "pct": 0.21506226811239898, "date": "3/13/20"}, {"rank": 1, "place": "China", "count": 13569, "pct": 0.1951307198941586, "date": "3/13/20"}, {"rank": 2, "place": "Iran", "count": 7891, "pct": 0.1134775230809054, "date": "3/13/20"}, {"rank": 3, "place": "Korea, South", "count": 7403, "pct": 0.10645977738790302, "date": "3/13/20"}, {"rank": 4, "place": "Spain", "count": 4906, "pct": 0.07055135321694612, "date": "3/13/20"}, {"rank": 5, "place": "Germany", "count": 3622, "pct": 0.0520866288935546, "date": "3/13/20"}, {"rank": 6, "place": "France", "count": 3587, "pct": 0.051583306968851564, "date": "3/13/20"}, {"rank": 7, "place": "US", "count": 2120, "pct": 0.03048692801058414, "date": "3/13/20"}, {"rank": 8, "place": "Switzerland", "count": 1124, "pct": 0.01616382409617763, "date": "3/13/20"}, {"rank": 9, "place": "United Kingdom", "count": 775, "pct": 0.011144985475567316, "date": "3/13/20"}, {"rank": -1, "place": "All Other", "count": 9586, "pct": 0.13785268486295263, "date": "3/13/20"}], [{"rank": 0, "place": "Italy", "count": 17750, "pct": 0.22858688233248767, "date": "3/14/20"}, {"rank": 1, "place": "China", "count": 12124, "pct": 0.156134499233751, "date": "3/14/20"}, {"rank": 2, "place": "Iran", "count": 9159, "pct": 0.11795083128356364, "date": "3/14/20"}, {"rank": 3, "place": "Korea, South", "count": 7504, "pct": 0.09663751915622465, "date": "3/14/20"}, {"rank": 4, "place": "Spain", "count": 5679, "pct": 0.07313492421218014, "date": "3/14/20"}, {"rank": 5, "place": "Germany", "count": 4530, "pct": 0.05833794799809404, "date": "3/14/20"}, {"rank": 6, "place": "France", "count": 4384, "pct": 0.056457740402570476, "date": "3/14/20"}, {"rank": 7, "place": "US", "count": 2661, "pct": 0.034268715148549275, "date": "3/14/20"}, {"rank": 8, "place": "Switzerland", "count": 1342, "pct": 0.01728245611775766, "date": "3/14/20"}, {"rank": 9, "place": "United Kingdom", "count": 1104, "pct": 0.014217460174369938, "date": "3/14/20"}, {"rank": -1, "place": "All Other", "count": 11414, "pct": 0.14699102394045152, "date": "3/14/20"}], [{"rank": 0, "place": "Italy", "count": 20603, "pct": 0.24246810714117592, "date": "3/15/20"}, {"rank": 1, "place": "China", "count": 10783, "pct": 0.1269006260885939, "date": "3/15/20"}, {"rank": 2, "place": "Iran", "count": 8624, "pct": 0.10149225627265453, "date": "3/15/20"}, {"rank": 3, "place": "Korea, South", "count": 7577, "pct": 0.089170550298922, "date": "3/15/20"}, {"rank": 4, "place": "Spain", "count": 6992, "pct": 0.0822859294826531, "date": "3/15/20"}, {"rank": 5, "place": "Germany", "count": 5738, "pct": 0.06752812691239467, "date": "3/15/20"}, {"rank": 6, "place": "France", "count": 4420, "pct": 0.05201713505625383, "date": "3/15/20"}, {"rank": 7, "place": "US", "count": 3424, "pct": 0.04029562679470885, "date": "3/15/20"}, {"rank": 8, "place": "Switzerland", "count": 2182, "pct": 0.02567904721555336, "date": "3/15/20"}, {"rank": 9, "place": "United Kingdom", "count": 1105, "pct": 0.013004283764063457, "date": "3/15/20"}, {"rank": -1, "place": "All Other", "count": 13524, "pct": 0.1591583109730264, "date": "3/15/20"}], [{"rank": 0, "place": "Italy", "count": 23073, "pct": 0.23956267585891833, "date": "3/16/20"}, {"rank": 1, "place": "China", "count": 9906, "pct": 0.10285215910624734, "date": "3/16/20"}, {"rank": 2, "place": "Iran", "count": 9548, "pct": 0.09913511156334036, "date": "3/16/20"}, {"rank": 3, "place": "Spain", "count": 9070, "pct": 0.09417212629655394, "date": "3/16/20"}, {"rank": 4, "place": "Germany", "count": 7188, "pct": 0.07463166966037814, "date": "3/16/20"}, {"rank": 5, "place": "Korea, South", "count": 7024, "pct": 0.07292888810440958, "date": "3/16/20"}, {"rank": 6, "place": "France", "count": 6508, "pct": 0.06757135589172801, "date": "3/16/20"}, {"rank": 7, "place": "US", "count": 4530, "pct": 0.047034149076448664, "date": "3/16/20"}, {"rank": 8, "place": "Switzerland", "count": 2182, "pct": 0.02265530094587439, "date": "3/16/20"}, {"rank": 9, "place": "United Kingdom", "count": 1474, "pct": 0.015304268374985724, "date": "3/16/20"}, {"rank": -1, "place": "All Other", "count": 15810, "pct": 0.16415229512111554, "date": "3/16/20"}], [{"rank": 0, "place": "Italy", "count": 26062, "pct": 0.24043100823823538, "date": "3/17/20"}, {"rank": 1, "place": "Spain", "count": 10187, "pct": 0.0939786156443444, "date": "3/17/20"}, {"rank": 2, "place": "Iran", "count": 9792, "pct": 0.09033460335618144, "date": "3/17/20"}, {"rank": 3, "place": "Germany", "count": 9166, "pct": 0.08455953578051054, "date": "3/17/20"}, {"rank": 4, "place": "China", "count": 9030, "pct": 0.08330488851167468, "date": "3/17/20"}, {"rank": 5, "place": "France", "count": 7539, "pct": 0.06954989529230514, "date": "3/17/20"}, {"rank": 6, "place": "Korea, South", "count": 6832, "pct": 0.06302757456387169, "date": "3/17/20"}, {"rank": 7, "place": "US", "count": 6296, "pct": 0.05808278826904804, "date": "3/17/20"}, {"rank": 8, "place": "Switzerland", "count": 2669, "pct": 0.024622452650903622, "date": "3/17/20"}, {"rank": 9, "place": "United Kingdom", "count": 1851, "pct": 0.017076118342758562, "date": "3/17/20"}, {"rank": -1, "place": "All Other", "count": 18973, "pct": 0.1750325193501665, "date": "3/17/20"}], [{"rank": 0, "place": "Italy", "count": 28710, "pct": 0.23347157843376434, "date": "3/18/20"}, {"rank": 1, "place": "Spain", "count": 12206, "pct": 0.09925998210945759, "date": "3/18/20"}, {"rank": 2, "place": "Germany", "count": 12194, "pct": 0.09916239733268277, "date": "3/18/20"}, {"rank": 3, "place": "Iran", "count": 10837, "pct": 0.08812718549239652, "date": "3/18/20"}, {"rank": 4, "place": "France", "count": 8945, "pct": 0.0727413190208994, "date": "3/18/20"}, {"rank": 5, "place": "China", "count": 8106, "pct": 0.06591851671139302, "date": "3/18/20"}, {"rank": 6, "place": "US", "count": 7665, "pct": 0.06233227616491827, "date": "3/18/20"}, {"rank": 7, "place": "Korea, South", "count": 6789, "pct": 0.05520858746035619, "date": "3/18/20"}, {"rank": 8, "place": "Switzerland", "count": 2985, "pct": 0.02427421322273725, "date": "3/18/20"}, {"rank": 9, "place": "United Kingdom", "count": 2503, "pct": 0.02035455802228186, "date": "3/18/20"}, {"rank": -1, "place": "All Other", "count": 22030, "pct": 0.1791493860291128, "date": "3/18/20"}], [{"rank": 0, "place": "Italy", "count": 33190, "pct": 0.2242764567157926, "date": "3/19/20"}, {"rank": 1, "place": "Spain", "count": 16026, "pct": 0.10829329603275964, "date": "3/19/20"}, {"rank": 2, "place": "Germany", "count": 15163, "pct": 0.10246170271713056, "date": "3/19/20"}, {"rank": 3, "place": "US", "count": 13477, "pct": 0.0910688100981843, "date": "3/19/20"}, {"rank": 4, "place": "Iran", "count": 11413, "pct": 0.07712163906289066, "date": "3/19/20"}, {"rank": 5, "place": "France", "count": 10692, "pct": 0.0722495894909688, "date": "3/19/20"}, {"rank": 6, "place": "China", "count": 7372, "pct": 0.04981518646908174, "date": "3/19/20"}, {"rank": 7, "place": "Korea, South", "count": 6934, "pct": 0.046855467034266525, "date": "3/19/20"}, {"rank": 8, "place": "Switzerland", "count": 4019, "pct": 0.027157790887037375, "date": "3/19/20"}, {"rank": 9, "place": "United Kingdom", "count": 2511, "pct": 0.016967706622879036, "date": "3/19/20"}, {"rank": -1, "place": "All Other", "count": 27190, "pct": 0.18373235486900877, "date": "3/19/20"}], [{"rank": 0, "place": "Italy", "count": 38549, "pct": 0.22204238210712454, "date": "3/20/20"}, {"rank": 1, "place": "Germany", "count": 19601, "pct": 0.11290183225717264, "date": "3/20/20"}, {"rank": 2, "place": "US", "count": 18856, "pct": 0.10861062951080289, "date": "3/20/20"}, {"rank": 3, "place": "Spain", "count": 17779, "pct": 0.10240710554054755, "date": "3/20/20"}, {"rank": 4, "place": "France", "count": 12264, "pct": 0.07064068521003854, "date": "3/20/20"}, {"rank": 5, "place": "Iran", "count": 11466, "pct": 0.06604420226828946, "date": "3/20/20"}, {"rank": 6, "place": "Korea, South", "count": 7018, "pct": 0.04042370587117176, "date": "3/20/20"}, {"rank": 7, "place": "China", "count": 6731, "pct": 0.03877058481317428, "date": "3/20/20"}, {"rank": 8, "place": "Switzerland", "count": 5225, "pct": 0.030096019261452327, "date": "3/20/20"}, {"rank": 9, "place": "United Kingdom", "count": 3769, "pct": 0.021709453894050493, "date": "3/20/20"}, {"rank": -1, "place": "All Other", "count": 32353, "pct": 0.18635339926617553, "date": "3/20/20"}], [{"rank": 0, "place": "Italy", "count": 42681, "pct": 0.21334952912242816, "date": "3/21/20"}, {"rank": 1, "place": "US", "count": 25182, "pct": 0.1258772719093036, "date": "3/21/20"}, {"rank": 2, "place": "Germany", "count": 21896, "pct": 0.10945154259892428, "date": "3/21/20"}, {"rank": 3, "place": "Spain", "count": 21874, "pct": 0.10934157119149021, "date": "3/21/20"}, {"rank": 4, "place": "France", "count": 13857, "pct": 0.06926699058244856, "date": "3/21/20"}, {"rank": 5, "place": "Iran", "count": 11419, "pct": 0.05708015915861876, "date": "3/21/20"}, {"rank": 6, "place": "Korea, South", "count": 7157, "pct": 0.03577569831843721, "date": "3/21/20"}, {"rank": 7, "place": "Switzerland", "count": 6485, "pct": 0.032416571691360245, "date": "3/21/20"}, {"rank": 8, "place": "China", "count": 6189, "pct": 0.03093695639133825, "date": "3/21/20"}, {"rank": 9, "place": "United Kingdom", "count": 4766, "pct": 0.023823805810489273, "date": "3/21/20"}, {"rank": -1, "place": "All Other", "count": 38546, "pct": 0.19267990322516146, "date": "3/21/20"}], [{"rank": 0, "place": "Italy", "count": 46638, "pct": 0.2085600955196115, "date": "3/22/20"}, {"rank": 1, "place": "US", "count": 32855, "pct": 0.1469240091405471, "date": "3/22/20"}, {"rank": 2, "place": "Germany", "count": 24513, "pct": 0.10961948671624504, "date": "3/22/20"}, {"rank": 3, "place": "Spain", "count": 24421, "pct": 0.10920807265929997, "date": "3/22/20"}, {"rank": 4, "place": "France", "count": 13296, "pct": 0.0594582750124095, "date": "3/22/20"}, {"rank": 5, "place": "Iran", "count": 12022, "pct": 0.053761084702104917, "date": "3/22/20"}, {"rank": 6, "place": "Switzerland", "count": 7016, "pct": 0.03137479373398504, "date": "3/22/20"}, {"rank": 7, "place": "Korea, South", "count": 5884, "pct": 0.02631261207679133, "date": "3/22/20"}, {"rank": 8, "place": "China", "count": 5770, "pct": 0.025802816397533304, "date": "3/22/20"}, {"rank": 9, "place": "United Kingdom", "count": 5392, "pct": 0.024112441250519857, "date": "3/22/20"}, {"rank": -1, "place": "All Other", "count": 45812, "pct": 0.20486631279095247, "date": "3/22/20"}], [{"rank": 0, "place": "Italy", "count": 46638.0, "pct": 0.20911369475444677, "date": "3/23/20"}, {"rank": 1, "place": "US", "count": 32681.0, "pct": 0.14653382774282933, "date": "3/23/20"}, {"rank": 2, "place": "Germany", "count": 24513.0, "pct": 0.10991045927174736, "date": "3/23/20"}, {"rank": 3, "place": "Spain", "count": 24421.0, "pct": 0.10949795316262156, "date": "3/23/20"}, {"rank": 4, "place": "France", "count": 13170.0, "pct": 0.05905114627376954, "date": "3/23/20"}, {"rank": 5, "place": "Iran", "count": 12022.0, "pct": 0.05390378743380846, "date": "3/23/20"}, {"rank": 6, "place": "Switzerland", "count": 7016.0, "pct": 0.03145807458289804, "date": "3/23/20"}, {"rank": 7, "place": "Korea, South", "count": 5884.0, "pct": 0.026382455935828397, "date": "3/23/20"}, {"rank": 8, "place": "United Kingdom", "count": 5392.0, "pct": 0.024176445004416507, "date": "3/23/20"}, {"rank": 9, "place": "China", "count": 5351.0, "pct": 0.02399261076013218, "date": "3/23/20"}, {"rank": -1, "place": "All Other", "count": 45939, "pct": 0.20597954507750182, "date": "3/23/20"}]];
+        
+        
+    drawBump();
+    function drawBump(){
+        var colors = {
+            "Korea, South":"darkred"
+			,"China":"pink"
+			,"US":"blue"
+			,"United Kingdom":"orange"
+			,"France":"lightblue"
+			,"Germany":"yellow"
+			,"Italy":"lightgreen"
+			,"Spain":"purple"
+			,"Switzerland":"violet"
+			,"Iran":"green"
+			,"All Other":"lightgray"
+		};
+
+		var margin, width, height;
+		var svg, tooltip, area, blank;
+		var x, y, h, yAxis, xAxis;
+
+		var data, layers, logScale, numDays;
+		var dataClass = "globalData", prevClass;
+
+		var format = d3.time.format("%m/%d/%y");
+		var nest = d3.nest()
+			.key(function(d) { return d.place; });	
+
+        margin = {top: 20, right: 60, bottom: 40, left: 30};
+        width = 750 - margin.left - margin.right;
+        height = 500 - margin.top - margin.bottom;
+
+		svg = d3.select(".bump-chart").append("svg")
+            .attr("id","bump-svg")
+	    	.attr("width", width + margin.left + margin.right)
+	    	.attr("height", height + margin.top + margin.bottom)
+	    	.append("g")
+	    	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var leftOffset = document.getElementById("bump-svg").getBoundingClientRect().left;
+        
+		// axis
+		x = d3.time.scale()
+			.range([0, width])
+			.clamp(true);
+			
+	  	xAxis = d3.svg.axis()
+			.orient("bottom")
+			.ticks(d3.time.weeks);
+
+	  	svg.append("g")
+			.attr("class", "x-bump axis")
+			.attr("transform", `translate(0,${height-5})`);		
+
+		yAxis = d3.svg.axis()
+			.orient("right") 
+	    	.tickFormat(d3.format("%"));
+
+		svg.append("g")
+	    	.attr("class", "y-bump axis")
+	    	.attr("transform", `translate(${width+10}, 0)`);
+
+	    // clipping paths
+	  	svg.append("defs")
+		    .append("clipPath")
+		    .attr("id","clip-bump")
+		    .append("rect")
+		    .attr("width",width-3)
+		    .attr("height",height-10)
+		    .attr("x",0)
+		    .attr("y",0);
+
+		svg.append("text")
+			.attr("text-anchor", "middle") 
+			.attr("transform", "translate("+ (width + margin.right*0.8) +","+(height/2)+")rotate(90)")  
+			.text("% Current Outstanding Cases");
+
+	  	svg.append("text")
+			.attr("text-anchor", "middle")  
+			.attr("transform", "translate("+ (width/2) +","+(height + 40)+")")  
+			.text("Date");
+
+	  	area = d3.svg.area()
+	      	.interpolate("basis")
+	      	.x(d => x(d.date));
+	    blank = d3.svg.area()
+	      	.interpolate("basis")
+	      	.x(d => x(d.date));
+
+		globalTuple = prepareData(topGlobalData);
+		data = globalTuple.data;
+		numDays = topGlobalData.length;
+		layers = globalTuple.layers;
+		logScale = false;
+
+		drawScale();
+	  	draw();
+
+	  	this.toggleBumpScale = function (){
+	    	logScale = !logScale;
+	    	drawScale();
+	    }
+	    function drawScale(){
+		   	area.y0(d => {return y(d.y0)})
+	      		.y1(d => {return y(d.y0 + d.y)});
+	      	blank.y0(d => height)
+	      		.y1(d => height);
+
+            y = d3.scale.linear()
+                .range([height-10, 0])
+                .domain([0,1]);
+		    yAxis.scale(y);
+
+		    x.domain(d3.extent(data, d => d.date));
+		    xAxis.scale(x);
+
+		    svg.selectAll(".y-bump")
+				.transition("axis")
+				.duration(1000)
+				.call(yAxis);
+				
+		    svg.selectAll(".x-bump")
+				.transition("axis")
+				.duration(1000)
+				.call(xAxis);
+
+		    svg.selectAll(".layer-bump")
+		    	.transition("axis")
+				.duration(1000)
+				.attr("d", d => area(d.values))	
+	    }
+		function draw(){
+		    var countries = svg.selectAll(`.${dataClass}`)
+				.data(layers);
+                
+		    countries.enter()
+		    	.append("path")
+		    	.attr("d", d => blank(d.values))
+	    		.on("mousemove", d => updateBumpTooltip(d))
+	    		.on("mouseout", function(d, i) {
+	      			tooltip.style("visibility", "hidden");
+	  			})
+		    	.transition("load")
+				.duration(1000)
+		    	.attr("d", d => blank(d.pct))
+				.attr("class", `layer-bump ${dataClass}`)
+				.attr("d", d => area(d.values))
+				.attr("fill", (d,i) => colors[d.key]) //d => {return `url(#${d.gradient})`})
+				.attr("stroke","black")
+				.attr("opacity", 1);
+	  	}	
+	  	function updateBumpTooltip(d){
+            /*console.log("updateBumpTooltip")
+            var bounding = event.target.getBoundingClientRect();
+            var date = roundDate(x.invert(event.clientX - leftOffset - margin.left));
+            console.log(date,x.invert(event.clientX - leftOffset - margin.left),event.clientX - leftOffset - margin.left)
+	  		
+	  		d.values.forEach(e => {
+                if(e.date.getTime()==date.getTime()){
+                    console.log(e.date)
+                    val = e;
+                }
+            })*/
+            var val = d.values[d.values.length-1];
+            console.log(val.date)
+
+			current = d3.format(",")(val.count)
+			pct = d3.format("%")(val.pct)
+			day = d3.time.format("%m/%d/%y")(val.date)
+
+			n = d.key;
+			if(n == "Korea, South") n = "South Korea";
+
+		    tooltip = svg.selectAll(".bump-tooltip")
+				.data([n,day,`current cases: ${current}`,`percent: ${pct}`]);
+			tooltip.style("visibility", "visible")
+				.text(d => d);
+		    tooltip.enter()
+		    	.append("text")
+		    	.attr("class", "bump-tooltip")
+		    	.attr("x","10")
+		    	.attr("y",(d,i) => `${2+i}em`)
+		    	.attr("font-weight", (d,i) => i == 0 ? "bold" : "normal")
+		    	.text(d => d);
+		}
+
+	  	function prepareData(data){
+	  		//fill in zeros
+	  		var ld = data.length;
+	  		for(var i = 0; i < ld; i++){
+	  			var b = data[i].map(x => x.place);
+	  			var lb = b.length; 
+	  			if(i-1 >= 0) var a = data[i-1].map(x => x.place);
+	  			if(i+1 < ld) var c = data[i+1].map(x => x.place);
+	  			for(var j = 0; j < lb; j++){
+	  				if(i-1 >= 0){
+	  					if(a.indexOf(b[j]) == -1){
+		  					data[i-1].push({"rank":11,"place":data[i][j].place,"count":0,"pct":0,"date":data[i][j].date});
+	  					}
+	  				}
+	  				if(i+1 < ld){
+	  					if(c.indexOf(b[j]) == -1){
+		  					data[i+1].push({"rank":11,"place":data[i][j].place,"count":0,"pct":0,"date":data[i][j].date});
+	  					}
+					}
+	  			}
+	  		}
+
+			//find a y and y0 for each data point
+			var ld = data.length;
+			var flat = [];
+			for(var i = 0; i < ld; i++){
+				var sum = 0;
+				var padding = 0;
+				var lid = data[i].length;
+				while(lid--){
+					data[i][lid]["date"] = format.parse(data[i][lid]["date"]);
+					data[i][lid]["y0"] = sum;
+					data[i][lid]["y"] = data[i][lid]["pct"];
+					flat.push(data[i][lid])
+					sum += data[i][lid]["pct"] + padding;
+				}
+			}
+
+			var layers = nest.entries(flat);
+            layers = layers.sort(
+                (a,b) => b.values[b.values.length-1].rank - a.values[a.values.length-1].rank
+            );
+			return {data:flat, layers:layers}
+		}  	
+
+		function dateArray([start,end]){
+			var year = start.getFullYear(),
+			    month = start.getMonth(),
+			    day = start.getDate(),
+			    dates = [start];
+
+			while(dates[dates.length-1] < end) {
+			  dates.push(new Date(year, month, ++day));
+			}
+
+			return dates;
+		}
+
+		function roundDate(timeStamp){
+		    var d = new Date(timeStamp);
+				d.setHours(0);
+				d.setMinutes(0);
+				d.setSeconds(0);
+				d.setMilliseconds(0);
+			return d;
+		}
+    }
+
+    </script>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Visualization by <a href="https://www.linkedin.com/in/adrian-turcato-9a543185/">Adrian Turcato</a><sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup></p>
+<div class="footnotes">
+<hr>
+<ol><li id="fn-1"><p>Source: <a href="https://systems.jhu.edu/research/public-health/ncov/">"COVID-19 Data Repository by Johns Hopkins CSSE"</a> <a href="https://github.com/CSSEGISandData/COVID-19">GitHub repository</a>.<a href="#fnref-1" class="footnote">&#8617;</a></p></li>
 </ol>
+</div>
 
 </div>
 </div>
