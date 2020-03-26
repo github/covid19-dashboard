@@ -33,7 +33,7 @@ def get_template(path):
 def get_frame(name):
     url = (
         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/'
-        f'csse_covid_19_time_series/time_series_19-covid-{name}.csv')
+        f'csse_covid_19_time_series/time_series_covid19_{name}_global.csv')
     df = pd.read_csv(url, encoding='utf-8')
     # rename countries
     df['Country/Region'] = df['Country/Region'].replace(mapping['replace.country'])
@@ -53,26 +53,34 @@ def get_dates(df):
 
 def gen_data(region='Country/Region', filter_frame=lambda x: x, add_table=[], kpis_info=[]):
     col_region = region
-    df = get_frame('Confirmed')
+    df = get_frame('confirmed')
     dft_cases = df.pipe(filter_frame)
-    dft_deaths = get_frame('Deaths').pipe(filter_frame)
-    dft_recovered = get_frame('Recovered').pipe(filter_frame)
+    dft_deaths = get_frame('deaths').pipe(filter_frame)
+    dft_recovered = get_frame('recovered').pipe(filter_frame)
     latest_date_idx, dt_cols = get_dates(df)
     dt_today = dt_cols[latest_date_idx]
     dt_5ago = dt_cols[latest_date_idx - 5]
 
     dfc_cases = dft_cases.groupby(col_region)[dt_today].sum()
     dfc_deaths = dft_deaths.groupby(col_region)[dt_today].sum()
-    dfc_recovered = dft_recovered.groupby(col_region)[dt_today].sum()
+    dfc_recovered = dft_recovered.groupby(col_region)[dft_recovered.columns[-1]].sum()
     dfp_cases = dft_cases.groupby(col_region)[dt_5ago].sum()
     dfp_deaths = dft_deaths.groupby(col_region)[dt_5ago].sum()
-    dfp_recovered = dft_recovered.groupby(col_region)[dt_5ago].sum()
+    dfp_recovered = dft_recovered.groupby(col_region)[dft_recovered.columns[-6]].sum()
+
+#     dfc_cases = dft_cases.groupby(col_region)[dt_today].sum()
+#     dfc_deaths = dft_deaths.groupby(col_region)[dt_today].sum()
+#     dfc_recovered = dft_recovered.groupby(col_region)[dt_today].sum()
+#     dfp_cases = dft_cases.groupby(col_region)[dt_5ago].sum()
+#     dfp_deaths = dft_deaths.groupby(col_region)[dt_5ago].sum()
+#     dfp_recovered = dft_recovered.groupby(col_region)[dt_5ago].sum()
 
     df_table = (pd.DataFrame(dict(
         Cases=dfc_cases, Deaths=dfc_deaths, Recovered=dfc_recovered,
         PCases=dfp_cases, PDeaths=dfp_deaths, PRecovered=dfp_recovered))
         .sort_values(by=['Cases', 'Deaths'], ascending=[False, False])
         .reset_index())
+    df_table.rename(columns={'index': 'Country/Region'}, inplace=True)
     for c in 'Cases, Deaths, Recovered'.split(', '):
         df_table[f'{c} (+)'] = (df_table[c] - df_table[f'P{c}']).clip(0)  # DATABUG
     df_table['Fatality Rate'] = (100 * df_table['Deaths'] / df_table['Cases']).round(1)
@@ -83,6 +91,11 @@ def gen_data(region='Country/Region', filter_frame=lambda x: x, add_table=[], kp
     def kpi_of(name, prefix, pipe):
         df_f = df_table.pipe(pipe or (lambda x: x[x[col_region].eq(name)]))
         return df_f[metrics].sum().add_prefix(prefix)
+
+    #delete problematic countries from table
+    df_table = df_table[df_table['Country/Region'] != 'Cape Verde']
+    df_table = df_table[df_table['Country/Region'] != 'Cruise Ship']
+    df_table = df_table[df_table['Country/Region'] != 'Kosovo']
 
     metrics = ['Cases', 'Deaths', 'Recovered', 'Cases (+)', 'Deaths (+)', 'Recovered (+)']
     s_kpis = pd.concat([
