@@ -71,6 +71,7 @@ jobs:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
           var err = process.env.ERROR_STRING;
+          var run_id = process.env.RUN_ID;
           github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
