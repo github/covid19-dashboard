@@ -153,7 +153,7 @@ jobs:
         RUN_ID: ${{ github.run_id	 }}
 
     - name: Comment on and close issue if successful
-      if: github.event_name == 'issues' 
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'false'
       uses: actions/github-script@0.6.0
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
@@ -170,5 +170,3 @@ jobs:
             repo: context.repo.repo,
             state: 'closed'
           })
-
-
