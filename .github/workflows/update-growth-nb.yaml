@@ -117,6 +117,7 @@ jobs:
         publish_dir: ./_site
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true
 
     - name: Comment on issue if failure in updating notebooks
       if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'true'
