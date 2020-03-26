@@ -198,6 +198,15 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "skullface",
+      "name": "skullface",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/221550?v=4",
+      "profile": "http://jessicapaoli.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
