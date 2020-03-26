@@ -75,7 +75,7 @@ jobs:
           github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: "Error updating notebooks"
+            title: "Error updating notebooks",
             body: `These are the notebooks that failed to update properly: \n${err}\n\n See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
           })
       env:
