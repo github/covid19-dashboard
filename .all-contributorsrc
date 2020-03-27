@@ -207,6 +207,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "vantuyls",
+      "name": "Steve Van Tuyl",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9534576?v=4",
+      "profile": "https://github.com/vantuyls",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
