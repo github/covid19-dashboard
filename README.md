@@ -7,7 +7,7 @@
 
 ## https://covid19dashboards.com
 
-#### This project was built with [fastpages](https://github.com/fastai/fastpages)
+## This project was built with [fastpages](https://github.com/fastai/fastpages)
 
 ### Background
 
