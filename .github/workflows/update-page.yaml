@@ -41,3 +41,4 @@ jobs:
         publish_dir: ./_site
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true
