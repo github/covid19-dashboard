@@ -1,83 +1,93 @@
-name: Update Notebooks
+name: Update Notebooks And Refresh Page
 on:
   schedule:
-    - cron:  '0 */12 * * *'
-  push:
-    branches:
-      - master
+    - cron:  '0 */4 * * *'
+  issues:
+    types: [opened]
 
 jobs:
   update-notebooks:
+    if: github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')
     runs-on: ubuntu-latest
     steps:
   
     - name: See event name
       run: |
-        echo "${EVENT}"
+        echo "title ${title}"
+        echo "actor ${actor}"
+        echo "event_name ${event_name}"
       env:
-        EVENT: ${{ github.event_name }}
-    
+        title: ${{ github.event.issue.title }}
+        actor: ${{ github.actor }}
+        event_name: ${{ github.event_name }}
+
+
+    - name: Comment With Link To Workflow On Issue
+      if: github.event_name == 'issues'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Automated refresh of notebooks instantiated with run id [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}).`
+          })
+      env:
+        RUN_ID: ${{ github.run_id	 }}
+
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      if: github.event_name == 'schedule'
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.6
-
     - name: Setup Node
-      if: github.event_name == 'schedule'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
       
-    - name: install plotly js dependencies
-      if: github.event_name == 'schedule'
-      run: npm install -g electron@6.1.4 orca
-
-    - name: install chromedriver for saving Altair
-      if: github.event_name == 'schedule'
-      run: sudo apt-get -y --force-yes install chromium-chromedriver
-
-    - name: run notebooks
-      if: github.event_name == 'schedule'
+    - name: install dependencies
       run: |
-        pip install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
+        sudo apt-get -y --force-yes install chromium-chromedriver
+        npm install -g electron@6.1.4 orca
+        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
-        cd _notebooks
-        ls *.ipynb
-        papermill --kernel python3 2020-03-14-covid19_growth.ipynb 2020-03-14-covid19_growth.ipynb
-        papermill --kernel python3 2020-03-13-EDA.ipynb 2020-03-13-EDA.ipynb 
-        papermill --kernel python3 2020-03-12-covid19-us-states.ipynb 2020-03-12-covid19-us-states.ipynb
-        papermill --kernel python3 2020-03-13-COVID19-Comparitive-Analysis.ipynb 2020-03-13-COVID19-Comparitive-Analysis.ipynb
-        papermill --kernel python3 2020-03-15-us-growth-by-state-map.ipynb 2020-03-15-us-growth-by-state-map.ipynb
-        papermill --kernel python3 2020-03-17-covid19-compare-country-trajectories.ipynb 2020-03-17-covid19-compare-country-trajectories.ipynb
-        papermill --kernel python3 2020-03-17-covid19-compare-country-death-trajectories.ipynb 2020-03-17-covid19-compare-country-death-trajectories.ipynb
-        papermill --kernel python3 2020-03-21-covid19-overview.ipynb 2020-03-21-covid19-overview.ipynb
-        papermill --kernel python3 2020-03-21-covid19-overview-us.ipynb 2020-03-21-covid19-overview-us.ipynb
-        papermill --kernel python3 2020-03-21-covid19-overview-europe.ipynb 2020-03-21-covid19-overview-europe.ipynb
-        papermill --kernel python3 2020-03-19-cases-and-deaths-per-million.ipynb 2020-03-19-cases-and-deaths-per-million.ipynb
-        papermill --kernel python3 2020-03-19-estimating_infected.ipynb 2020-03-19-estimating_infected.ipynb
 
-    - name: run notebooks - modeling
-      if: github.event_name == 'schedule'
+    - name: update notebooks
+      id: update_nb
       run: |
-        sudo chmod -R 777 .
-        cd _notebooks
-        papermill --kernel python3 2020-03-16-covid19_growth_bayes.ipynb 2020-03-16-covid19_growth_bayes.ipynb
-        papermill --kernel python3 2020-03-11-Mortality_Rate.ipynb 2020-03-11-Mortality_Rate.ipynb
-        papermill --kernel python3 2020-03-18-case-count-estimation-us-states.ipynb 2020-03-18-case-count-estimation-us-states.ipynb
+        ./_action_files/run_notebooks.sh
 
-    - name: save files
-      if: github.event_name == 'schedule'
+    - name: Create an issue if notebook update failure occurs
+      if: github.event_name == 'schedule' && steps.update_nb.outputs.error_bool == 'true'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var err = process.env.ERROR_STRING;
+          var run_id = process.env.RUN_ID;
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "Error updating notebooks",
+            body: `These are the notebooks that failed to update properly: \n${err}\n\n See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
+          })
+      env:
+        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+        RUN_ID: ${{ github.run_id	 }}
+
+    - name: save notebooks & images
       run: |
-        git config --global user.email "hamelsmu@users.noreply.github.com"
-        git config --global user.name "hamelsmu"
-        git add _notebooks/
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         git add images/
-        git commit -m'updated JHU notebooks'
+        git commit -m'[bot] refresh notebooks'
         git push -f
 
     - name: convert notebooks and word docs to posts
@@ -96,14 +106,68 @@ jobs:
         JEKYLL_ENV: 'production'
         
     - name: copy CNAME file into _site if CNAME exists
-      if: github.event_name != 'pull_request'
       run: |
         sudo chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
         
     - name: Deploy
-      if: github.event_name != 'pull_request'
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
         publish_dir: ./_site
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true
+
+    - name: Comment on issue if failure in updating notebooks
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'true'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          var err = process.env.ERROR_STRING;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An error occurred when attempting to refresh one or more of the notebooks in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}). These are the notebooks that failed to update properly: \n${err}`
+          })
+      env:
+        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+        RUN_ID: ${{ github.run_id	 }}
+  
+    - name: Comment on issue if failure in workflow
+      if: failure() && github.event_name == 'issues'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An workflow error occurred in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) when attempting to refresh the notebooks.`
+          })
+      env:
+        RUN_ID: ${{ github.run_id	 }}
+
+    - name: Comment on and close issue if successful
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'false'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'All notebooks updated successfully.'
+          })
+          github.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed'
+          })

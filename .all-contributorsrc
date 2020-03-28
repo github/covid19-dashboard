@@ -152,7 +152,7 @@
       "contributions": [
         "tool",
         "ideas"
-       ]
+      ]
     },
     {
       "login": "omoju",
@@ -161,6 +161,78 @@
       "profile": "http://www.linkedin.com/in/omojumiller",
       "contributions": [
         "projectManagement"
+      ]
+    },
+    {
+      "login": "vladpke",
+      "name": "Vlad Stan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1569786?v=4",
+      "profile": "https://github.com/vladpke",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "adrianturcato",
+      "name": "adrianturcato",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/9288755?v=4",
+      "profile": "https://github.com/adrianturcato",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "zachmayer",
+      "name": "Zach Mayer",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/581590?v=4",
+      "profile": "https://www.datacamp.com/courses/advanced-deep-learning-with-keras-in-python",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "javaldro",
+      "name": "Jared Valdron",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31542321?v=4",
+      "profile": "https://github.com/javaldro",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "skullface",
+      "name": "skullface",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/221550?v=4",
+      "profile": "http://jessicapaoli.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "vantuyls",
+      "name": "Steve Van Tuyl",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9534576?v=4",
+      "profile": "https://github.com/vantuyls",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "zaxtax",
+      "name": "zaxtax",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8529?v=4",
+      "profile": "https://www.zinkov.com",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "paras-jain",
+      "name": "Paras Jain",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/57864667?v=4",
+      "profile": "https://github.com/paras-jain",
+      "contributions": [
+        "content"
       ]
     }
   ],
