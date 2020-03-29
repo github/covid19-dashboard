@@ -3,7 +3,7 @@ import numpy as np
 
 def load_individual_timeseries(name):
     base_url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series'
-    url = f'{base_url}/time_series_19-covid-{name}.csv'
+    url = f'{base_url}/time_series_covid19_{name}_global.csv'
     df = pd.read_csv(url, 
                      index_col=['Country/Region', 'Province/State', 'Lat', 'Long'])
     df['type'] = name.lower()
@@ -33,7 +33,7 @@ def load_individual_timeseries(name):
     return df
 
 def load_data(drop_states=False, p_crit=.05, filter_n_days_100=None):
-    df = load_individual_timeseries('Confirmed')
+    df = load_individual_timeseries('confirmed')
     df = df.rename(columns={'cases': 'confirmed'})
     if drop_states:
         # Drop states for simplicity
@@ -56,17 +56,17 @@ def load_data(drop_states=False, p_crit=.05, filter_n_days_100=None):
                           len(df.loc[(df.country == country) & (df.confirmed >= 100)]))
 
     # Add recovered cases
-    df_recovered = load_individual_timeseries('Recovered')
-    df_r = df_recovered.set_index(['country', 'state'], append=True)[['cases']]
-    df_r.columns = ['recovered']
+#     df_recovered = load_individual_timeseries('Recovered')
+#     df_r = df_recovered.set_index(['country', 'state'], append=True)[['cases']]
+#     df_r.columns = ['recovered']
 
     # Add deaths
-    df_deaths = load_individual_timeseries('Deaths')
+    df_deaths = load_individual_timeseries('deaths')
     df_d = df_deaths.set_index(['country', 'state'], append=True)[['cases']]
     df_d.columns = ['deaths']
 
     df = (df.set_index(['country', 'state'], append=True)
-            .join(df_r)
+#             .join(df_r)
             .join(df_d)
             .reset_index(['country', 'state'])
     )

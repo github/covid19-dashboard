@@ -1,26 +1,43 @@
-name: Update Notebooks
+name: Update Notebooks And Refresh Page
 on:
   schedule:
-    - cron:  '0 */6 * * *'
+    - cron:  '0 */4 * * *'
   issues:
     types: [opened]
 
-
 jobs:
   update-notebooks:
-    if: |
-      github.event_name == 'schedule' || 
-      ((github.event.issue.title == '[dashboard] Refresh Notebooks')  && github.actor == "hamelsmu" ))
-
+    if: github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')
     runs-on: ubuntu-latest
     steps:
   
     - name: See event name
       run: |
-        echo "${EVENT}"
+        echo "title ${title}"
+        echo "actor ${actor}"
+        echo "event_name ${event_name}"
       env:
-        EVENT: ${{ github.event_name }}
-    
+        title: ${{ github.event.issue.title }}
+        actor: ${{ github.actor }}
+        event_name: ${{ github.event_name }}
+
+
+    - name: Comment With Link To Workflow On Issue
+      if: github.event_name == 'issues'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Automated refresh of notebooks instantiated with run id [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}).`
+          })
+      env:
+        RUN_ID: ${{ github.run_id	 }}
+
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
@@ -30,7 +47,6 @@ jobs:
         node-version: '10.x'
 
     - name: Set up Python
-      if: github.event_name == 'schedule'
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
@@ -49,19 +65,22 @@ jobs:
         ./_action_files/run_notebooks.sh
 
     - name: Create an issue if notebook update failure occurs
+      if: github.event_name == 'schedule' && steps.update_nb.outputs.error_bool == 'true'
       uses: actions/github-script@0.6.0
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
           var err = process.env.ERROR_STRING;
+          var run_id = process.env.RUN_ID;
           github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: "Error updating notebooks"
-            body: `These are the notebooks that failed to update properly: \n${err}\n\n See the Actions tab for more details.`
+            title: "Error updating notebooks",
+            body: `These are the notebooks that failed to update properly: \n${err}\n\n See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
           })
       env:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+        RUN_ID: ${{ github.run_id	 }}
 
     - name: save notebooks & images
       run: |
@@ -98,3 +117,57 @@ jobs:
         publish_dir: ./_site
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true
+
+    - name: Comment on issue if failure in updating notebooks
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'true'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          var err = process.env.ERROR_STRING;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An error occurred when attempting to refresh one or more of the notebooks in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}). These are the notebooks that failed to update properly: \n${err}`
+          })
+      env:
+        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
+        RUN_ID: ${{ github.run_id	 }}
+  
+    - name: Comment on issue if failure in workflow
+      if: failure() && github.event_name == 'issues'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var run_id = process.env.RUN_ID;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `An workflow error occurred in run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) when attempting to refresh the notebooks.`
+          })
+      env:
+        RUN_ID: ${{ github.run_id	 }}
+
+    - name: Comment on and close issue if successful
+      if: github.event_name == 'issues' && steps.update_nb.outputs.error_bool == 'false'
+      uses: actions/github-script@0.6.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'All notebooks updated successfully.'
+          })
+          github.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed'
+          })
