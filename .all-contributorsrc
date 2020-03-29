@@ -169,7 +169,9 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/1569786?v=4",
       "profile": "https://github.com/vladpke",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "code",
+        "content"
       ]
     },
     {
@@ -213,6 +215,24 @@
       "name": "Steve Van Tuyl",
       "avatar_url": "https://avatars2.githubusercontent.com/u/9534576?v=4",
       "profile": "https://github.com/vantuyls",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "zaxtax",
+      "name": "zaxtax",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8529?v=4",
+      "profile": "https://www.zinkov.com",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "paras-jain",
+      "name": "Paras Jain",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/57864667?v=4",
+      "profile": "https://github.com/paras-jain",
       "contributions": [
         "content"
       ]
