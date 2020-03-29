@@ -103,7 +103,7 @@ layout: notebook
         var usaLayers, globalLayers, euLayers;
         var dataClass, prevClass;
 
-        margin = {top: 20, right: 60, bottom: 100, left: 30};
+        margin = {top: 20, right: 70, bottom: 100, left: 30};
         width = 750 - margin.left - margin.right;
         height = 550 - margin.top - margin.bottom;
 
@@ -145,14 +145,14 @@ layout: notebook
 
         svg.append("g")
             .attr("class", "y axis")
-            .attr("transform", "translate(" + width + ", 0)");
+            .attr("transform", `translate(${width + 10}, 0)`);
 
         // clipping paths
         svg.append("defs")
             .append("clipPath")
             .attr("id","clip")
             .append("rect")
-            .attr("width",width-3)
+            .attr("width",width)
             .attr("height",height-10)
             .attr("x",0)
             .attr("y",0);
@@ -710,8 +710,8 @@ layout: notebook
 		    .append("clipPath")
 		    .attr("id","clip-bump")
 		    .append("rect")
-		    .attr("width",width-3)
-		    .attr("height",height-10)
+		    .attr("width", width)
+		    .attr("height", height-10)
 		    .attr("x",0)
 		    .attr("y",0);
 
