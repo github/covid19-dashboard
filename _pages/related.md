@@ -21,6 +21,7 @@ This website contains visualizations and analysis built from data sources that a
 - [Folding@Home Dataset](https://github.com/FoldingAtHome/coronavirus):  A dataset that can assist researchers simulating potentially druggable protein targets.
 - [Temporal variation in transmission dataset](https://github.com/cmmid/CovidGlobalNow): data that can be used to identify changes in the reproduction number, rate of spread, and doubling time during the course of the COVID-19 outbreak whilst accounting for potential biases due to delays in case reporting.
 - [New York Times Dataset](https://github.com/nytimes/covid-19-data): Contains state-level and county-level data based on reports from state and local health agencies. Certain geographical exceptions are present which are mentioned therewith.
+- [Models of Infectious Disease Agent Study (MIDAS) Network](https://github.com/midas-network/COVID-19) has listed  computable information (in CSV format) relevant for modeling of the COVID-19 outbreak.
 
 ## Articles
 
