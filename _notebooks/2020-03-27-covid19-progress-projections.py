@@ -23,10 +23,11 @@
 # - author: artdgn
 # - image: images/covid-progress-projections.png
 # - permalink: /covid-progress-projections/
+# - toc: true
 # - hide: false
 # -
 
-# ## What is this about:
+# ## What is this about?
 # 1. **How long will it take until substantial percentages of immunity (to start resuming normal life)?**
 #
 #   *Assuming recovery implies immunity, assuming current infection rates, assuming no globally available vaccine or treatment in near future.*
@@ -35,7 +36,7 @@
 #
 #   *Assuming that the bottleneck is the need for ICU beds, and assuming current infection rates.*
 #   
-# #### Assumption of current infection rates is not to say that they won't be reduced, but to understand the implications of not reducing them. 
+# > Note: Assumption of current infection rates is not to say that they won't be reduced, but to understand the implications of not reducing them. 
 
 # + papermill={"duration": 0.330834, "end_time": "2020-03-27T06:31:16.261108", "exception": false, "start_time": "2020-03-27T06:31:15.930274", "status": "completed"} tags=[]
 #hide
@@ -47,7 +48,7 @@ df = helper.filter_df(helper.table_with_projections())
 df.columns
 # -
 
-# ## Top 20 by estimated immunisation progress: 
+# ## Top 20 by estimated immunisation progress 
 # - "*Immune*" here means "not susceptible" from [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model): previously infected (recovered / dead / actively ill). This assumes that recovery means immunity (details at the bottom). 
 # - Estimation for current case numbers is done from deaths (details at the bottom).
 # - Growth rate is estimated from last 5 days data by weighted average of daily case growth rates.
@@ -77,7 +78,7 @@ df_progress_bars.sort_values('Cases.new.est', ascending=False)\
     .set_precision(2).format('<b>{:.1%}</b>', subset=list(rename_cols.values()))
 
 
-# ## Top 20 by estimated need for ICU beds:
+# ## Top 20 by estimated need for ICU beds
 # - ICU need is estimated as 6% of active cases.
 # - Actively sick ratios are taken from the SIR model (which is initialised with case numbers estimated from reported deaths, and estimated growth rate from last 5 days).
 
@@ -106,7 +107,7 @@ df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
     .format('<b>{:.2f}</b>', subset=icu_cols)\
     .set_precision(2)
 
-# ## Full table with more details:
+# ## Full table with more details
 #  - Contains reported data, estimations, projections, and numbers relative to population.
 #  - This is a busy table in order to present as many stats as possible for each country for people to be able to inspect their counties of interest in maximum amount detail (without running the notebook).
 #  - Sorted by projected need for ICU beds per 100k in 14 days. 
@@ -156,7 +157,7 @@ df.sort_values('needICU.per100k.+14d', ascending=False)\
     .style.set_na_rep("-").set_properties(**{})
 # -
 
-# ### Assumptions and references:
+# ## Assumptions and references
 # - I'm not an epidemiologist. This is an attempt to understand what's happening, and what the future looks like if current trends remain unchanged.
 # - Everything is approximated and depends heavily on underlying assumptions.
 # - Immunisation:
@@ -175,12 +176,9 @@ df.sort_values('needICU.per100k.+14d', ascending=False)\
 #     - This is both pessimistic - because real ICU rate may in reality be lower, due to testing biases, and especially in "younger" populations), and optimistic - because active cases which are on ICU take longer (so need the ICUs for longer).
 #     - [Some numbers](https://www.forbes.com/sites/niallmccarthy/2020/03/12/the-countries-with-the-most-critical-care-beds-per-capita-infographic/) on actual capacity of ICUs per 100k (didn't find a full dataset for a lot of countries yet).
 
-# ### Examples of SIR model plots:
+# ### Examples of SIR model plots
 # - The purpose is to demonstrate the calculations.
-# - For countries that ranked highest in:
-#   - Estimated new cases.
-#   - Projected need for ICU in 14 days.
-#   - Projected immunisation percentage in 14 days.
+# - For countries that ranked highest in: estimated new cases, projected need for ICU in 14 days, projected immunisation percentage in 14 days.
 
 #hide_input
 sir_plot_countries = df[['needICU.per100k.+14d', 
