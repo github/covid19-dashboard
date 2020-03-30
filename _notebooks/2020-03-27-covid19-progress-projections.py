@@ -28,13 +28,13 @@
 # -
 
 # ## What is this about?
-# 1. **How long will it take until substantial percentages of immunity (to start resuming normal life)?**
-#
-#   *Assuming recovery implies immunity, assuming current infection rates, assuming no globally available vaccine or treatment in near future.*
-#
-# 2. **How bad is the impending medical crisis in different countries?**
+# 1. **How bad is the impending medical crisis in different countries?**
 #
 #   *Assuming that the bottleneck is the need for ICU beds, and assuming current infection rates.*
+#
+# 2. **How long will it take until substantial percentages of immunity (to start resuming normal life)?**
+#
+#   *Assuming recovery implies immunity, assuming current infection rates, assuming no globally available vaccine or treatment in near future.*
 #   
 # > Note: Assumption of current infection rates is not to say that they won't be reduced, but to understand the implications of not reducing them. 
 
@@ -48,18 +48,49 @@ df = helper.filter_df(helper.table_with_projections())
 df.columns
 # -
 
-# ## Top 20 by estimated immunisation progress 
-# - "*Immune*" here means "not susceptible" from [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model): previously infected (recovered / dead / actively ill). This assumes that recovery means immunity (details at the bottom). 
+# ## Top 20 by estimated need for ICU beds
+# - ICU need is estimated as 6% of active cases.
 # - Estimation for current case numbers is done from deaths (details at the bottom).
 # - Growth rate is estimated from last 5 days data by weighted average of daily case growth rates.
+# - Actively sick ratios are taken from the SIR model (which is initialised with case numbers estimated from reported deaths, and estimated growth rate from last 5 days).
+# > Note: Projected figures are speculative due to assuming unchanging infection rate. In reality infection rates will go down with stricter isolation policies.
+
+#hide_input
+rename_cols = {'needICU.per100k': 'Estimated <br> Current need <br> per 100k',
+               'needICU.per100k.+14d': 'Projected <br> In 14 days', 
+               'needICU.per100k.+30d': 'Projected <br> In 30 days',               
+               'Deaths.new.per100k': 'New deaths <br> per 100k <br> in 5 days',
+               'growth_rate': 'Estimated <br> case growth <br> daily rate',
+               'testing_bias': 'Estimated <br> testing bias <br> from deaths',
+              }
+icu_cols = list(rename_cols.values())[:3]
+df_icu_bars = df.rename(rename_cols, axis=1)
+df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
+[rename_cols.values()]\
+.head(20).style\
+    .bar(subset=icu_cols[0], color='#f43d64', vmin=0, vmax=10)\
+    .bar(subset=icu_cols[1], color='#ef8ba0', vmin=0, vmax=10)\
+    .bar(subset=icu_cols[2], color='#e0c5cb', vmin=0, vmax=10)\
+    .bar(subset=[rename_cols['Deaths.new.per100k']], color='#340849', vmin=0, vmax=10)\
+    .applymap(lambda _: 'color: red', subset=[rename_cols['Deaths.new.per100k']])\
+    .bar(subset=[rename_cols['growth_rate']], color='#d65f5f', vmin=0, vmax=1)\
+    .bar(subset=[rename_cols['testing_bias']], color='#fcc374', vmin=1, vmax=20)\
+    .format('<b>{:.1%}</b>', subset=[rename_cols['growth_rate']])\
+    .format('<b>{:.1f}</b>', subset=[rename_cols['testing_bias']])\
+    .format('<b>{:.2}</b>', subset=[rename_cols['Deaths.new.per100k']])\
+    .format('<b>{:.2f}</b>', subset=icu_cols)\
+    .set_precision(2)
+
+# ## Top 20 by estimated immunisation progress 
+# - "*Immune*" here means "not susceptible" from [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model): previously infected (recovered / dead / actively ill). This assumes that recovery means immunity (details at the bottom). 
 # - Sorted by number of estimated new cases.
 #
 
 #hide_input
-rename_cols = {'immune_ratio.est': 'Estimated <br> Immune currently', 
+rename_cols = {'immune_ratio': 'Reported <br> Immune <br> currently', 
+               'immune_ratio.est': 'Estimated <br> Immune <br> currently', 
                'immune_ratio.est.+14d': 'Projected <br> In 14 days', 
                'immune_ratio.est.+30d': 'Projected <br> In 30 days',
-               'immune_ratio.est.+60d': 'Projected <br> In 60 days',
                'Fatality Rate': 'Reported <br> fatality <br> percentage',
                'growth_rate': 'Estimated <br> case growth <br> daily rate',
               }
@@ -78,41 +109,13 @@ df_progress_bars.sort_values('Cases.new.est', ascending=False)\
     .set_precision(2).format('<b>{:.1%}</b>', subset=list(rename_cols.values()))
 
 
-# ## Top 20 by estimated need for ICU beds
-# - ICU need is estimated as 6% of active cases.
-# - Actively sick ratios are taken from the SIR model (which is initialised with case numbers estimated from reported deaths, and estimated growth rate from last 5 days).
-
-#hide_input
-rename_cols = {'needICU.per100k': 'Estimated <br> Current need <br> per 100k', 
-               'needICU.per100k.+14d': 'Projected <br> In 14 days', 
-               'needICU.per100k.+30d': 'Projected <br> In 30 days',
-               'needICU.per100k.+60d': 'Projected <br> In 60 days',
-               'Deaths.new.per100k': 'New deaths <br> per 100k <br> in 5 days',
-               'growth_rate': 'Estimated <br> case growth <br> daily rate',
-              }
-icu_cols = list(rename_cols.values())[:4]
-df_icu_bars = df.rename(rename_cols, axis=1)
-df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
-[rename_cols.values()]\
-.head(20).style\
-    .bar(subset=icu_cols[0], color='#f43d64', vmin=0, vmax=10)\
-    .bar(subset=icu_cols[1], color='#ef8ba0', vmin=0, vmax=10)\
-    .bar(subset=icu_cols[2], color='#e597a8', vmin=0, vmax=10)\
-    .bar(subset=icu_cols[3], color='#e0c5cb', vmin=0, vmax=10)\
-    .bar(subset=[rename_cols['Deaths.new.per100k']], color='#340849', vmin=0, vmax=10)\
-    .applymap(lambda _: 'color: red', subset=[rename_cols['Deaths.new.per100k']])\
-    .bar(subset=[rename_cols['growth_rate']], color='#d65f5f', vmin=0, vmax=1)\
-    .format('<b>{:.1%}</b>', subset=[rename_cols['growth_rate']])\
-    .format('<b>{:.2}</b>', subset=[rename_cols['Deaths.new.per100k']])\
-    .format('<b>{:.2f}</b>', subset=icu_cols)\
-    .set_precision(2)
-
 # ## Full table with more details
 #  - Contains reported data, estimations, projections, and numbers relative to population.
-#  - This is a busy table in order to present as many stats as possible for each country for people to be able to inspect their counties of interest in maximum amount detail (without running the notebook).
+#  - This is a busy table in order to present as many stats as possible for each country for people to be able to inspect their counties of interest in maximum amount detail (without running the code).
 #  - Sorted by projected need for ICU beds per 100k in 14 days. 
 #  - **New** in this table means **during last 5 days**.
 #  - Includes only countries with at least 10 deaths.
+#  > Tip: use Ctrl + F to find your country of interest in the table.
 
 # +
 #hide_input

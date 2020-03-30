@@ -222,7 +222,7 @@ class OverviewDataExtras(OverviewData):
         return weighted_growth_rate
 
     @classmethod
-    def table_with_projections(cls, projection_days=(14, 30, 60), debug_country=None):
+    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_country=None):
         df = cls.table_with_estimated_cases()
 
         df['immune_ratio'] = df['Cases.total'] / df['population']
@@ -250,19 +250,24 @@ class OverviewDataExtras(OverviewData):
         # protect from testing bias inflating ratios to more that 100%
         rec[rec > 1] = 1
         active[active > 1] = 1
+
         # susceptible is everyone else
         sus = 1 - rec - active
+
+        rec_rate = 1 / rec_time  # this is too simple
+        # infect_rate = cur_growth_rate - 1  # too optimistic for late stage?
+        infect_rate = cur_growth_rate - 1 + rec_rate  # too optimistic for early stage?
 
         df = df.join((active * pop * ICU_ratio / 1e5).to_frame('needICU.per100k'), how='left')
 
         # simulate
         debug = []
         for i in range(1, projection_days[-1] + 1):
-            delta_active = active * sus * (cur_growth_rate - 1)
-            delta_rec = active / rec_time
-            active = active + delta_active - delta_rec
+            delta_infect = active * sus * infect_rate
+            delta_rec = active * rec_rate
+            active = active + delta_infect - delta_rec
             rec = rec + delta_rec
-            sus = 1 - rec - active
+            sus = sus - delta_infect
 
             if debug_country:
                 debug.append({'day': i, 'Susceptible': sus[debug_country],
