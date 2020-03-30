@@ -163,6 +163,7 @@ class OverviewDataExtras(OverviewData):
         df = (cls.overview_table()
               .rename(columns=cls.ABS_COLS_MAP)
               .drop(['PCases', 'PDeaths'], axis=1))
+        df['Fatality Rate'] /= 100
 
         df_pop = cls.populations_df()
 
@@ -202,45 +203,87 @@ class OverviewDataExtras(OverviewData):
         return df.sort_values('Cases.new.est', ascending=False)
 
     @classmethod
-    def table_with_projections(cls):
+    def smoothed_growth_rates(cls, n_days):
+        recent_dates = cls.dt_cols[-n_days:]
+
+        cases = (cls.dft_cases.groupby(cls.COL_REGION).sum()[recent_dates] + 1)  # with pseudo counts
+
+        diffs = cls.dft_cases.groupby(cls.COL_REGION).sum().diff(axis=1)[recent_dates]
+
+        # dates with larger number of cases have higher sampling accuracy
+        # so their measurement deserve more confidence
+        sampling_weights = (cases.T / cases.sum(axis=1).T).T
+
+        # daily rate is new / (total - new)
+        daily_growth_rates = cases / (cases - diffs)
+
+        weighted_growth_rate = (daily_growth_rates * sampling_weights).sum(axis=1)
+
+        return weighted_growth_rate
+
+    @classmethod
+    def table_with_projections(cls, projection_days=(14, 30, 60), debug_country=None):
         df = cls.table_with_estimated_cases()
 
-        df['immune_ratio'] = df['Cases.total.est'] / df['population']
+        df['immune_ratio'] = df['Cases.total'] / df['population']
+        df['immune_ratio.est'] = df['Cases.total.est'] / df['population']
 
-        cur_growth_rate = (cls.lagged_cases(cls.PREV_LAG) / cls.lagged_cases(cls.PREV_LAG * 2)
-                           ).pow(1 / cls.PREV_LAG)
+        cur_growth_rate = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
+        df = df.join((cur_growth_rate - 1).to_frame('growth_rate'), how='left')
+
+        # assumptions
+        rec_time = 20
+        ICU_ratio = 0.06
 
         t_bias = df['testing_bias']
         pop = df['population']
 
-        # initialise
-        rec_time = 20
+        # estimate recovered from cases 20 days ago x testing bias
         rec = cls.lagged_cases(rec_time) * t_bias / pop
-        active = (cls.dfc_cases * t_bias - rec) / pop
+        rec[rec > 1] = 1  # protect from testing bias over-inflation
+
+        # estimate active cases from current cases x testing bias - recovered cases
+        cur = cls.dfc_cases * t_bias / pop
+        cur[cur > 1] = 1  # protect from testing bias over-inflation
+        active = cur - rec
+
+        # protect from testing bias inflating ratios to more that 100%
+        rec[rec > 1] = 1
+        active[active > 1] = 1
+        # susceptible is everyone else
         sus = 1 - rec - active
 
-        ICU_ratio = 0.06
-
-        df = df.join(cur_growth_rate.to_frame('growth_rate'), how='left')
         df = df.join((active * pop * ICU_ratio / 1e5).to_frame('needICU.per100k'), how='left')
 
         # simulate
-        col_days = [14, 30, 60]
-        for i in range(1, col_days[-1] + 1):
-            active, rec = active * sus * cur_growth_rate, rec + active / rec_time
+        debug = []
+        for i in range(1, projection_days[-1] + 1):
+            delta_active = active * sus * (cur_growth_rate - 1)
+            delta_rec = active / rec_time
+            active = active + delta_active - delta_rec
+            rec = rec + delta_rec
             sus = 1 - rec - active
 
-            if i in col_days:
+            if debug_country:
+                debug.append({'day': i, 'Susceptible': sus[debug_country],
+                              'Infected': active[debug_country], 'Removed': rec[debug_country]})
+
+            if i in projection_days:
                 df = df.join((active * pop * ICU_ratio / 1e5)
                              .to_frame(f'needICU.per100k.+{i}d'), how='left')
-                df = df.join((1 - sus)
-                             .to_frame(f'immune_ratio.+{i}d'), how='left')
+                df = df.join((1 - sus).to_frame(f'immune_ratio.est.+{i}d'), how='left')
+
+        if debug_country:
+            title = (f"{debug_country}: "
+                     f"Growth Rate: {cur_growth_rate[debug_country] - 1:.0%}. "
+                     f"S/I/R init: {debug[0]['Susceptible']:.1%},"
+                     f"{debug[0]['Infected']:.1%},{debug[0]['Removed']:.1%}")
+            pd.DataFrame(debug).set_index('day').plot(title=title)
 
         return df
 
     @classmethod
     def filter_df(cls, df):
-        df = df.drop(['Continent', 'population', 'testing_bias'], axis=1)
         return df[df['Deaths.total'] > 10][df.columns.sort_values()]
 
 
