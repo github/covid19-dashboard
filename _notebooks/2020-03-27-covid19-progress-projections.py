@@ -51,6 +51,7 @@ df.columns
 # ## Top 20 by estimated need for ICU beds
 # - ICU need is estimated as 6% of active cases.
 # - Estimation for current case numbers is done from deaths (details at the bottom).
+# - Testing bias ratio is the estimated ratio of testing coverage to testing coverage in countries where testing was comprehensive (details at the bottom).
 # - Growth rate is estimated from last 5 days data by weighted average of daily case growth rates.
 # - Actively sick ratios are taken from the SIR model (which is initialised with case numbers estimated from reported deaths, and estimated growth rate from last 5 days).
 # > Note: Projected figures are speculative due to assuming unchanging infection rate. In reality infection rates will go down with stricter isolation policies.
@@ -61,7 +62,7 @@ rename_cols = {'needICU.per100k': 'Estimated <br> Current need <br> per 100k',
                'needICU.per100k.+30d': 'Projected <br> In 30 days',               
                'Deaths.new.per100k': 'New deaths <br> per 100k <br> in 5 days',
                'growth_rate': 'Estimated <br> case growth <br> daily rate',
-               'testing_bias': 'Estimated <br> testing bias <br> from deaths',
+               'testing_bias': 'Estimated <br> testing <br> bias ratio <br> from deaths',
               }
 icu_cols = list(rename_cols.values())[:3]
 df_icu_bars = df.rename(rename_cols, axis=1)
@@ -169,8 +170,8 @@ df.sort_values('needICU.per100k.+14d', ascending=False)\
 #     - This will not hold true if there are multiple strains for which immunity needs to be developed independently (like in the case of flu or the common cold).    
 # - Total case estimation is done from deaths by:
 #     - Assuming that unbiased fatality rate is 1.5% (from heavily tested countries / the cruise ship data) and that it takes 8 days on average for a case to go from being confirmed positive (after incubation + testing lag) to death. This is the same figure used by ["Estimating The Infected Population From Deaths"](https://covid19dashboards.com/covid-infected/) in this repo.
-#     - The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if everyone was tested*).
-#     - The testing bias calculation is probably the highest source of uncertainty in all these estimations and projections. Better source of testing bias (or just *true case* numbers), should make everything more accurate.
+#     - Testing bias: the actual lagged fatality rate is than divided by the 1.5% figure to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
+#     - The testing bias calculation is a high source of uncertainty in all these estimations and projections. Better source of testing bias (or just *true case* numbers), should make everything more accurate.
 # - Projection is done using a simple [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model) with (examples below):
 #     - Growth rate calculated over the 5 past days. This is pessimistic - because it includes the testing rate growth rate as well, and is slow to react to both improvements in test coverage and "flattening".
 #     - Recovery probability being 1/20 (for 20 days to recover).
@@ -187,5 +188,4 @@ df.sort_values('needICU.per100k.+14d', ascending=False)\
 sir_plot_countries = df[['needICU.per100k.+14d', 
                          'Cases.new.est', 
                          'immune_ratio.est.+14d']].idxmax().unique()
-for c in sir_plot_countries:
-    helper.table_with_projections(debug_country=c)
+helper.table_with_projections(plot_countries=sir_plot_countries);

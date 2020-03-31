@@ -193,6 +193,7 @@ class OverviewDataExtras(OverviewData):
         probable_unbiased_mortality_rate = 0.015  # Diamond Princess / Kuwait / South Korea
         lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(death_lag) + 1)
         testing_bias = lagged_mortality_rate / probable_unbiased_mortality_rate
+        testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
         df = df.join(testing_bias.to_frame('testing_bias'), how='left')
@@ -221,71 +222,116 @@ class OverviewDataExtras(OverviewData):
 
         return weighted_growth_rate
 
+
     @classmethod
-    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_country=None):
+    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), plot_countries=()):
         df = cls.table_with_estimated_cases()
 
         df['immune_ratio'] = df['Cases.total'] / df['population']
-        df['immune_ratio.est'] = df['Cases.total.est'] / df['population']
+
+        past_recovered, past_active, simulation_start_day = (
+            cls._calculate_recovered_and_active_until_now(df))
+
+        df, past_recovered, past_active = cls._run_SIR_model_forward(
+            df,
+            past_recovered=past_recovered,
+            past_active=past_active,
+            projection_days=projection_days)
+
+        if len(plot_countries):
+            cls._plot_SIR_for_countries(plot_countries=plot_countries,
+                                        past_recovered=past_recovered,
+                                        past_active=past_active,
+                                        simulation_start_day=simulation_start_day,
+                                        growth_rate=df['growth_rate'])
+        return df
+
+
+    @classmethod
+    def _calculate_recovered_and_active_until_now(cls, df, recovery_lagged9_rate=0.07):
+        # estimated daily cases ratio of population
+        lagged_cases_ratios = (cls.dft_cases.groupby(cls.COL_REGION).sum()[cls.dt_cols].T *
+                               df['testing_bias'].T / df['population'].T).T
+        # protect from testing bias over-inflation
+        lagged_cases_ratios[lagged_cases_ratios > 1] = 1
+
+        # run through history and estimate recovered and active using:
+        # https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases
+        recs, actives = [], []
+        zeros_series = lagged_cases_ratios[cls.dt_cols[0]] * 0  # this is to have consistent types
+        day = 0
+        for day in range(len(cls.dt_cols)):
+            prev_rec = recs[day - 1] if day > 0 else zeros_series
+            tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 8 else zeros_series
+            recs.append(prev_rec + (tot_lagged_9 - prev_rec) * recovery_lagged9_rate)
+            actives.append(lagged_cases_ratios[cls.dt_cols[day]] - recs[day])
+
+        return recs, actives, day
+
+    @classmethod
+    def _run_SIR_model_forward(cls,
+                               df,
+                               past_recovered,
+                               past_active,
+                               projection_days,
+                               recovery_lagged9_rate=0.07):
 
         cur_growth_rate = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
         df = df.join((cur_growth_rate - 1).to_frame('growth_rate'), how='left')
 
-        # assumptions
-        rec_time = 20
+        cur_recovery_rate = (past_recovered[-1] - past_recovered[-2]) / past_active[-1]
+        infect_rate = cur_growth_rate - 1 + cur_recovery_rate
+
         ICU_ratio = 0.06
-
-        t_bias = df['testing_bias']
-        pop = df['population']
-
-        # estimate recovered from cases 20 days ago x testing bias
-        rec = cls.lagged_cases(rec_time) * t_bias / pop
-        rec[rec > 1] = 1  # protect from testing bias over-inflation
-
-        # estimate active cases from current cases x testing bias - recovered cases
-        cur = cls.dfc_cases * t_bias / pop
-        cur[cur > 1] = 1  # protect from testing bias over-inflation
-        active = cur - rec
-
-        # protect from testing bias inflating ratios to more that 100%
-        rec[rec > 1] = 1
-        active[active > 1] = 1
-
-        # susceptible is everyone else
-        sus = 1 - rec - active
-
-        rec_rate = 1 / rec_time  # this is too simple
-        # infect_rate = cur_growth_rate - 1  # too optimistic for late stage?
-        infect_rate = cur_growth_rate - 1 + rec_rate  # too optimistic for early stage?
-
-        df = df.join((active * pop * ICU_ratio / 1e5).to_frame('needICU.per100k'), how='left')
+        rec_rate_simple = 0.05
 
         # simulate
-        debug = []
-        for i in range(1, projection_days[-1] + 1):
-            delta_infect = active * sus * infect_rate
-            delta_rec = active * rec_rate
-            active = active + delta_infect - delta_rec
-            rec = rec + delta_rec
-            sus = sus - delta_infect
+        for day in range(1, projection_days[-1] + 1):
+            # calculate susceptible
+            sus = 1 - past_recovered[-1] - past_active[-1]
 
-            if debug_country:
-                debug.append({'day': i, 'Susceptible': sus[debug_country],
-                              'Infected': active[debug_country], 'Removed': rec[debug_country]})
+            # calculate new recovered
+            actives_lagged_9 = past_active[-9]
+            delta_rec = actives_lagged_9 * recovery_lagged9_rate
+            delta_rec_simple = past_active[-1] * rec_rate_simple
+            # limit recovery rate to simple SIR model where
+            # lagged rate estimation becomes too high (on the downward slopes)
+            delta_rec[delta_rec > delta_rec_simple] = delta_rec_simple[delta_rec > delta_rec_simple]
+            new_recovered = past_recovered[-1] + delta_rec
 
-            if i in projection_days:
-                df = df.join((active * pop * ICU_ratio / 1e5)
-                             .to_frame(f'needICU.per100k.+{i}d'), how='left')
-                df = df.join((1 - sus).to_frame(f'immune_ratio.est.+{i}d'), how='left')
+            # calculate new active
+            delta_infect = past_active[-1] * sus * infect_rate
+            new_active = past_active[-1] + delta_infect - delta_rec
+            new_active[new_active < 0] = 0
 
-        if debug_country:
+            # update
+            past_recovered.append(new_recovered)
+            past_active.append(new_active)
+
+            if day == 1 or day in projection_days:
+                suffix = f'.+{day}d' if day > 1 else ''
+                df = df.join((past_active[-1] * df['population'] * ICU_ratio / 1e5)
+                             .to_frame(f'needICU.per100k{suffix}'), how='left')
+                df = df.join((1 - sus).to_frame(f'immune_ratio.est{suffix}'), how='left')
+
+        return df, past_recovered, past_active
+
+    @classmethod
+    def _plot_SIR_for_countries(cls, plot_countries, past_recovered,
+                                past_active, simulation_start_day, growth_rate):
+        for debug_country in plot_countries:
+            debug = [{'day': day - simulation_start_day,
+                      'Susceptible': (1 - a - r)[debug_country],
+                      'Infected': a[debug_country],
+                      'Removed': r[debug_country]}
+                     for day, (r, a) in enumerate(zip(past_recovered, past_active))
+                     if day > simulation_start_day]
+
             title = (f"{debug_country}: "
-                     f"Growth Rate: {cur_growth_rate[debug_country] - 1:.0%}. "
+                     f"Growth Rate: {growth_rate[debug_country]:.0%}. "
                      f"S/I/R init: {debug[0]['Susceptible']:.1%},"
                      f"{debug[0]['Infected']:.1%},{debug[0]['Removed']:.1%}")
             pd.DataFrame(debug).set_index('day').plot(title=title)
-
-        return df
 
     @classmethod
     def filter_df(cls, df):
