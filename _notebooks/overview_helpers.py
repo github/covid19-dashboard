@@ -3,7 +3,7 @@ from urllib import request
 
 import pandas as pd
 
-data_folder = os.path.join(os.path.dirname(__file__), '../_data')
+data_folder = os.path.join(os.path.dirname(__file__), 'data_files')
 
 
 class SourceData:
@@ -227,7 +227,7 @@ class OverviewDataExtras(OverviewData):
     def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), plot_countries=()):
         df = cls.table_with_estimated_cases()
 
-        df['immune_ratio'] = df['Cases.total'] / df['population']
+        df['affected_ratio'] = df['Cases.total'] / df['population']
 
         past_recovered, past_active, simulation_start_day = (
             cls._calculate_recovered_and_active_until_now(df))
@@ -312,7 +312,7 @@ class OverviewDataExtras(OverviewData):
                 suffix = f'.+{day}d' if day > 1 else ''
                 df = df.join((past_active[-1] * df['population'] * ICU_ratio / 1e5)
                              .to_frame(f'needICU.per100k{suffix}'), how='left')
-                df = df.join((1 - sus).to_frame(f'immune_ratio.est{suffix}'), how='left')
+                df = df.join((1 - sus).to_frame(f'affected_ratio.est{suffix}'), how='left')
 
         return df, past_recovered, past_active
 
