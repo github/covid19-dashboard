@@ -41,22 +41,23 @@ df.columns
 
 # ## Top 20 by estimated need for ICU beds
 # - ICU need is estimated as [6% of active cases](https://medium.com/@joschabach/flattening-the-curve-is-a-deadly-delusion-eea324fe9727).
-# - ICU capacities differ by country but seem to be in the range of [2-10 for developed countries](https://www.forbes.com/sites/niallmccarthy/2020/03/12/the-countries-with-the-most-critical-care-beds-per-capita-infographic/).
+# - ICU capacities are from [Wikipedia](https://en.wikipedia.org/wiki/List_of_countries_by_hospital_beds) (OECD countries mostly) and [CCB capacities in Asia](https://www.researchgate.net/publication/338520008_Critical_Care_Bed_Capacity_in_Asian_Countries_and_Regions).
+# - ICU spare capacity is based on 70% normal occupancy rate ([66% in US](https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19), [75% OECD](https://www.oecd-ilibrary.org/social-issues-migration-health/health-at-a-glance-2019_4dd50c09-en))
 # - Details of estimation and prediction calculations are in [Appendix](#appendix).
 # - Column definitions:
-#     - **Estimated ICU need per 100k population**: number of ICU beds estimated to be needed per 100k population.
+#     - **Estimated ICU need per 100k population**: number of ICU beds estimated to be needed per 100k population by COVID-19 patents.
 #     - **Projected in 14 days**: projected ICU need per 100k population in 14 days.
 #     - **Projected in 30 days**: projected ICU need per 100k population in 30 days.
-#     - **New deaths per 100k in 5 days**: last 5 days' reported deaths per 100k population.
-#     - **Estimated testing bias ratio from deaths**: estimated ratio of how reduced is the testing coverage relative to countries which performed comprehensive testing.
+#     - **ICU capacity per 100k**: number of ICU beds per 100k population.
+#     - **Estimated ICU Spare capacity per 100k**: estimated ICU capacity per 100k population based on assumed normal occupancy rate of 70% and number of ICU beds (only for countries with ICU beds data).
 #     - **Estimated daily case growth rate**: percentage daily change in total cases during last 5 days.
 
 #hide_input
 rename_cols = {'needICU.per100k': 'Estimated <br> ICU need <br> per 100k <br> population',
                'needICU.per100k.+14d': 'Projected <br> In 14 days', 
                'needICU.per100k.+30d': 'Projected <br> In 30 days',               
-               'Deaths.new.per100k': 'New deaths <br> per 100k <br> in 5 days',
-               'testing_bias': 'Estimated <br> testing <br> bias ratio <br> from deaths',
+               'icu_capacity_per100k': 'ICU <br> capacity <br> per 100k',
+               'icu_spare_capacity_per100k': 'Estimated ICU <br> Spare capacity <br> per 100k',               
                'growth_rate': 'Estimated <br> daily case <br> growth rate',
               }
 icu_cols = list(rename_cols.values())[:3]
@@ -64,16 +65,15 @@ df_icu_bars = df.rename(rename_cols, axis=1)
 df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
 [rename_cols.values()]\
 .head(20).style\
-    .bar(subset=icu_cols[0], color='#f43d64', vmin=0, vmax=10)\
-    .bar(subset=icu_cols[1], color='#ef8ba0', vmin=0, vmax=10)\
-    .bar(subset=icu_cols[2], color='#e0c5cb', vmin=0, vmax=10)\
-    .bar(subset=[rename_cols['Deaths.new.per100k']], color='#340849', vmin=0, vmax=10)\
-    .applymap(lambda _: 'color: red', subset=[rename_cols['Deaths.new.per100k']])\
+    .bar(subset=icu_cols[0], color='#b21e3e', vmin=0, vmax=10)\
+    .bar(subset=icu_cols[1], color='#f43d64', vmin=0, vmax=10)\
+    .bar(subset=icu_cols[2], color='#ef8ba0', vmin=0, vmax=10)\
+    .bar(subset=[rename_cols['icu_spare_capacity_per100k']], color='#3ab1d8', vmin=0, vmax=10)\
+    .applymap(lambda _: 'color: blue', subset=[rename_cols['icu_spare_capacity_per100k']])\
     .bar(subset=[rename_cols['growth_rate']], color='#d65f5f', vmin=0, vmax=0.33)\
-    .bar(subset=[rename_cols['testing_bias']], color='#7b9be5', vmin=1, vmax=20)\
     .format('<b>{:.1%}</b>', subset=[rename_cols['growth_rate']])\
-    .format('<b>{:.1f}</b>', subset=[rename_cols['testing_bias']])\
-    .format('<b>{:.2}</b>', subset=[rename_cols['Deaths.new.per100k']])\
+    .format('<b>{:.1f}</b>', subset=[rename_cols['icu_capacity_per100k']], na_rep="-")\
+    .format('<b>{:.1f}</b>', subset=[rename_cols['icu_spare_capacity_per100k']], na_rep="-")\
     .format('<b>{:.2f}</b>', subset=icu_cols)\
     .set_precision(2)
 
@@ -81,16 +81,16 @@ df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
 # - Sorted by number of estimated new cases during the last 5 days.
 # - Details of estimation and prediction calculations are in [Appendix](#appendix).
 # - Column definitions:
-#     - **Estimated new cases in 5 days**.
+#     - **Estimated new cases in last 5 days**: estimated new cases in last 5 days.
 #     - **Estimated affected population percentage**: estimated percentage of population already affected (infected, recovered, or dead).
 #     - **Projected in 14 days**: projected percentage of affected population in 14 days.
 #     - **Projected in 30 days**: projected percentage of affected population in 30 days.
-#     - **Reported fatality percentage**: reported total deaths to total cases percentage.
+#     - **Reported fatality percentage**: reported total deaths divided by total cases.
 #     - **Estimated daily case growth rate**: percentage daily change in total cases during last 5 days.
 #
 
 #hide_input
-rename_cols = {'Cases.new.est': 'Estimated <br> new cases <br> in 5 days', 
+rename_cols = {'Cases.new.est': 'Estimated <br> new cases <br> in last 5 days', 
                'affected_ratio.est': 'Estimated <br> affected <br> population <br> percentage',
                'affected_ratio.est.+14d': 'Projected <br> In 14 days',
                'affected_ratio.est.+30d': 'Projected <br> In 30 days',
@@ -111,8 +111,6 @@ df_progress_bars.sort_values(rename_cols['Cases.new.est'], ascending=False)\
     .bar(subset=[rename_cols['growth_rate']], color='#d65f5f', vmin=0, vmax=0.33)\
     .format('<b>{:,.0f}</b>', subset=list(rename_cols.values())[0])\
     .format('<b>{:.1%}</b>', subset=list(rename_cols.values())[1:])
-
-
 
 # ## Full table with more details
 #  - Contains reported data, estimations, projections, and numbers relative to population.
@@ -182,12 +180,10 @@ df.sort_values('needICU.per100k.+14d', ascending=False)\
 #     - [Some numbers](https://www.forbes.com/sites/niallmccarthy/2020/03/12/the-countries-with-the-most-critical-care-beds-per-capita-infographic/) on actual capacity of ICUs per 100k (didn't find a full dataset for a lot of countries yet).
 
 # <a id='examples'></a>
-# ### Examples of modeling plots
-# - The purpose is to demonstrate the actual calculations used in the tables above and the dynamics of the model.
-# - The countries are selected as being the top ranking currently by: estimated new cases, projected need for ICU in 14 days, and projected affected population percentage in 14 days.
+# ### Examples of modeling plots 
+# - For the 5 countries with highest estimated number of new cases.
+# > Note: The purpose is to demonstrate the actual calculations used in the tables above and the dynamics of the model.
 
 #hide_input
-sir_plot_countries = df[['needICU.per100k.+14d', 
-                         'Cases.new.est', 
-                         'affected_ratio.est.+14d']].idxmax().unique()
+sir_plot_countries = df.sort_values('Cases.new.est', ascending=False).head(5).index
 helper.table_with_projections(plot_countries=sir_plot_countries);

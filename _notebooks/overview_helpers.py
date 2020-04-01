@@ -3,7 +3,8 @@ from urllib import request
 
 import pandas as pd
 
-data_folder = os.path.join(os.path.dirname(__file__), 'data_files')
+data_folder = (os.path.join(os.path.dirname(__file__), 'data_files')
+               if '__file__' in locals() else 'data_files')
 
 
 class SourceData:
@@ -104,20 +105,25 @@ class OverviewData:
 
 class WordPopulation:
     csv_path = os.path.join(data_folder, 'world_population.csv')
+    page = 'https://www.worldometers.info/world-population/population-by-country/'
 
     @classmethod
-    def download(cls):
+    def scrape(cls):
         # !pip install beautifulsoup4
-        import bs4 as bs
+        # !pip install lxml
+        import bs4
 
         # read html
-        world_population_page = 'https://www.worldometers.info/world-population/population-by-country/'
-        source = request.urlopen(world_population_page).read()
-        soup = bs.BeautifulSoup(source, 'lxml')
+        source = request.urlopen(cls.page).read()
+        soup = bs4.BeautifulSoup(source, 'lxml')
 
         # get pandas df
         table = soup.find_all('table')
-        df = pd.read_html(str(table))[0]
+        return pd.read_html(str(table))[0]
+
+    @classmethod
+    def download(cls):
+        df = cls.scrape()
 
         # clean up df
         rename_map = {'Country (or dependency)': 'country',
@@ -127,13 +133,43 @@ class WordPopulation:
                       }
         df_clean = df.rename(rename_map, axis=1)[rename_map.values()]
         df_clean['urban_ratio'] = pd.to_numeric(df_clean['urban_ratio'].str.extract(r'(\d*)')[0]) / 100
-        df.to_csv(cls.csv_path, index=None)
+        df_clean.to_csv(cls.csv_path, index=None)
 
     @classmethod
     def load(cls):
         if not os.path.exists(cls.csv_path):
             cls.download()
         return pd.read_csv(cls.csv_path)
+
+
+class HostpitalBeds(WordPopulation):
+    csv_path = os.path.join(data_folder, 'hospital_beds.csv')
+    page = 'https://en.wikipedia.org/wiki/List_of_countries_by_hospital_beds'
+
+    @classmethod
+    def download(cls):
+        df_wiki = cls.scrape()
+
+        # clean up df wikie
+        df_wiki = df_wiki.droplevel([0, 1], axis=1)
+
+        rename_map = {'Country/territory': 'country',
+                      'ICU-CCB beds/100,000 inhabitants': 'icu_per_100k',
+                      df_wiki.columns[df_wiki.columns.str.startswith('Occupancy')][0]: 'occupancy',
+                      '2017': 'beds_per_1000_2017',
+                      }
+        df_clean = df_wiki.rename(rename_map, axis=1)[rename_map.values()]
+        df_clean['icu_per_100k'] = pd.to_numeric(df_clean['icu_per_100k'].str
+                                                 .replace(r'\[\d*\]', ''))
+
+        # load df for asian countries
+        # file manually created from
+        # https://www.researchgate.net/publication/338520008_Critical_Care_Bed_Capacity_in_Asian_Countries_and_Regions
+        df_asia = pd.read_csv(os.path.join(data_folder, 'ccb_asian_countries.csv'))
+        df_clean = pd.concat([df_clean,
+                              df_asia[~df_asia['country'].isin(df_clean['country'])]])
+
+        df_clean.to_csv(cls.csv_path, index=None)
 
 
 class OverviewDataExtras(OverviewData):
@@ -156,27 +192,36 @@ class OverviewDataExtras(OverviewData):
             'State of Palestine': 'West Bank and Gaza',
             'Côte d\'Ivoire': 'Cote d\'Ivoire',
         }).fillna(df_pop[cls.COL_REGION])
-        return df_pop
+        return df_pop.set_index(cls.COL_REGION)
+
+    @classmethod
+    def beds_df(cls):
+        df_beds = HostpitalBeds.load().rename(columns={'country': cls.COL_REGION})
+        df_beds[cls.COL_REGION] = df_beds[cls.COL_REGION].map({
+            'United States': 'US',
+            'United Kingdom (more)': 'United Kingdom',
+            'Czech Republic': 'Czechia',
+        }).fillna(df_beds[cls.COL_REGION])
+        return df_beds.set_index(cls.COL_REGION)
 
     @classmethod
     def overview_table_with_per_100k(cls):
         df = (cls.overview_table()
               .rename(columns=cls.ABS_COLS_MAP)
-              .drop(['PCases', 'PDeaths'], axis=1))
+              .drop(['PCases', 'PDeaths'], axis=1)
+              .set_index(cls.COL_REGION, drop=True)
+              .sort_values('Cases.new', ascending=False))
         df['Fatality Rate'] /= 100
 
         df_pop = cls.populations_df()
 
-        df = df[df[cls.COL_REGION].isin(df_pop[cls.COL_REGION])].copy()
-
-        # align populations
-        df = pd.merge(df, df_pop[[cls.COL_REGION, 'population']],
-                      on=cls.COL_REGION, how='left')
+        df['population'] = df_pop['population']
+        df.dropna(subset=['population'], inplace=True)
 
         for col, per_100k_col in zip(cls.ABS_COLS_RENAMED, cls.PER_100K_COLS):
             df[per_100k_col] = df[col] * 1e5 / df['population']
 
-        return df.set_index(cls.COL_REGION, drop=True).sort_values('Cases.new', ascending=False)
+        return df
 
     @classmethod
     def table_with_estimated_cases(cls, death_lag=8):
@@ -196,7 +241,7 @@ class OverviewDataExtras(OverviewData):
         testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
-        df = df.join(testing_bias.to_frame('testing_bias'), how='left')
+        df['testing_bias'] = testing_bias
 
         for col, est_col in zip(cls.CASES_COLS, cls.EST_COLS):
             df[est_col] = df['testing_bias'] * df[col]
@@ -222,10 +267,24 @@ class OverviewDataExtras(OverviewData):
 
         return weighted_growth_rate
 
+    @classmethod
+    def table_with_icu_capacities(cls):
+        df = cls.table_with_estimated_cases()
+
+        df_beds = cls.beds_df()
+
+        df['icu_capacity_per100k'] = df_beds['icu_per_100k']
+
+        # occupancy 66% for us:
+        #   https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19
+        # occupancy average 75% for OECD:
+        #   https://www.oecd-ilibrary.org/social-issues-migration-health/health-at-a-glance-2019_4dd50c09-en
+        df['icu_spare_capacity_per100k'] = df['icu_capacity_per100k'] * 0.3
+        return df
 
     @classmethod
     def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), plot_countries=()):
-        df = cls.table_with_estimated_cases()
+        df = cls.table_with_icu_capacities()
 
         df['affected_ratio'] = df['Cases.total'] / df['population']
 
@@ -277,7 +336,7 @@ class OverviewDataExtras(OverviewData):
                                recovery_lagged9_rate=0.07):
 
         cur_growth_rate = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
-        df = df.join((cur_growth_rate - 1).to_frame('growth_rate'), how='left')
+        df['growth_rate'] = (cur_growth_rate - 1)
 
         cur_recovery_rate = (past_recovered[-1] - past_recovered[-2]) / past_active[-1]
         infect_rate = cur_growth_rate - 1 + cur_recovery_rate
@@ -286,6 +345,7 @@ class OverviewDataExtras(OverviewData):
         rec_rate_simple = 0.05
 
         # simulate
+        df['peak_icu_neek_per100k'] = 0
         for day in range(1, projection_days[-1] + 1):
             # calculate susceptible
             sus = 1 - past_recovered[-1] - past_active[-1]
@@ -308,11 +368,14 @@ class OverviewDataExtras(OverviewData):
             past_recovered.append(new_recovered)
             past_active.append(new_active)
 
+            icu_need = past_active[-1] * df['population'] * ICU_ratio / 1e5
+
+            df['peak_icu_neek_per100k'] = pd.concat([df['peak_icu_neek_per100k'],
+                                                     icu_need], axis=1).max(axis=1)
             if day == 1 or day in projection_days:
                 suffix = f'.+{day}d' if day > 1 else ''
-                df = df.join((past_active[-1] * df['population'] * ICU_ratio / 1e5)
-                             .to_frame(f'needICU.per100k{suffix}'), how='left')
-                df = df.join((1 - sus).to_frame(f'affected_ratio.est{suffix}'), how='left')
+                df[f'needICU.per100k{suffix}'] = icu_need
+                df[f'affected_ratio.est{suffix}'] = 1 - sus
 
         return df, past_recovered, past_active
 
