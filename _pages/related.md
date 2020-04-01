@@ -13,6 +13,7 @@ This website contains visualizations and analysis built from data sources that a
 
 ## Data Sources
 
+- [COVID-19 related public projects on GitHub](https://github.com/github/covid-19-repo-data): A comprehensive versioned dataset of the repositories and relevant related metadata about public projects hosted on GitHub related to the 2019 Novel Coronavirus and associated COVID-19 disease.
 - The CDC’s [page on the Coronavirus](https://www.cdc.gov/coronavirus/2019-ncov/index.html).
 - [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): Powers many of the visualizations on this site. This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues). This aggregates 14+ data sources from around the world.
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
