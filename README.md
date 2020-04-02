@@ -58,7 +58,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://jessicapaoli.com"><img src="https://avatars2.githubusercontent.com/u/221550?v=4" width="100px;" alt=""/><br /><sub><b>skullface</b></sub></a><br /><a href="https://github.com/github/covid19-dashboard/commits?author=skullface" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/vantuyls"><img src="https://avatars2.githubusercontent.com/u/9534576?v=4" width="100px;" alt=""/><br /><sub><b>Steve Van Tuyl</b></sub></a><br /><a href="#content-vantuyls" title="Content">🖋</a></td>
-    <td align="center"><a href="https://www.zinkov.com"><img src="https://avatars1.githubusercontent.com/u/8529?v=4" width="100px;" alt=""/><br /><sub><b>zaxtax</b></sub></a><br /><a href="#content-zaxtax" title="Content">🖋</a></td>
+    <td align="center"><a href="https://www.zinkov.com"><img src="https://avatars1.githubusercontent.com/u/8529?v=4" width="100px;" alt=""/><br /><sub><b>zaxtax</b></sub></a><br /><a href="#content-zaxtax" title="Content">🖋</a> <a href="#maintenance-zaxtax" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
