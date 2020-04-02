@@ -90,3 +90,38 @@ def gen_data(region='Country/Region', filter_frame=lambda x: x, add_table=[], kp
     return {
         'summary': summary, 'table': df_table, 'newcases': dft_ct_new_cases,
         'dt_last': latest_date_idx, 'dt_cols': dt_cols}
+
+
+def gen_data_us(region='Province/State', kpis_info=[]):
+    col_region = region
+    df = pd.read_csv(
+        'https://raw.githubusercontent.com/nytimes/covid-19-data'
+        '/master/us-states.csv')
+    dt_today = df['date'].max()
+    dt_5ago = (pd.to_datetime(dt_today) - pd.Timedelta(days=5)).strftime('%Y-%m-%d')
+    cols = ['cases', 'deaths']
+    df_table = df[df['date'].eq(dt_today)].set_index('state')[cols].join(
+        df[df['date'].eq(dt_5ago)].set_index('state')[cols], rsuffix='Ago'
+    ).reset_index().fillna(0)
+    for col in cols:
+        df_table[f'{col.title()} (+)'] = df_table[col] - df_table[f'{col}Ago']
+    df_table = df_table.rename(
+        columns={'state': col_region, 'cases': 'Cases', 'deaths': 'Deaths'})
+    df_table['Fatality Rate'] = (100 * df_table['Deaths'] / df_table['Cases']).round(1)
+    df_table = df_table.sort_values(by='Cases', ascending=False)
+    dft_ct_cases = df.set_index(['state', 'date'])['cases'].unstack(1, fill_value=0)
+    
+    metrics = ['Cases', 'Deaths', 'Cases (+)', 'Deaths (+)']
+
+    def kpi_of(name, prefix, pipe):
+        df_f = df_table.pipe(pipe or (lambda x: x[x[col_region].eq(name)]))
+        return df_f[metrics].sum().add_prefix(prefix)
+
+    s_kpis = pd.concat([
+        kpi_of(x['title'], f'{x["prefix"]} ', x.get('pipe'))
+        for x in kpis_info])
+    summary = {'updated': pd.to_datetime(dt_today), 'since': pd.to_datetime(dt_5ago)}
+    summary = {**summary, **df_table[metrics].sum(), **s_kpis}
+    dft_ct_new_cases = dft_ct_cases.diff(axis=1).fillna(0).astype(int)
+    data = {'summary': summary, 'table': df_table, 'newcases': dft_ct_new_cases}
+    return data

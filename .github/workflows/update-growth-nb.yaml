@@ -1,13 +1,13 @@
 name: Update Notebooks And Refresh Page
 on:
   schedule:
-    - cron:  '0 */6 * * *'
+    - cron:  '0 */4 * * *'
   issues:
     types: [opened]
 
 jobs:
   update-notebooks:
-    if: github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')
+    if: (github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')) && github.repository == 'github/covid19-dashboard'
     runs-on: ubuntu-latest
     steps:
   
@@ -50,12 +50,13 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.6
-      
+
     - name: install dependencies
       run: |
+        sudo apt-get update -y
         sudo apt-get -y --force-yes install chromium-chromedriver
         npm install -g electron@6.1.4 orca
-        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair jinja2 selenium
+        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair altair_saver jinja2 selenium
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
 
