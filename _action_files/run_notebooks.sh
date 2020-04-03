@@ -7,7 +7,7 @@ ERRORS=""
 
 for file in *.ipynb
 do
-    if [[ "${file}" == "2020-03-16-covid19_growth_bayes.ipynb" ]]; then
+    if [ "${file}" = "2020-03-16-covid19_growth_bayes.ipynb" ]; then
         echo "Skipping ${file}"
     elif papermill --kernel python3 "${file}" "${file}"; then
         echo "Sucessfully refreshed ${file}\n\n\n\n"
