@@ -2,8 +2,9 @@ name: Troubleshoot
 on: push
 
 jobs:
-  update-notebooks:
-    if: github.actor == 'hamelsmu'
+  troubleshoot:
+    # this is deliberately turned off
+    if: github.actor == 'hamelsmu' && 1 == 2 
     runs-on: ubuntu-latest
     steps:
 
