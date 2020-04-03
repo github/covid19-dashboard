@@ -1,7 +1,7 @@
 name: Update Model Notebooks
 on:
   schedule:
-    - cron:  '0 */24 * * *'
+    - cron:  '0 1 * * *'
 
 jobs:
   update-long-running-notebooks:
