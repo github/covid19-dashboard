@@ -82,17 +82,17 @@ df_icu_bars.sort_values(rename_cols['needICU.per100k'], ascending=False)\
 # - Sorted by number of estimated new cases during the last 5 days.
 # - Details of estimation and prediction calculations are in [Appendix](#appendix).
 # - Column definitions:
-#     - **Estimated new cases in last 5 days**: estimated new cases in last 5 days.
-#     - **Estimated affected population percentage**: estimated percentage of population already affected (infected, recovered, or dead).
-#     - **Projected in 14 days**: projected percentage of affected population in 14 days.
-#     - **Projected in 30 days**: projected percentage of affected population in 30 days.
+#     - **Estimated <i>new</i> cases in last 5 days**: estimated new cases in last 5 days.
+#     - **Estimated <i>total</i> affected population percentage**: estimated percentage of total population already affected (infected, recovered, or dead).
+#     - **Projected in 14 days**: projected percentage of total affected population in 14 days.
+#     - **Projected in 30 days**: projected percentage of total affected population in 30 days.
 #     - **Reported fatality percentage**: reported total deaths divided by total cases.
 #     - **Estimated daily case growth rate**: percentage daily change in total cases during last 5 days.
 #
 
 #hide_input
-rename_cols = {'Cases.new.est': 'Estimated <br> new cases <br> in last 5 days', 
-               'affected_ratio.est': 'Estimated <br> affected <br> population <br> percentage',
+rename_cols = {'Cases.new.est': 'Estimated <br> <i>new</i> cases <br> in last 5 days', 
+               'affected_ratio.est': 'Estimated <br> <i>total</i> affected <br> population <br> percentage',
                'affected_ratio.est.+14d': 'Projected <br> In 14 days',
                'affected_ratio.est.+30d': 'Projected <br> In 30 days',
                'Fatality Rate': 'Reported <br> fatality <br> percentage',
@@ -125,39 +125,36 @@ df_progress_bars.sort_values(rename_cols['Cases.new.est'], ascending=False)\
 #hide_input
 pretty_cols = {}
 
-pretty_cols['deaths'] = 'Deaths <br> - Reported (+new) <br> - Per100k (+new) '
-df[pretty_cols['deaths']] =(df.apply(lambda r: f" \
-                         {r['Deaths.total']:,.0f} \
-                         (+<b>{r['Deaths.new']:,.0f}</b>) <br> \
-                         Per 100k: {r['Deaths.total.per100k']:,.1f} \
-                         (+<b>{r['Deaths.new.per100k']:,.1f}</b>) \
-                         ", axis=1))
-
-pretty_cols['cases'] = 'Cases <br> - Reported (+new) <br> - Estimated (+new) '
+pretty_cols['cases'] = 'Cases <br> - Reported (+new) <br> - <i> Estimated (+new) </i>'
 df[pretty_cols['cases']] =(df.apply(lambda r: f" \
                          {r['Cases.total']:,.0f} \
                          (+<b>{r['Cases.new']:,.0f}</b>) <br>\
-                         Est: {r['Cases.total.est']:,.0f} \
-                         (+<b>{r['Cases.new.est']:,.0f}</b>)\
+                         <i>{r['Cases.total.est']:,.0f} \
+                         (+<b>{r['Cases.new.est']:,.0f}</b></i> )\
                          ", axis=1))
 
-pretty_cols['icu'] = ('Estimated <br> Need for ICU <br> per 100k <br>\
-                      - Current <br> - (in 14/30/60 days)')
-df[pretty_cols['icu']] =(df.apply(lambda r: f"\
-                        <b>{r['needICU.per100k']:.2f}</b> <br>\
-                        ({r['needICU.per100k.+14d']:.1f} / \
-                        {r['needICU.per100k.+30d']:.1f} / \
-                        {r['needICU.per100k.+60d']:.1f}) \
-                        ", axis=1))
-
 pretty_cols['progress'] = ('Affected <br> percentage <br> \
-                      - Reported (Estimated) <br> - (in 14/30/60 days)')
+                      - Reported <br> - <i>Estimated <br> Now / in <b>14</b> / 30 days</i>')
 df[pretty_cols['progress']] =(df.apply(lambda r: f" \
-                        {r['affected_ratio']:.2%} \
-                        <b>({r['affected_ratio.est']:.2%})</b> <br>\
-                        ({r['affected_ratio.est.+14d']:.1%} / \
-                        {r['affected_ratio.est.+30d']:.1%} / \
-                        {r['affected_ratio.est.+60d']:.1%})", axis=1))
+                        {r['affected_ratio']:.2%} <br>\
+                        <i>{r['affected_ratio.est']:.2%} \
+                        <b>{r['affected_ratio.est.+14d']:.1%}</b> / \
+                        {r['affected_ratio.est.+30d']:.1%}</i>", axis=1))
+
+pretty_cols['icu'] = ('Estimated <br> Need for ICU <br> per 100k <br>\
+                      Now <i> / in <b>14</b> / 30 days</i>')
+df[pretty_cols['icu']] =(df.apply(lambda r: f"\
+                        {r['needICU.per100k']:.2f} / \
+                        <i><b>{r['needICU.per100k.+14d']:.1f}</b> / \
+                        {r['needICU.per100k.+30d']:.1f}</i>", axis=1))
+
+pretty_cols['deaths'] = 'Reported <br> Deaths <br> - Total (+new) <br> - <i>Per100k (+new)</i>'
+df[pretty_cols['deaths']] =(df.apply(lambda r: f" \
+                         {r['Deaths.total']:,.0f} \
+                         (+<b>{r['Deaths.new']:,.0f}</b>) <br> \
+                         <i>{r['Deaths.total.per100k']:,.1f} \
+                         (+<b>{r['Deaths.new.per100k']:,.1f}</b></i>) \
+                         ", axis=1))
 
 df.sort_values('needICU.per100k.+14d', ascending=False)\
     [pretty_cols.values()]\
