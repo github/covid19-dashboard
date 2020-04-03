@@ -32,21 +32,19 @@ jobs:
         git add 2020-03-16-covid19_growth_bayes.ipynb
 
     - name: Create an issue if notebook update failure occurs
-      if: github.event_name == 'schedule' && steps.update_nb.outputs.error_bool == 'true'
+      if: failure()
       uses: actions/github-script@0.6.0
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-          var err = process.env.ERROR_STRING;
           var run_id = process.env.RUN_ID;
           github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: "Error updating notebooks",
-            body: `These are the notebooks that failed to update properly: \n${err}\n\n See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
+            body: `Long-running notebooks failed to update properly. See run [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}) for more details.`
           })
       env:
-        ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
         RUN_ID: ${{ github.run_id	 }}
 
     - name: save notebooks & images
