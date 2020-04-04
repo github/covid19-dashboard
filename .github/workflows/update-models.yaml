@@ -28,7 +28,7 @@ jobs:
     - name: update notebooks
       id: update_nb
       run: |
-        papermill --kernel python3 2020-03-16-covid19_growth_bayes.ipynb 2020-03-16-covid19_growth_bayes.ipynb
+        papermill --kernel python3 _notebooks/2020-03-16-covid19_growth_bayes.ipynb _notebooks/2020-03-16-covid19_growth_bayes.ipynb
         git add 2020-03-16-covid19_growth_bayes.ipynb
 
     - name: Create an issue if notebook update failure occurs
