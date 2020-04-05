@@ -8,7 +8,7 @@ Familiarity with [fastpages](https://github.com/fastai/fastpages) is helpful.  A
 
 You should preview your dashboard locally by following [the Development Guide](https://github.com/fastai/fastpages/blob/master/_fastpages_docs/DEVELOPMENT.md), before submitting a PR.
 
-# Guildelines For New Dashboards
+# Guidelines For New Dashboards
 
 - Your dashboard should not duplicate or present substantially the same information to what already exists in other dashboards.
 - Any technical information and notes should go in an appendix.
