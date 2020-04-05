@@ -19,7 +19,7 @@ See the [contributing guide](CONTRIBUTING.md).
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-27-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -61,6 +61,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.zinkov.com"><img src="https://avatars1.githubusercontent.com/u/8529?v=4" width="100px;" alt=""/><br /><sub><b>zaxtax</b></sub></a><br /><a href="#content-zaxtax" title="Content">🖋</a> <a href="#maintenance-zaxtax" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/paras-jain"><img src="https://avatars0.githubusercontent.com/u/57864667?v=4" width="100px;" alt=""/><br /><sub><b>Paras Jain</b></sub></a><br /><a href="#content-paras-jain" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/artdgn"><img src="https://avatars0.githubusercontent.com/u/29574203?v=4" width="100px;" alt=""/><br /><sub><b>Arthur Deygin</b></sub></a><br /><a href="#content-artdgn" title="Content">🖋</a></td>
+    <td align="center"><a href="https://github.com/kant"><img src="https://avatars1.githubusercontent.com/u/32717?v=4" width="100px;" alt=""/><br /><sub><b>Darío Hereñú</b></sub></a><br /><a href="#content-kant" title="Content">🖋</a></td>
   </tr>
 </table>
 
