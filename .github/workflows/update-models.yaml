@@ -21,7 +21,7 @@ jobs:
 
     - name: install dependencies
       run: |
-        pip3 install matplotlib pandas papermill ipykernel jupyter folium psutil pymc3 arviz xlrd altair altair_saver
+        pip3 install matplotlib pandas papermill ipykernel jupyter folium psutil pymc3 arviz xlrd altair altair_saver seaborn
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
 
