@@ -255,6 +255,15 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "danielpcox",
+      "name": "Daniel Cox",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/56411?v=4",
+      "profile": "http://danielpcox.info",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
