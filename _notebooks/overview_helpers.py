@@ -1,6 +1,7 @@
 import os
 from urllib import request
 
+import numpy as np
 import pandas as pd
 
 data_folder = (os.path.join(os.path.dirname(__file__), 'data_files')
@@ -14,11 +15,6 @@ class SourceData:
                                         .set_index('Country')['Name']),
                 'map.continent': dict(df_mappings.set_index('Name')['Continent'])
                 }
-
-    @classmethod
-    def get_overview_template(cls):
-        with open(os.path.join(data_folder, 'overview.tpl')) as f:
-            return f.read()
 
     @classmethod
     def get_covid_dataframe(cls, name):
@@ -40,67 +36,6 @@ class SourceData:
                 LAST_DATE_I = i
                 break
         return LAST_DATE_I, dt_cols
-
-
-class OverviewData:
-    COL_REGION = 'Country/Region'
-    ABS_COLS = ['Cases', 'Deaths', 'Cases (+)', 'Deaths (+)']
-
-    dft_cases = SourceData.get_covid_dataframe('confirmed')
-    dft_deaths = SourceData.get_covid_dataframe('deaths')
-    dft_recovered = SourceData.get_covid_dataframe('recovered')
-    LAST_DATE_I, dt_cols = SourceData.get_dates(dft_cases)
-
-    dt_today = dt_cols[LAST_DATE_I]
-    dfc_cases = dft_cases.groupby(COL_REGION)[dt_today].sum()
-    dfc_deaths = dft_deaths.groupby(COL_REGION)[dt_today].sum()
-
-    PREV_LAG = 5
-    dt_lag = dt_cols[LAST_DATE_I - PREV_LAG]
-
-    @classmethod
-    def lagged_cases(cls, lag=PREV_LAG):
-        return cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
-
-    @classmethod
-    def lagged_deaths(cls, lag=PREV_LAG):
-        return cls.dft_deaths.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
-
-    @classmethod
-    def overview_table(cls):
-        df_table = (pd.DataFrame(dict(Cases=cls.dfc_cases,
-                                      Deaths=cls.dfc_deaths,
-                                      PCases=cls.lagged_cases(),
-                                      PDeaths=cls.lagged_deaths()))
-                    .sort_values(by=['Cases', 'Deaths'], ascending=[False, False])
-                    .reset_index())
-        df_table.rename(columns={'index': 'Country/Region'}, inplace=True)
-        for c in 'Cases, Deaths'.split(', '):
-            df_table[f'{c} (+)'] = (df_table[c] - df_table[f'P{c}']).clip(0)  # DATA BUG
-        df_table['Fatality Rate'] = (100 * df_table['Deaths'] / df_table['Cases']).round(1)
-        df_table['Continent'] = df_table['Country/Region'].map(SourceData.mappings['map.continent'])
-
-        # remove problematic
-        df_table = df_table[~df_table['Country/Region'].isin(['Cape Verde', 'Cruise Ship', 'Kosovo'])]
-        return df_table
-
-    @classmethod
-    def make_summary_dict(cls):
-        df_table = cls.overview_table()
-
-        metrics = cls.ABS_COLS
-        s_china = df_table[df_table['Country/Region'].eq('China')][metrics].sum().add_prefix('China ')
-        s_us = df_table[df_table['Country/Region'].eq('US')][metrics].sum().add_prefix('US ')
-        s_eu = df_table[df_table['Continent'].eq('Europe')][metrics].sum().add_prefix('EU ')
-        summary = {'updated': pd.to_datetime(cls.dt_today), 'since': pd.to_datetime(cls.dt_lag)}
-        summary = {**summary, **df_table[metrics].sum(), **s_china, **s_us, **s_eu}
-        return summary
-
-    @classmethod
-    def make_new_cases_arrays(cls, n_days=50):
-        dft_ct_cases = cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols].sum()
-        dft_ct_new_cases = dft_ct_cases.diff(axis=1).fillna(0).astype(int)
-        return dft_ct_new_cases.loc[:, cls.dt_cols[cls.LAST_DATE_I - n_days]:cls.dt_cols[cls.LAST_DATE_I]]
 
 
 class WordPopulation:
@@ -172,15 +107,74 @@ class HostpitalBeds(WordPopulation):
         df_clean.to_csv(cls.csv_path, index=None)
 
 
-class OverviewDataExtras(OverviewData):
-    ABS_COLS_MAP = {'Cases': 'Cases.total',
-                    'Deaths': 'Deaths.total',
-                    'Cases (+)': 'Cases.new',
-                    'Deaths (+)': 'Deaths.new'}
-    ABS_COLS_RENAMED = list(ABS_COLS_MAP.values())
-    PER_100K_COLS = [f'{c}.per100k' for c in ABS_COLS_RENAMED]
-    CASES_COLS = ABS_COLS_RENAMED[::2] + PER_100K_COLS[::2]
+class OverviewData:
+    COL_REGION = 'Country/Region'
+    ABS_COLS = ['Cases.total', 'Deaths.total', 'Cases.new', 'Deaths.new']
+
+    PER_100K_COLS = [f'{c}.per100k' for c in ABS_COLS]
+    CASES_COLS = ABS_COLS[::2] + PER_100K_COLS[::2]
     EST_COLS = [f'{c}.est' for c in CASES_COLS]
+
+    dft_cases = SourceData.get_covid_dataframe('confirmed')
+    dft_deaths = SourceData.get_covid_dataframe('deaths')
+    dft_recovered = SourceData.get_covid_dataframe('recovered')
+    LAST_DATE_I, dt_cols = SourceData.get_dates(dft_cases)
+
+    dt_today = dt_cols[LAST_DATE_I]
+    dfc_cases = dft_cases.groupby(COL_REGION)[dt_today].sum()
+    dfc_deaths = dft_deaths.groupby(COL_REGION)[dt_today].sum()
+
+    PREV_LAG = 5
+    dt_lag = dt_cols[LAST_DATE_I - PREV_LAG]
+
+    # modeling constants
+    ## testing bias
+    death_lag = 8
+    probable_unbiased_mortality_rate = 0.015  # Diamond Princess / Kuwait / South Korea
+    ## recovery estimation
+    recovery_lagged9_rate = 0.07
+    ## sir model
+    rec_rate_simple = 0.05
+    ## icu need estimation
+    ICU_ratio = 0.06
+    ## ICU spare capacity
+    # occupancy 66% for us:
+    #   https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19
+    # occupancy average 75% for OECD:
+    #   https://www.oecd-ilibrary.org/social-issues-migration-health/health-at-a-glance-2019_4dd50c09-en
+    icu_spare_capacity_ratio = 0.3
+
+    @classmethod
+    def lagged_cases(cls, lag=PREV_LAG):
+        return cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
+
+    @classmethod
+    def lagged_deaths(cls, lag=PREV_LAG):
+        return cls.dft_deaths.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
+
+    @classmethod
+    def overview_table(cls):
+        df_table = (pd.DataFrame({'Cases.total': cls.dfc_cases,
+                                  'Deaths.total': cls.dfc_deaths,
+                                  'Cases.total.prev': cls.lagged_cases(),
+                                  'Deaths.total.prev': cls.lagged_deaths()})
+                    .sort_values(by=['Cases.total', 'Deaths.total'], ascending=[False, False])
+                    .reset_index())
+        df_table.rename(columns={'index': 'Country/Region'}, inplace=True)
+        for c in cls.ABS_COLS[:2]:
+            df_table[c.replace('total', 'new')] = (df_table[c] - df_table[f'{c}.prev']).clip(0)  # DATA BUG
+        df_table['Fatality Rate'] = (100 * df_table['Deaths.total'] / df_table['Cases.total']).round(1)
+        df_table['Continent'] = df_table['Country/Region'].map(SourceData.mappings['map.continent'])
+
+        # remove problematic
+        df_table = df_table[~df_table['Country/Region'].isin(['Cape Verde', 'Cruise Ship', 'Kosovo'])]
+        return df_table
+
+    @classmethod
+    def make_new_cases_arrays(cls, n_days=50):
+        dft_ct_cases = cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols].sum()
+        dft_ct_new_cases = dft_ct_cases.diff(axis=1).fillna(0).astype(int)
+        return dft_ct_new_cases.loc[:, cls.dt_cols[cls.LAST_DATE_I - n_days]:cls.dt_cols[cls.LAST_DATE_I]]
 
     @classmethod
     def populations_df(cls):
@@ -207,8 +201,7 @@ class OverviewDataExtras(OverviewData):
     @classmethod
     def overview_table_with_per_100k(cls):
         df = (cls.overview_table()
-              .rename(columns=cls.ABS_COLS_MAP)
-              .drop(['PCases', 'PDeaths'], axis=1)
+              .drop(['Cases.total.prev', 'Deaths.total.prev'], axis=1)
               .set_index(cls.COL_REGION, drop=True)
               .sort_values('Cases.new', ascending=False))
         df['Fatality Rate'] /= 100
@@ -218,13 +211,13 @@ class OverviewDataExtras(OverviewData):
         df['population'] = df_pop['population']
         df.dropna(subset=['population'], inplace=True)
 
-        for col, per_100k_col in zip(cls.ABS_COLS_RENAMED, cls.PER_100K_COLS):
+        for col, per_100k_col in zip(cls.ABS_COLS, cls.PER_100K_COLS):
             df[per_100k_col] = df[col] * 1e5 / df['population']
 
         return df
 
     @classmethod
-    def table_with_estimated_cases(cls, death_lag=8):
+    def table_with_estimated_cases(cls):
         """
         Assumptions:
             - unbiased (if everyone is tested) mortality rate is
@@ -235,9 +228,9 @@ class OverviewDataExtras(OverviewData):
                 didn't change significantly during the last 8 days.
             - Recent new cases can be adjusted using the same testing_ratio bias.
         """
-        probable_unbiased_mortality_rate = 0.015  # Diamond Princess / Kuwait / South Korea
-        lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(death_lag) + 1)
-        testing_bias = lagged_mortality_rate / probable_unbiased_mortality_rate
+
+        lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(cls.death_lag) + 1)
+        testing_bias = lagged_mortality_rate / cls.probable_unbiased_mortality_rate
         testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
@@ -256,16 +249,21 @@ class OverviewDataExtras(OverviewData):
 
         diffs = cls.dft_cases.groupby(cls.COL_REGION).sum().diff(axis=1)[recent_dates]
 
-        # dates with larger number of cases have higher sampling accuracy
-        # so their measurement deserve more confidence
-        sampling_weights = (cases.T / cases.sum(axis=1).T).T
+        cases, diffs = cases.T, diffs.T  # broadcasting works correctly this way
 
         # daily rate is new / (total - new)
         daily_growth_rates = cases / (cases - diffs)
 
-        weighted_growth_rate = (daily_growth_rates * sampling_weights).sum(axis=1)
+        # dates with larger number of cases have higher sampling accuracy
+        # so their measurement deserve more confidence
+        sampling_weights = (cases / cases.sum(0))
 
-        return weighted_growth_rate
+        weighted_mean = (daily_growth_rates * sampling_weights).sum(0)
+
+        weighted_std = ((daily_growth_rates - weighted_mean).pow(2) *
+                        sampling_weights).sum(0).pow(0.5)
+
+        return weighted_mean, weighted_std
 
     @classmethod
     def table_with_icu_capacities(cls):
@@ -275,39 +273,34 @@ class OverviewDataExtras(OverviewData):
 
         df['icu_capacity_per100k'] = df_beds['icu_per_100k']
 
-        # occupancy 66% for us:
-        #   https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19
-        # occupancy average 75% for OECD:
-        #   https://www.oecd-ilibrary.org/social-issues-migration-health/health-at-a-glance-2019_4dd50c09-en
-        df['icu_spare_capacity_per100k'] = df['icu_capacity_per100k'] * 0.3
+        df['icu_spare_capacity_per100k'] = df['icu_capacity_per100k'] * cls.icu_spare_capacity_ratio
         return df
 
     @classmethod
-    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), plot_countries=()):
+    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_countries=()):
         df = cls.table_with_icu_capacities()
 
         df['affected_ratio'] = df['Cases.total'] / df['population']
 
-        past_recovered, past_active, simulation_start_day = (
-            cls._calculate_recovered_and_active_until_now(df))
+        past_active, past_recovered = cls._calculate_recovered_and_active_until_now(df)
 
-        df, past_recovered, past_active = cls._run_SIR_model_forward(
+        df, traces = cls._run_model_forward(
             df,
-            past_recovered=past_recovered,
-            past_active=past_active,
+            past_active=past_active.copy(),
+            past_recovered=past_recovered.copy(),
             projection_days=projection_days)
 
-        if len(plot_countries):
-            cls._plot_SIR_for_countries(plot_countries=plot_countries,
-                                        past_recovered=past_recovered,
-                                        past_active=past_active,
-                                        simulation_start_day=simulation_start_day,
-                                        growth_rate=df['growth_rate'])
+        if len(debug_countries):
+            debug_dfs = cls._SIR_timeseries_for_countries(
+                debug_countries=debug_countries,
+                traces=traces,
+                simulation_start_day=len(past_recovered) - 1,
+                growth_rate=df['growth_rate'])
+            return df, debug_dfs
         return df
 
-
     @classmethod
-    def _calculate_recovered_and_active_until_now(cls, df, recovery_lagged9_rate=0.07):
+    def _calculate_recovered_and_active_until_now(cls, df):
         # estimated daily cases ratio of population
         lagged_cases_ratios = (cls.dft_cases.groupby(cls.COL_REGION).sum()[cls.dt_cols].T *
                                df['testing_bias'].T / df['population'].T).T
@@ -316,88 +309,149 @@ class OverviewDataExtras(OverviewData):
 
         # run through history and estimate recovered and active using:
         # https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases
-        recs, actives = [], []
+        actives, recs = [], []
         zeros_series = lagged_cases_ratios[cls.dt_cols[0]] * 0  # this is to have consistent types
-        day = 0
         for day in range(len(cls.dt_cols)):
             prev_rec = recs[day - 1] if day > 0 else zeros_series
             tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 8 else zeros_series
-            recs.append(prev_rec + (tot_lagged_9 - prev_rec) * recovery_lagged9_rate)
+            recs.append(prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate)
             actives.append(lagged_cases_ratios[cls.dt_cols[day]] - recs[day])
 
-        return recs, actives, day
+        return actives, recs
 
     @classmethod
-    def _run_SIR_model_forward(cls,
-                               df,
-                               past_recovered,
-                               past_active,
-                               projection_days,
-                               recovery_lagged9_rate=0.07):
+    def _run_model_forward(cls,
+                           df,
+                           past_active,
+                           past_recovered,
+                           projection_days,
+                           ):
 
-        cur_growth_rate = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
+        cur_growth_rate, growsth_rate_std = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
         df['growth_rate'] = (cur_growth_rate - 1)
+        df['growth_rate_std'] = growsth_rate_std
 
-        cur_recovery_rate = (past_recovered[-1] - past_recovered[-2]) / past_active[-1]
-        infect_rate = cur_growth_rate - 1 + cur_recovery_rate
+        sus, act, rec = cls.run_sir_mode(
+            past_recovered, past_active, cur_growth_rate, n_days=projection_days[-1])
 
-        ICU_ratio = 0.06
-        rec_rate_simple = 0.05
+        # sample more growth rates
+        sus_lists = [[s] for s in sus]
+        act_lists = [[a] for a in act]
+        rec_lists = [[r] for r in rec]
+
+        for ratio in np.linspace(-1, 1, 10):
+            pert_growth = cur_growth_rate + ratio * growsth_rate_std
+            pert_growth[pert_growth < 0] = 0
+            sus_other, act_other, rec_other = cls.run_sir_mode(
+                past_recovered, past_active, pert_growth, n_days=projection_days[-1])
+            for s_list, s in zip(sus_lists, sus_other):
+                s_list.append(s)
+            for a_list, a in zip(act_lists, act_other):
+                a_list.append(a)
+            for r_list, r in zip(rec_lists, rec_other):
+                r_list.append(r)
+
+        def list_to_max_min(l):
+            concated = [pd.concat(sub_l, axis=1) for sub_l in l]
+            max_list, min_list = zip(*[(d.max(1), d.min(1)) for d in concated])
+            return max_list, min_list
+
+        sus_max, sus_min = list_to_max_min(sus_lists)
+        act_max, act_min = list_to_max_min(act_lists)
+        rec_max, rec_min = list_to_max_min(rec_lists)
+
+        day_one = len(past_recovered)
+        for day in [1] + list(projection_days):
+            ind = day_one + day - 1
+            suffix = f'.+{day}d' if day > 1 else ''
+            icu_max = df['population'] * cls.ICU_ratio / 1e5
+            df[f'needICU.per100k{suffix}'] = act[ind] * icu_max
+            df[f'needICU.per100k{suffix}.max'] = act_max[ind] * icu_max
+            df[f'needICU.per100k{suffix}.min'] = act_min[ind] * icu_max
+            df[f'needICU.per100k{suffix}.err'] = (act_max[ind] - act_min[ind]) * icu_max / 2
+
+            df[f'affected_ratio.est{suffix}'] = 1 - sus[ind]
+            df[f'affected_ratio.est{suffix}.max'] = 1 - sus_min[ind]
+            df[f'affected_ratio.est{suffix}.min'] = 1 - sus_max[ind]
+            df[f'affected_ratio.est{suffix}.err'] = (sus_max[ind] - sus_min[ind]) / 2
+
+        traces = {
+            'sus_center': sus, 'sus_max': sus_max, 'sus_min': sus_min,
+            'act_center': act, 'act_max': act_max, 'act_min': act_min,
+            'rec_center': rec, 'rec_max': rec_max, 'rec_min': rec_min,
+        }
+
+        return df, traces
+
+    @classmethod
+    def run_sir_mode(cls, past_rec, past_act, growth, n_days):
+
+        rec, act = past_rec.copy(), past_act.copy()
+
+        cur_recovery_rate = (rec[-1] - rec[-2]) / act[-1]
+
+        infect_rate = growth - 1 + cur_recovery_rate
 
         # simulate
-        df['peak_icu_neek_per100k'] = 0
-        for day in range(1, projection_days[-1] + 1):
+        for i in range(n_days):
             # calculate susceptible
-            sus = 1 - past_recovered[-1] - past_active[-1]
+            sus = 1 - rec[-1] - act[-1]
 
             # calculate new recovered
-            actives_lagged_9 = past_active[-9]
-            delta_rec = actives_lagged_9 * recovery_lagged9_rate
-            delta_rec_simple = past_active[-1] * rec_rate_simple
+            actives_lagged_9 = act[-9]
+            delta_rec = actives_lagged_9 * cls.recovery_lagged9_rate
+            delta_rec_simple = act[-1] * cls.rec_rate_simple
             # limit recovery rate to simple SIR model where
             # lagged rate estimation becomes too high (on the downward slopes)
             delta_rec[delta_rec > delta_rec_simple] = delta_rec_simple[delta_rec > delta_rec_simple]
-            new_recovered = past_recovered[-1] + delta_rec
+            new_recovered = rec[-1] + delta_rec
 
             # calculate new active
-            delta_infect = past_active[-1] * sus * infect_rate
-            new_active = past_active[-1] + delta_infect - delta_rec
+            delta_infect = act[-1] * sus * infect_rate
+            new_active = act[-1] + delta_infect - delta_rec
             new_active[new_active < 0] = 0
 
             # update
-            past_recovered.append(new_recovered)
-            past_active.append(new_active)
+            rec.append(new_recovered)
+            act.append(new_active)
 
-            icu_need = past_active[-1] * df['population'] * ICU_ratio / 1e5
+        sus = [1 - r - a for r, a in zip(rec, act)]
 
-            df['peak_icu_neek_per100k'] = pd.concat([df['peak_icu_neek_per100k'],
-                                                     icu_need], axis=1).max(axis=1)
-            if day == 1 or day in projection_days:
-                suffix = f'.+{day}d' if day > 1 else ''
-                df[f'needICU.per100k{suffix}'] = icu_need
-                df[f'affected_ratio.est{suffix}'] = 1 - sus
-
-        return df, past_recovered, past_active
+        return sus, act, rec
 
     @classmethod
-    def _plot_SIR_for_countries(cls, plot_countries, past_recovered,
-                                past_active, simulation_start_day, growth_rate):
-        for debug_country in plot_countries:
+    def _SIR_timeseries_for_countries(cls, debug_countries, traces,
+                                      simulation_start_day, growth_rate):
+        dfs = []
+        for debug_country in debug_countries:
             debug = [{'day': day - simulation_start_day,
-                      'Susceptible': (1 - a - r)[debug_country],
-                      'Infected': a[debug_country],
-                      'Removed': r[debug_country]}
-                     for day, (r, a) in enumerate(zip(past_recovered, past_active))
+                      'Susceptible': traces['sus_center'][day][debug_country],
+                      'Susceptible.max': traces['sus_max'][day][debug_country],
+                      'Susceptible.min': traces['sus_min'][day][debug_country],
+                      'Infected': traces['act_center'][day][debug_country],
+                      'Infected.max': traces['act_max'][day][debug_country],
+                      'Infected.min': traces['act_min'][day][debug_country],
+                      'Removed': traces['rec_center'][day][debug_country],
+                      'Removed.max': traces['rec_max'][day][debug_country],
+                      'Removed.min': traces['rec_min'][day][debug_country],
+                      }
+                     for day in range(len(traces['rec_center']))
                      if day > simulation_start_day]
 
             title = (f"{debug_country}: "
                      f"Growth Rate: {growth_rate[debug_country]:.0%}. "
                      f"S/I/R init: {debug[0]['Susceptible']:.1%},"
                      f"{debug[0]['Infected']:.1%},{debug[0]['Removed']:.1%}")
-            pd.DataFrame(debug).set_index('day').plot(title=title)
+            df = pd.DataFrame(debug).set_index('day')
+            df['title'] = title
+            df['country'] = debug_country
+            dfs.append(df)
+        return dfs
 
     @classmethod
     def filter_df(cls, df):
+        df = df.rename(index={'Bosnia and Herzegovina': 'Bosnia',
+                              'United Arab Emirates': 'UAE'})
         return df[df['Deaths.total'] > 10][df.columns.sort_values()]
 
 
@@ -408,19 +462,68 @@ def pandas_console_options():
     pd.set_option('display.width', 1000)
 
 
-def overview_html():
-    template_text = SourceData.get_overview_template()
+def altair_sir_plot(df, default_country):
+    import altair as alt
 
-    import numpy as np
-    import pandas as pd
-    from jinja2 import Template
-    from IPython.display import HTML
+    alt.data_transformers.disable_max_rows()
 
-    helper = OverviewData
-    template = Template(template_text)
-    html = template.render(
-        D=helper.make_summary_dict(),
-        table=helper.overview_table(),
-        newcases=helper.make_new_cases_arrays(),
-        np=np, pd=pd, enumerate=enumerate)
-    return HTML(f'<div>{html}</div>')
+    select_country = alt.selection_single(
+        name='Select',
+        fields=['country'],
+        init={'country': default_country},
+        bind=alt.binding_select(options=sorted(df['country'].unique()))
+    )
+
+    title = (alt.Chart(df[['country', 'title']].drop_duplicates())
+             .mark_text(dy=-180, dx=0, size=16)
+             .encode(text='title:N')
+             .transform_filter(select_country))
+
+    base = alt.Chart(df).encode(x='day:Q')
+
+    line_cols = ['Infected', 'Susceptible', 'Removed']
+    colors = ['red', 'blue', 'green']
+    lines = (base.mark_line()
+             .transform_fold(line_cols)
+             .encode(x='day:Q',
+                     y=alt.Y('value:Q',
+                             axis=alt.Axis(format='%', title='Percentage of Population')),
+                     color=alt.Color('key:N',
+                                     scale=alt.Scale(domain=line_cols, range=colors))))
+
+    import functools
+    bands = functools.reduce(alt.Chart.__add__,
+                             [base.mark_area(opacity=0.1, color=color)
+                             .encode(y=f'{col}\.max:Q', y2=f'{col}\.min:Q')
+                              for col, color in zip(line_cols, colors)])
+
+    return ((lines + bands + title)
+            .add_selection(select_country)
+            .transform_filter(select_country)
+            .configure_title(fontSize=20)
+            .configure_axis(labelFontSize=15, titleFontSize=18, grid=True)
+            .properties(width=550, height=340))
+
+
+class PandasStyling:
+    @staticmethod
+    def add_bar(s_t, s_v, color):
+        s_v = s_v.copy()
+        s_v[s_v > 1] = 1
+        s_v[s_v < 0] = 0
+        return [f'background: linear-gradient(90deg, {color} {v:.0%}, transparent {v:.0%})'
+                for t, v in zip(s_t, s_v)]
+
+    @staticmethod
+    def with_errs_float(df, val_col, err_col):
+        s = df.apply(lambda r: f"<b>{r[val_col]:.1f}</b>  \
+            ± <font size=1><i>{r[err_col]:.1f}</i></font>", axis=1)
+        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        return s
+
+    @staticmethod
+    def with_errs_ratio(df, val_col, err_col):
+        s = df.apply(lambda r: f"<b>{r[val_col]:.1%}</b>  \
+            ± <font size=1><i>{r[err_col]:.1%}</i></font>", axis=1)
+        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        return s
