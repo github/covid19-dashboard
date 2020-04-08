@@ -136,7 +136,9 @@ class OverviewData:
     ## sir model
     rec_rate_simple = 0.05
     ## icu need estimation
-    ICU_ratio = 0.06
+    ## https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+    ## 4.4% serious symptomatic cases
+    ICU_ratio = 0.044
     ## ICU spare capacity
     # occupancy 66% for us:
     #   https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19
@@ -364,7 +366,7 @@ class OverviewData:
         for day in [1] + list(projection_days):
             ind = day_one + day - 1
             suffix = f'.+{day}d' if day > 1 else ''
-            icu_max = df['population'] * cls.ICU_ratio / 1e5
+            icu_max = cls.ICU_ratio * 1e5 / df['testing_bias']
             df[f'needICU.per100k{suffix}'] = act[ind] * icu_max
             df[f'needICU.per100k{suffix}.max'] = act_max[ind] * icu_max
             df[f'needICU.per100k{suffix}.min'] = act_min[ind] * icu_max
@@ -452,7 +454,7 @@ class OverviewData:
     def filter_df(cls, df):
         df = df.rename(index={'Bosnia and Herzegovina': 'Bosnia',
                               'United Arab Emirates': 'UAE'})
-        return df[df['Deaths.total'] > 10][df.columns.sort_values()]
+        return df[(df['Deaths.total'] > 10) & (df['population'] > 1e6)][df.columns.sort_values()]
 
 
 def pandas_console_options():
