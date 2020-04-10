@@ -13,6 +13,7 @@ This website contains visualizations and analysis built from data sources that a
 
 ## Data Sources
 
+- [COVID-19 related public projects on GitHub](https://github.com/github/covid-19-repo-data): A comprehensive versioned dataset of the repositories and relevant related metadata about public projects hosted on GitHub related to the 2019 Novel Coronavirus and associated COVID-19 disease.
 - The CDC’s [page on the Coronavirus](https://www.cdc.gov/coronavirus/2019-ncov/index.html).
 - [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19): Powers many of the visualizations on this site. This data must be used with care as there are [known issues](https://github.com/CSSEGISandData/COVID-19/issues). This aggregates 14+ data sources from around the world.
 - [covidtracking.com](https://covidtracking.com/): Provides an API for detailed data concerning the United States. Includes positive and negative results, pending tests, and total people tested for each state or district currently reporting that data.
@@ -21,6 +22,7 @@ This website contains visualizations and analysis built from data sources that a
 - [Folding@Home Dataset](https://github.com/FoldingAtHome/coronavirus):  A dataset that can assist researchers simulating potentially druggable protein targets.
 - [Temporal variation in transmission dataset](https://github.com/cmmid/CovidGlobalNow): data that can be used to identify changes in the reproduction number, rate of spread, and doubling time during the course of the COVID-19 outbreak whilst accounting for potential biases due to delays in case reporting.
 - [New York Times Dataset](https://github.com/nytimes/covid-19-data): Contains state-level and county-level data based on reports from state and local health agencies. Certain geographical exceptions are present which are mentioned therewith.
+- [Models of Infectious Disease Agent Study (MIDAS) Network](https://github.com/midas-network/COVID-19) has listed  computable information (in CSV format) relevant for modeling of the COVID-19 outbreak.
 
 ## Articles
 

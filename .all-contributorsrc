@@ -225,7 +225,8 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/8529?v=4",
       "profile": "https://www.zinkov.com",
       "contributions": [
-        "content"
+        "content",
+        "maintenance"
       ]
     },
     {
@@ -233,6 +234,33 @@
       "name": "Paras Jain",
       "avatar_url": "https://avatars0.githubusercontent.com/u/57864667?v=4",
       "profile": "https://github.com/paras-jain",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "artdgn",
+      "name": "Arthur Deygin",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/29574203?v=4",
+      "profile": "https://github.com/artdgn",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "kant",
+      "name": "Darío Hereñú",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/32717?v=4",
+      "profile": "https://github.com/kant",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "danielpcox",
+      "name": "Daniel Cox",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/56411?v=4",
+      "profile": "http://danielpcox.info",
       "contributions": [
         "content"
       ]
