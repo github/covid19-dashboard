@@ -5,7 +5,8 @@ on:
 
 jobs:
   update-long-running-notebooks:
-    if: (github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')) && github.repository == 'github/covid19-dashboard'
+    if: 1 == 2 # turn this off for now
+    # if: (github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')) && github.repository == 'github/covid19-dashboard'
     runs-on: ubuntu-latest
     steps:
 
