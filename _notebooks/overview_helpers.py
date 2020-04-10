@@ -390,9 +390,7 @@ class OverviewData:
 
         rec, act = past_rec.copy(), past_act.copy()
 
-        cur_recovery_rate = (rec[-1] - rec[-2]) / act[-1]
-
-        infect_rate = growth - 1 + cur_recovery_rate
+        infect_rate = growth - 1
 
         # simulate
         for i in range(n_days):
@@ -520,12 +518,12 @@ class PandasStyling:
     def with_errs_float(df, val_col, err_col):
         s = df.apply(lambda r: f"<b>{r[val_col]:.1f}</b>  \
             ± <font size=1><i>{r[err_col]:.1f}</i></font>", axis=1)
-        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        s[2 * df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
         return s
 
     @staticmethod
     def with_errs_ratio(df, val_col, err_col):
         s = df.apply(lambda r: f"<b>{r[val_col]:.1%}</b>  \
             ± <font size=1><i>{r[err_col]:.1%}</i></font>", axis=1)
-        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        s[2 * df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
         return s
