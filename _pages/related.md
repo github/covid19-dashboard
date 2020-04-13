@@ -45,3 +45,4 @@ This website contains visualizations and analysis built from data sources that a
 - [A collection of Open Source COVID-19 projects](http://open-source-covid-19.weileizeng.com/). Is a collection of resources on open source, data, analysis, dashboards and maps.
 - [corona-cli](https://github.com/AhmadAwais/corona-cli):  🦠 Track the Coronavirus disease (COVID-19) or the Novel Coronavirus Strain in the command line. Both worldwide for all countries, for one country, or for the US States. Fast response time (< 100ms).
 - [Genomic Epidemiology](https://nextstrain.org/ncov) of novel coronavirus with visual depiction of genomes sampled between Dec 2019-present.
+- [COVID-19 World Monitor](https://thlaegler.github.io/covid-19-monitor): Dashboard combining latest COVID-19 Data with critical/acute Care Capacities, Testing Data and SEIR-Simulation
