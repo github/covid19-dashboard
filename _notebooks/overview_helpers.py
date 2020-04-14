@@ -130,7 +130,8 @@ class OverviewData:
     # modeling constants
     ## testing bias
     death_lag = 8
-    probable_unbiased_mortality_rate = 0.015  # Diamond Princess / Kuwait / South Korea
+    # https://cmmid.github.io/topics/covid19/severity/diamond_cruise_cfr_estimates.html
+    probable_unbiased_mortality_rate = 0.023  # Diamond Princess
     ## recovery estimation
     recovery_lagged9_rate = 0.07
     ## sir model
@@ -236,6 +237,7 @@ class OverviewData:
         testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
+        df['lagged_fatality_rate'] = lagged_mortality_rate
         df['testing_bias'] = testing_bias
 
         for col, est_col in zip(cls.CASES_COLS, cls.EST_COLS):
@@ -279,7 +281,7 @@ class OverviewData:
         return df
 
     @classmethod
-    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_countries=()):
+    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_dfs=False):
         df = cls.table_with_icu_capacities()
 
         df['affected_ratio'] = df['Cases.total'] / df['population']
@@ -292,9 +294,9 @@ class OverviewData:
             past_recovered=past_recovered.copy(),
             projection_days=projection_days)
 
-        if len(debug_countries):
+        if debug_dfs:
             debug_dfs = cls._SIR_timeseries_for_countries(
-                debug_countries=debug_countries,
+                debug_countries=df.index,
                 traces=traces,
                 simulation_start_day=len(past_recovered) - 1,
                 growth_rate=df['growth_rate'])
