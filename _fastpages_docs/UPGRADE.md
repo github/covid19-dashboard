@@ -48,7 +48,7 @@ There are two ways to upgrade fastpages.  One is an automated way that assumes y
 
 ### Step 4: Review & Merge PR
 
-- Ensure that you read the instructions in the PR carefully.  Furthermore, carefully review which files will be changed to determine if this interferes with any customizations you have mades to your site.  When ready, select `Merge pull request`.  
+- Ensure that you read the instructions in the PR carefully.  Furthermore, carefully review which files will be changed to determine if this interferes with any customizations you have made to your site.  When ready, select `Merge pull request`.  
 - If the PR is making undesired changes to files you can use the manual upgrade approach instead.
 
 ## Manual Upgrade
