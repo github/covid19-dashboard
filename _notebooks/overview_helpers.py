@@ -318,8 +318,10 @@ class OverviewData:
         for day in range(len(cls.dt_cols)):
             prev_rec = recs[day - 1] if day > 0 else zeros_series
             tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 8 else zeros_series
-            recs.append(prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate)
-            actives.append(lagged_cases_ratios[cls.dt_cols[day]] - recs[day])
+            new_recs = prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate
+            new_recs[new_recs > 1] = 1
+            recs.append(new_recs)
+            actives.append(lagged_cases_ratios[cls.dt_cols[day]] - new_recs)
 
         return actives, recs
 
@@ -334,6 +336,8 @@ class OverviewData:
         cur_growth_rate, growsth_rate_std = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
         df['growth_rate'] = (cur_growth_rate - 1)
         df['growth_rate_std'] = growsth_rate_std
+        df['infection_rate'] = cls._growth_to_infection_rate(
+            growth=cur_growth_rate, rec=past_recovered, act=past_active)
 
         sus, act, rec = cls.run_sir_mode(
             past_recovered, past_active, cur_growth_rate, n_days=projection_days[-1])
@@ -388,11 +392,22 @@ class OverviewData:
         return df, traces
 
     @classmethod
-    def run_sir_mode(cls, past_rec, past_act, growth, n_days):
+    def _growth_to_infection_rate(cls, growth, rec, act):
+        daily_delta = growth - 1
+        tot = rec[-1] + act[-1]
+        active = act[-1]
+        # Explanation of the formula below:
+        #   daily delta = delta total / total
+        #   daily delta = new-infected / total
+        #   daily_delta = infect_rate * active * (1 - tot) / tot, so solving for infect_rate:
+        infect_rate = (daily_delta * tot) / ((1 - tot) * active)
+        return infect_rate
 
+    @classmethod
+    def run_sir_mode(cls, past_rec, past_act, growth, n_days):
         rec, act = past_rec.copy(), past_act.copy()
 
-        infect_rate = growth - 1
+        infect_rate = cls._growth_to_infection_rate(growth, rec, act)
 
         # simulate
         for i in range(n_days):
