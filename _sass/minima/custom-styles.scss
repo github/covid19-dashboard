@@ -20,3 +20,8 @@ li {
   width: 23px;
   height: 23px;
 }
+
+// Handling large charts on mobile devices
+.output_wrapper{
+  overflow: scroll;
+}
