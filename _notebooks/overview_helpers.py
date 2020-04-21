@@ -41,6 +41,7 @@ class SourceData:
 class WordPopulation:
     csv_path = os.path.join(data_folder, 'world_population.csv')
     page = 'https://www.worldometers.info/world-population/population-by-country/'
+    # alternative https://en.wikipedia.org/wiki/List_of_countries_by_population_%28United_Nations%29 table 5
 
     @classmethod
     def scrape(cls):
@@ -130,8 +131,10 @@ class OverviewData:
     # modeling constants
     ## testing bias
     death_lag = 8
-    # https://cmmid.github.io/topics/covid19/severity/diamond_cruise_cfr_estimates.html
-    probable_unbiased_mortality_rate = 0.023  # Diamond Princess
+    # additional updated data with discussions about CFRs:
+    # https://www.cebm.net/covid-19/global-covid-19-case-fatality-rates/
+    cfr_lower_bound = 0.0072
+
     ## recovery estimation
     recovery_lagged9_rate = 0.07
     ## sir model
@@ -233,7 +236,7 @@ class OverviewData:
         """
 
         lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(cls.death_lag) + 1)
-        testing_bias = lagged_mortality_rate / cls.probable_unbiased_mortality_rate
+        testing_bias = lagged_mortality_rate / cls.cfr_lower_bound
         testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
