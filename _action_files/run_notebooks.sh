@@ -11,8 +11,6 @@ do
         echo "Skipping ${file}"
     elif papermill --kernel python3 "${file}" "${file}"; then
         echo "Sucessfully refreshed ${file}\n\n\n\n"
-        # We don't need to add the updated notebooks to the commit history - casuses uncessary churn for contributors 
-        # git add "${file}"
     else
         echo "ERROR Refreshing ${file}"
         ERRORS="${ERRORS}, ${file}"
