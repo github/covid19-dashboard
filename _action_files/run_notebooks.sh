@@ -11,7 +11,6 @@ do
         echo "Skipping ${file}"
     elif papermill --kernel python3 "${file}" "${file}"; then
         echo "Sucessfully refreshed ${file}\n\n\n\n"
-        git add "${file}"
     else
         echo "ERROR Refreshing ${file}"
         ERRORS="${ERRORS}, ${file}"
