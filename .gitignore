@@ -13,3 +13,5 @@ _notebooks/.ipynb_checkpoints
 __pycache__
 .DS_Store
 _posts/*.md
+_notebooks/git-key-pair
+_notebooks/git-key-pair.pub
