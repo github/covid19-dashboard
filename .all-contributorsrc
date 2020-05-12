@@ -300,6 +300,33 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "alonsosilvaallende",
+      "name": "Alonso Silva Allende",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/30263736?v=4",
+      "profile": "http://www.dim.uchile.cl/~alsilva/",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "anomal",
+      "name": "Sophiah (Zing-Ming)",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1459721?v=4",
+      "profile": "https://github.com/anomal",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "arungupta21",
+      "name": "Arun Gupta",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7274372?v=4",
+      "profile": "https://github.com/arungupta21",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
