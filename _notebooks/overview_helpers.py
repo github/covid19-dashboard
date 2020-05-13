@@ -41,6 +41,7 @@ class SourceData:
 class WordPopulation:
     csv_path = os.path.join(data_folder, 'world_population.csv')
     page = 'https://www.worldometers.info/world-population/population-by-country/'
+    # alternative https://en.wikipedia.org/wiki/List_of_countries_by_population_%28United_Nations%29 table 5
 
     @classmethod
     def scrape(cls):
@@ -130,7 +131,10 @@ class OverviewData:
     # modeling constants
     ## testing bias
     death_lag = 8
-    probable_unbiased_mortality_rate = 0.015  # Diamond Princess / Kuwait / South Korea
+    # additional updated data with discussions about CFRs:
+    # https://www.cebm.net/covid-19/global-covid-19-case-fatality-rates/
+    cfr_lower_bound = 0.0072
+
     ## recovery estimation
     recovery_lagged9_rate = 0.07
     ## sir model
@@ -232,10 +236,11 @@ class OverviewData:
         """
 
         lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(cls.death_lag) + 1)
-        testing_bias = lagged_mortality_rate / cls.probable_unbiased_mortality_rate
+        testing_bias = lagged_mortality_rate / cls.cfr_lower_bound
         testing_bias[testing_bias < 1] = 1
 
         df = cls.overview_table_with_per_100k()
+        df['lagged_fatality_rate'] = lagged_mortality_rate
         df['testing_bias'] = testing_bias
 
         for col, est_col in zip(cls.CASES_COLS, cls.EST_COLS):
@@ -279,7 +284,7 @@ class OverviewData:
         return df
 
     @classmethod
-    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_countries=()):
+    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_dfs=False):
         df = cls.table_with_icu_capacities()
 
         df['affected_ratio'] = df['Cases.total'] / df['population']
@@ -292,9 +297,9 @@ class OverviewData:
             past_recovered=past_recovered.copy(),
             projection_days=projection_days)
 
-        if len(debug_countries):
+        if debug_dfs:
             debug_dfs = cls._SIR_timeseries_for_countries(
-                debug_countries=debug_countries,
+                debug_countries=df.index,
                 traces=traces,
                 simulation_start_day=len(past_recovered) - 1,
                 growth_rate=df['growth_rate'])
@@ -316,8 +321,10 @@ class OverviewData:
         for day in range(len(cls.dt_cols)):
             prev_rec = recs[day - 1] if day > 0 else zeros_series
             tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 8 else zeros_series
-            recs.append(prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate)
-            actives.append(lagged_cases_ratios[cls.dt_cols[day]] - recs[day])
+            new_recs = prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate
+            new_recs[new_recs > 1] = 1
+            recs.append(new_recs)
+            actives.append(lagged_cases_ratios[cls.dt_cols[day]] - new_recs)
 
         return actives, recs
 
@@ -332,6 +339,8 @@ class OverviewData:
         cur_growth_rate, growsth_rate_std = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
         df['growth_rate'] = (cur_growth_rate - 1)
         df['growth_rate_std'] = growsth_rate_std
+        df['infection_rate'] = cls._growth_to_infection_rate(
+            growth=cur_growth_rate, rec=past_recovered, act=past_active)
 
         sus, act, rec = cls.run_sir_mode(
             past_recovered, past_active, cur_growth_rate, n_days=projection_days[-1])
@@ -386,13 +395,22 @@ class OverviewData:
         return df, traces
 
     @classmethod
-    def run_sir_mode(cls, past_rec, past_act, growth, n_days):
+    def _growth_to_infection_rate(cls, growth, rec, act):
+        daily_delta = growth - 1
+        tot = rec[-1] + act[-1]
+        active = act[-1]
+        # Explanation of the formula below:
+        #   daily delta = delta total / total
+        #   daily delta = new-infected / total
+        #   daily_delta = infect_rate * active * (1 - tot) / tot, so solving for infect_rate:
+        infect_rate = (daily_delta * tot) / ((1 - tot) * active)
+        return infect_rate
 
+    @classmethod
+    def run_sir_mode(cls, past_rec, past_act, growth, n_days):
         rec, act = past_rec.copy(), past_act.copy()
 
-        cur_recovery_rate = (rec[-1] - rec[-2]) / act[-1]
-
-        infect_rate = growth - 1 + cur_recovery_rate
+        infect_rate = cls._growth_to_infection_rate(growth, rec, act)
 
         # simulate
         for i in range(n_days):
@@ -451,10 +469,12 @@ class OverviewData:
         return dfs
 
     @classmethod
-    def filter_df(cls, df):
+    def filter_df(cls, df, cases_filter=1000, deaths_filter=20, population_filter=3e5):
         df = df.rename(index={'Bosnia and Herzegovina': 'Bosnia',
                               'United Arab Emirates': 'UAE'})
-        return df[(df['Deaths.total'] > 10) & (df['population'] > 1e6)][df.columns.sort_values()]
+        return df[((df['Cases.total'] > cases_filter) |
+                   (df['Deaths.total'] > deaths_filter)) &
+                  (df['population'] > population_filter)][df.columns.sort_values()]
 
 
 def pandas_console_options():
@@ -520,12 +540,144 @@ class PandasStyling:
     def with_errs_float(df, val_col, err_col):
         s = df.apply(lambda r: f"<b>{r[val_col]:.1f}</b>  \
             ± <font size=1><i>{r[err_col]:.1f}</i></font>", axis=1)
-        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        s[2 * df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
         return s
 
     @staticmethod
     def with_errs_ratio(df, val_col, err_col):
         s = df.apply(lambda r: f"<b>{r[val_col]:.1%}</b>  \
             ± <font size=1><i>{r[err_col]:.1%}</i></font>", axis=1)
-        s[df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
+        s[2 * df[err_col] > df[val_col]] = '<font size=1><i>noisy data</i></font>'
         return s
+
+
+class GeoMap:
+
+    @classmethod
+    def get_world_geo_df(cls):
+        import geopandas
+
+        shapefile = 'data_files/110m_countries/ne_110m_admin_0_countries.shp'
+
+        world = geopandas.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
+        world.columns = ['country', 'iso_code', 'geometry']
+        world = world[world['country'] != "Antarctica"].copy()
+        world['country'] = world['country'].map({
+            'United States of America': 'US',
+            'Taiwan': 'Taiwan*',
+            'Palestine': 'West Bank and Gaza',
+            'Côte d\'Ivoire': 'Cote d\'Ivoire',
+            'Bosnia and Herz.': 'Bosnia and Herzegovina',
+        }).fillna(world['country'])
+        return world
+
+    @classmethod
+    def make_geo_df(cls, df_all, cases_filter=1000, deaths_filter=20):
+        world = cls.get_world_geo_df()
+
+        df_plot = (df_all.reset_index().rename(columns={'Country/Region': 'country'}))
+        df_plot_geo = pd.merge(world, df_plot, on='country', how='left')
+
+        df_plot_geo = df_plot_geo[((df_plot_geo['Cases.total'] >= cases_filter)
+                                   | (df_plot_geo['Deaths.total'] >= deaths_filter))]
+        return df_plot_geo
+
+    @classmethod
+    def make_map_figure(cls,
+                        df_plot_geo,
+                        col='needICU.per100k.+14d',
+                        title='ICU need<br>(in 14 days)',
+                        subtitle='Projected ICU need per 100k population in 14 days'):
+        import plotly.graph_objects as go
+
+        df_plot_geo['text'] = (df_plot_geo.apply(
+            lambda r: (
+                "<br>"
+                f"Cases (reported): {r['Cases.total']:,.0f} (+<b>{r['Cases.new']:,.0f}</b>)<br>"
+                f"Cases (estimated): {r['Cases.total.est']:,.0f} (+<b>{r['Cases.new.est']:,.0f}</b>)<br>"
+                f"Affected percent: <b>{r['affected_ratio.est']:.1%}</b><br>"
+                f"Infection rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
+                f"Deaths: {r['Deaths.total']:,.0f} (+<b>{r['Deaths.new']:,.0f}</b>)<br>"
+            ), axis=1))
+
+        fig = go.FigureWidget(
+            data=go.Choropleth(
+                locations=df_plot_geo['iso_code'],
+                z=df_plot_geo[col].fillna(float('nan')),
+                zmin=0,
+                zmax=10,
+                text=df_plot_geo['text'],
+                ids=df_plot_geo['country'],
+                customdata=cls.error_series_to_string_list(
+                    series=df_plot_geo[col],
+                    err_series=None if '+' not in col else df_plot_geo[col + '.err'],
+                    percent=('rate' in col or 'ratio' in col)
+                ),
+                hovertemplate="<b>%{id}</b>:<br><b>%{z:.1f}%{customdata}</b><br>%{text}<extra></extra>",
+                colorscale='sunsetdark',
+                autocolorscale=False,
+                marker_line_color='#9fa8ad',
+                marker_line_width=0.5,
+                colorbar_title=f'<b>{title}</b>',
+            ))
+
+        fig.update_layout(
+            title={'text': f"<b>Map of</b>: {subtitle}", 'y': 0.875, 'x': 0.005},
+            annotations=[
+                dict(text="Data<br>choice:", showarrow=False, x=0.005, y=1.075, yref="paper", align="left")
+            ],
+            width=800,
+            height=450,
+            autosize=True,
+            margin=dict(t=0, b=0, l=0, r=0),
+            template="plotly_white",
+            geo=dict(
+                showframe=False,
+                projection_type='natural earth',
+                resolution=110,
+                showcoastlines=True, coastlinecolor="#c4cace",
+                showland=True, landcolor="#d8d8d8",
+                showocean=True, oceancolor="#d2e9f7",
+                showlakes=True, lakecolor="#d2e9f7",
+                fitbounds="locations"
+            )
+        )
+        return fig
+
+    @staticmethod
+    def error_series_to_string_list(series, err_series=None, percent=False):
+        percent_str = ('%' if percent else '')
+        if err_series is None:
+            return [percent_str] * len(series)
+        else:
+            return (percent_str + ' ± ' +
+                    (err_series * (100 if percent else 1)).apply('{:.1f}'.format) +
+                    percent_str
+                    ).to_list()
+
+    @classmethod
+    def button_dict(cls, series, title, colorscale, scale_max=None,
+                    percent=False, subtitle=None, err_series=None):
+        import plotly.express as px
+
+        series = series.fillna(float('nan'))
+        series *= 100 if percent else 1
+        subtitle = subtitle if subtitle is not None else title.replace('<br>', ' ')
+
+        scale_obj = getattr(px.colors.sequential, colorscale)
+        scale_arg = [[(i - 1) / (len(scale_obj) - 1), c]
+                     for i, c in enumerate(scale_obj, start=1)]
+
+        max_arg = series.max() if scale_max is None else min(scale_max, series.max())
+
+        return dict(args=[
+            {'z': [series.to_list()],
+             'zmax': [max_arg],
+             'colorbar': [{'title': {'text': f'<b>{title}</b>'}}],
+             'colorscale': [scale_arg],
+             'customdata': [cls.error_series_to_string_list(
+                 series, err_series=err_series, percent=percent)]
+             },
+            {'title': {'text': f"<b>Map of</b>: {subtitle}",
+                       'y': 0.875, 'x': 0.005}}],
+            label=title, method="update")

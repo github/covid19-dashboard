@@ -56,7 +56,7 @@ jobs:
         sudo apt-get update -y
         sudo apt-get -y --force-yes install chromium-chromedriver
         npm install -g electron@6.1.4 orca
-        pip3 install matplotlib pandas seaborn papermill ipykernel jupyter folium plotly plotnine psutil pymc3 arviz xlrd altair altair_saver jinja2 selenium
+        pip3 install -r ./_notebooks/requirements.txt
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
 
@@ -83,13 +83,13 @@ jobs:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
         RUN_ID: ${{ github.run_id	 }}
 
-    - name: save notebooks & images
-      run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git add images/
-        git commit -m'[bot] refresh notebooks'
-        git push -f
+    # - name: save notebooks & images
+    #   run: |
+    #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    #     git config --global user.name "github-actions[bot]"
+    #     git add images/
+    #     git commit -m'[bot] refresh notebooks'
+    #     git push -f
 
     - name: convert notebooks and word docs to posts
       uses: ./_action_files

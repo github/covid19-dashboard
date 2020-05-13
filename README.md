@@ -19,7 +19,7 @@ See the [contributing guide](CONTRIBUTING.md).
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-35-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -63,6 +63,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/artdgn"><img src="https://avatars0.githubusercontent.com/u/29574203?v=4" width="100px;" alt=""/><br /><sub><b>Arthur Deygin</b></sub></a><br /><a href="#content-artdgn" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/kant"><img src="https://avatars1.githubusercontent.com/u/32717?v=4" width="100px;" alt=""/><br /><sub><b>Darío Hereñú</b></sub></a><br /><a href="#content-kant" title="Content">🖋</a></td>
     <td align="center"><a href="http://danielpcox.info"><img src="https://avatars0.githubusercontent.com/u/56411?v=4" width="100px;" alt=""/><br /><sub><b>Daniel Cox</b></sub></a><br /><a href="#content-danielpcox" title="Content">🖋</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/TeepaBlue"><img src="https://avatars1.githubusercontent.com/u/42367122?v=4" width="100px;" alt=""/><br /><sub><b>TeepaBlue</b></sub></a><br /><a href="#content-TeepaBlue" title="Content">🖋</a></td>
+    <td align="center"><a href="http://linkedin.com/in/Martin-Boehler"><img src="https://avatars0.githubusercontent.com/u/39620954?v=4" width="100px;" alt=""/><br /><sub><b>Martin Boehler</b></sub></a><br /><a href="#content-Martin-Boehler" title="Content">🖋</a></td>
+    <td align="center"><a href="http://kannankumar.github.io"><img src="https://avatars3.githubusercontent.com/u/711743?v=4" width="100px;" alt=""/><br /><sub><b>Kannan Kumar</b></sub></a><br /><a href="#maintenance-kannankumar" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/Otman404"><img src="https://avatars1.githubusercontent.com/u/43283622?v=4" width="100px;" alt=""/><br /><sub><b>Otman404</b></sub></a><br /><a href="#content-Otman404" title="Content">🖋</a></td>
+    <td align="center"><a href="http://www.dim.uchile.cl/~alsilva/"><img src="https://avatars0.githubusercontent.com/u/30263736?v=4" width="100px;" alt=""/><br /><sub><b>Alonso Silva Allende</b></sub></a><br /><a href="#content-alonsosilvaallende" title="Content">🖋</a></td>
+    <td align="center"><a href="https://github.com/anomal"><img src="https://avatars0.githubusercontent.com/u/1459721?v=4" width="100px;" alt=""/><br /><sub><b>Sophiah (Zing-Ming)</b></sub></a><br /><a href="#content-anomal" title="Content">🖋</a></td>
+    <td align="center"><a href="https://github.com/arungupta21"><img src="https://avatars3.githubusercontent.com/u/7274372?v=4" width="100px;" alt=""/><br /><sub><b>Arun Gupta</b></sub></a><br /><a href="#content-arungupta21" title="Content">🖋</a></td>
   </tr>
 </table>
 
