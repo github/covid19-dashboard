@@ -15,3 +15,4 @@ __pycache__
 _posts/*.md
 _notebooks/git-key-pair
 _notebooks/git-key-pair.pub
+.vscode/settings.json
