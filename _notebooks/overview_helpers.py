@@ -14,6 +14,7 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 10000)
 
+SAVE_JHU_DATA = False
 
 class SourceData:
     df_mappings = pd.read_csv(os.path.join(data_folder, 'mapping_countries.csv'))
@@ -47,7 +48,8 @@ class SourceData:
     @classmethod
     def get_covid_dataframe(cls, name):
         df = cls._download_covid_df(name)
-        cls._save_covid_df(df, name)
+        if SAVE_JHU_DATA:
+            cls._save_covid_df(df, name)
 
         # rename countries
         df[COL_REGION] = df[COL_REGION].replace(cls.mappings['replace.country'])
@@ -691,8 +693,8 @@ class GeoMap:
     def make_map_figure(cls,
                         df_plot_geo,
                         col='infection_rate',
-                        title='Transmition rate<br>percent (blue-red)',
-                        subtitle='Transmition rate: over 5% (red) '
+                        title='Transmission rate<br>percent (blue-red)',
+                        subtitle='Transmission rate: over 5% (red) '
                                  'spreading, under 5% (blue) recovering'):
         import plotly.graph_objects as go
 
@@ -702,7 +704,7 @@ class GeoMap:
                 f"Cases (reported): {r['Cases.total']:,.0f} (+<b>{r['Cases.new']:,.0f}</b>)<br>"
                 f"Cases (estimated): {r['Cases.total.est']:,.0f} (+<b>{r['Cases.new.est']:,.0f}</b>)<br>"
                 f"Affected percent: <b>{r['affected_ratio.est']:.1%}</b><br>"
-                f"Transmition rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
+                f"Transmission rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
                 f"Deaths: {r['Deaths.total']:,.0f} (+<b>{r['Deaths.new']:,.0f}</b>)<br>"
             ), axis=1))
 
