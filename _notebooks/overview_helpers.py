@@ -7,6 +7,13 @@ import pandas as pd
 data_folder = (os.path.join(os.path.dirname(__file__), 'data_files')
                if '__file__' in locals() else 'data_files')
 
+COL_REGION = 'Country/Region'
+
+pd.set_option('display.max_colwidth', 300)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 10000)
+
 
 class SourceData:
     df_mappings = pd.read_csv(os.path.join(data_folder, 'mapping_countries.csv'))
@@ -17,18 +24,38 @@ class SourceData:
                 }
 
     @classmethod
-    def get_covid_dataframe(cls, name):
-        url = (
-            'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/'
-            f'csse_covid_19_time_series/time_series_covid19_{name}_global.csv')
+    def _cache_csv_path(cls, name):
+        return os.path.join(data_folder, f'covid_jhu/{name}_transposed.csv')
+
+    @classmethod
+    def _save_covid_df(cls, df, name):
+        df.T.to_csv(cls._cache_csv_path(name))
+
+    @classmethod
+    def _load_covid_df(cls, name):
+        df = pd.read_csv(cls._cache_csv_path(name), index_col=0).T
+        df[df.columns[2:]] = df[df.columns[2:]].apply(pd.to_numeric, errors='coerce')
+        return df
+
+    @classmethod
+    def _download_covid_df(cls, name):
+        url = ('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/'
+               f'csse_covid_19_time_series/time_series_covid19_{name}_global.csv')
         df = pd.read_csv(url)
+        return df
+
+    @classmethod
+    def get_covid_dataframe(cls, name):
+        df = cls._download_covid_df(name)
+        cls._save_covid_df(df, name)
+
         # rename countries
-        df['Country/Region'] = df['Country/Region'].replace(cls.mappings['replace.country'])
+        df[COL_REGION] = df[COL_REGION].replace(cls.mappings['replace.country'])
         return df
 
     @staticmethod
     def get_dates(df):
-        dt_cols = df.columns[~df.columns.isin(['Province/State', 'Country/Region', 'Lat', 'Long'])]
+        dt_cols = df.columns[~df.columns.isin(['Province/State', COL_REGION, 'Lat', 'Long'])]
         LAST_DATE_I = -1
         # sometimes last column may be empty, then go backwards
         for i in range(-1, -len(dt_cols), -1):
@@ -38,10 +65,126 @@ class SourceData:
         return LAST_DATE_I, dt_cols
 
 
-class WordPopulation:
-    csv_path = os.path.join(data_folder, 'world_population.csv')
-    page = 'https://www.worldometers.info/world-population/population-by-country/'
-    # alternative https://en.wikipedia.org/wiki/List_of_countries_by_population_%28United_Nations%29 table 5
+class AgeAdjustedData:
+    # https://population.un.org/wpp/Download/Standard/Population/
+    # https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/EXCEL_FILES/1_Population/WPP2019_POP_F07_1_POPULATION_BY_AGE_BOTH_SEXES.xlsx
+    csv_path = os.path.join(data_folder, 'world_pop_age_2020.csv')
+
+    class Cols:
+        # o = original
+        o4 = '0-4'
+        o9 = '5-9'
+        o14 = '10-14'
+        o19 = '15-19'
+        o24 = '20-24'
+        o29 = '25-29'
+        o34 = '30-34'
+        o39 = '35-39'
+        o44 = '40-44'
+        o49 = '45-49'
+        o54 = '50-54'
+        o59 = '55-59'
+        o64 = '60-64'
+        o69 = '65-69'
+        o74 = '70-74'
+        o79 = '75-79'
+        o84 = '80-84'
+        o89 = '85-89'
+        o94 = '90-94'
+        o99 = '95-99'
+        o100p = '100+'
+
+        # https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771
+        # ny = new york
+        ny17 = 'ny17'  # 0-17
+        ny44 = 'ny44'  # 18-44
+        ny64 = 'ny64'  # 45-64
+        ny74 = 'ny74'  # 65-74
+        ny75p = 'ny75p'  # 75+
+
+    @classmethod
+    def load(cls):
+        df_raw = pd.read_csv(cls.csv_path)
+
+        df_filt = df_raw[df_raw['Type'].isin(['Subregion', 'Country/Area'])]
+
+        df_filt = (df_filt
+                   .drop(columns=['Index', 'Variant', 'Notes', 'Country code', 'Parent code',
+                                  'Reference date (as of 1 July)', 'Type'])
+                   .rename(columns={'Region, subregion, country or area *': COL_REGION}))
+
+        # adjust country names
+        df_filt[COL_REGION] = df_filt[COL_REGION].map({
+            'United States of America': 'US',
+            'China, Taiwan Province of China': 'Taiwan*',
+            'United Republic of Tanzania': 'Tanzania',
+            'Iran (Islamic Republic of)': 'Iran',
+            'Republic of Korea': 'South Korea',
+            'Bolivia (Plurinational State of)': 'Bolivia',
+            'Venezuela (Bolivarian Republic of)': 'Venezuela',
+            'Republic of Moldova': 'Moldova',
+            'Russian Federation': 'Russia',
+            'State of Palestine': 'West Bank and Gaza',
+            'Côte d\'Ivoire': 'Cote d\'Ivoire',
+            'Democratic Republic of the Congo': 'Congo (Kinshasa)',
+            'Congo': 'Congo (Brazzaville)',
+            'Syrian Arab Republic': 'Syria',
+            'Myanmar': 'Burma',
+            'Viet Nam': 'Vietnam',
+            'Brunei Darussalam': 'Brunei',
+            'Lao People\'s Democratic Republic': 'Laos'
+        }).fillna(df_filt[COL_REGION])
+
+        df_num = df_filt.set_index(COL_REGION)
+
+        # convert to numbers
+        df_num = df_num.apply(lambda s:
+                              pd.Series(s)
+                              .str.replace(' ', '')
+                              .apply(pd.to_numeric, errors='coerce'))
+
+        population_s = df_num.sum(1) * 1000
+
+        # convert to ratios
+        df_pct = (df_num.T / df_num.sum(1)).T
+
+        # calulate NY bucket percentages
+        cols = cls.Cols
+        df_pct[cols.ny17] = df_pct[[cols.o4, cols.o9,
+                                    cols.o14, cols.o19]].sum(1)
+        df_pct[cols.ny44] = df_pct[[cols.o24, cols.o29,
+                                    cols.o34, cols.o39,
+                                    cols.o44]].sum(1)
+        df_pct[cols.ny64] = df_pct[[cols.o49,
+                                    cols.o54, cols.o59,
+                                    cols.o64]].sum(1)
+        df_pct[cols.ny74] = df_pct[[cols.o69, cols.o74]].sum(1)
+        df_pct[cols.ny75p] = df_pct[[cols.o79,
+                                     cols.o84, cols.o89,
+                                     cols.o94, cols.o99,
+                                     cols.o100p]].sum(1)
+        # check: df_pct[[cols.ny17, cols.ny44, cols.ny64, cols.ny74, cols.ny75p]].sum(1)
+
+        # calculate IFR
+        # https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771
+        #  Table 1
+        ifr_s = pd.Series(np.dot(df_pct
+                                 [[cols.ny17, cols.ny44, cols.ny64, cols.ny74, cols.ny75p]],
+                                 [0.00002, 0.00087, 0.00822, 0.02626, 0.07137]),
+                          index=df_pct.index)
+
+        ## icu need estimation
+        ## https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+        ## 4.4% serious symptomatic cases for UK
+        ## adjusting here by age by using IFRs ratios
+        icu_percent_s = 0.044 * ifr_s / ifr_s['United Kingdom']
+
+        return ifr_s, population_s, icu_percent_s
+
+
+class HostpitalBeds:
+    csv_path = os.path.join(data_folder, 'hospital_beds.csv')
+    page = 'https://en.wikipedia.org/wiki/List_of_countries_by_hospital_beds'
 
     @classmethod
     def scrape(cls):
@@ -58,29 +201,10 @@ class WordPopulation:
         return pd.read_html(str(table))[0]
 
     @classmethod
-    def download(cls):
-        df = cls.scrape()
-
-        # clean up df
-        rename_map = {'Country (or dependency)': 'country',
-                      'Population (2020)': 'population',
-                      'Land Area (Km²)': 'area',
-                      'Urban Pop %': 'urban_ratio',
-                      }
-        df_clean = df.rename(rename_map, axis=1)[rename_map.values()]
-        df_clean['urban_ratio'] = pd.to_numeric(df_clean['urban_ratio'].str.extract(r'(\d*)')[0]) / 100
-        df_clean.to_csv(cls.csv_path, index=None)
-
-    @classmethod
     def load(cls):
         if not os.path.exists(cls.csv_path):
             cls.download()
         return pd.read_csv(cls.csv_path)
-
-
-class HostpitalBeds(WordPopulation):
-    csv_path = os.path.join(data_folder, 'hospital_beds.csv')
-    page = 'https://en.wikipedia.org/wiki/List_of_countries_by_hospital_beds'
 
     @classmethod
     def download(cls):
@@ -105,11 +229,11 @@ class HostpitalBeds(WordPopulation):
         df_clean = pd.concat([df_clean,
                               df_asia[~df_asia['country'].isin(df_clean['country'])]])
 
-        df_clean.to_csv(cls.csv_path, index=None)
+        df_clean.to_csv(cls.csv_path, index=False)
 
 
 class OverviewData:
-    COL_REGION = 'Country/Region'
+    COL_REGION = COL_REGION
     ABS_COLS = ['Cases.total', 'Deaths.total', 'Cases.new', 'Deaths.new']
 
     PER_100K_COLS = [f'{c}.per100k' for c in ABS_COLS]
@@ -125,24 +249,20 @@ class OverviewData:
     dfc_cases = dft_cases.groupby(COL_REGION)[dt_today].sum()
     dfc_deaths = dft_deaths.groupby(COL_REGION)[dt_today].sum()
 
+    cur_date = pd.to_datetime(dt_today).date().isoformat()
+
     PREV_LAG = 5
     dt_lag = dt_cols[LAST_DATE_I - PREV_LAG]
 
     # modeling constants
     ## testing bias
     death_lag = 8
-    # additional updated data with discussions about CFRs:
-    # https://www.cebm.net/covid-19/global-covid-19-case-fatality-rates/
-    cfr_lower_bound = 0.0072
 
     ## recovery estimation
     recovery_lagged9_rate = 0.07
     ## sir model
     rec_rate_simple = 0.05
-    ## icu need estimation
-    ## https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
-    ## 4.4% serious symptomatic cases
-    ICU_ratio = 0.044
+
     ## ICU spare capacity
     # occupancy 66% for us:
     #   https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19
@@ -152,11 +272,11 @@ class OverviewData:
 
     @classmethod
     def lagged_cases(cls, lag=PREV_LAG):
-        return cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
+        return cls.dft_cases.groupby(COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
 
     @classmethod
     def lagged_deaths(cls, lag=PREV_LAG):
-        return cls.dft_deaths.groupby(cls.COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
+        return cls.dft_deaths.groupby(COL_REGION)[cls.dt_cols[cls.LAST_DATE_I - lag]].sum()
 
     @classmethod
     def overview_table(cls):
@@ -166,55 +286,44 @@ class OverviewData:
                                   'Deaths.total.prev': cls.lagged_deaths()})
                     .sort_values(by=['Cases.total', 'Deaths.total'], ascending=[False, False])
                     .reset_index())
-        df_table.rename(columns={'index': 'Country/Region'}, inplace=True)
+        df_table.rename(columns={'index': COL_REGION}, inplace=True)
         for c in cls.ABS_COLS[:2]:
             df_table[c.replace('total', 'new')] = (df_table[c] - df_table[f'{c}.prev']).clip(0)  # DATA BUG
         df_table['Fatality Rate'] = (100 * df_table['Deaths.total'] / df_table['Cases.total']).round(1)
-        df_table['Continent'] = df_table['Country/Region'].map(SourceData.mappings['map.continent'])
+        df_table['Continent'] = df_table[COL_REGION].map(SourceData.mappings['map.continent'])
 
         # remove problematic
-        df_table = df_table[~df_table['Country/Region'].isin(['Cape Verde', 'Cruise Ship', 'Kosovo'])]
+        df_table = df_table[~df_table[COL_REGION].isin(['Cape Verde', 'Cruise Ship', 'Kosovo'])]
         return df_table
 
     @classmethod
     def make_new_cases_arrays(cls, n_days=50):
-        dft_ct_cases = cls.dft_cases.groupby(cls.COL_REGION)[cls.dt_cols].sum()
+        dft_ct_cases = cls.dft_cases.groupby(COL_REGION)[cls.dt_cols].sum()
         dft_ct_new_cases = dft_ct_cases.diff(axis=1).fillna(0).astype(int)
         return dft_ct_new_cases.loc[:, cls.dt_cols[cls.LAST_DATE_I - n_days]:cls.dt_cols[cls.LAST_DATE_I]]
 
     @classmethod
-    def populations_df(cls):
-        df_pop = WordPopulation.load().rename(columns={'country': cls.COL_REGION})
-        df_pop[cls.COL_REGION] = df_pop[cls.COL_REGION].map({
-            'United States': 'US',
-            'Czech Republic (Czechia)': 'Czechia',
-            'Taiwan': 'Taiwan*',
-            'State of Palestine': 'West Bank and Gaza',
-            'Côte d\'Ivoire': 'Cote d\'Ivoire',
-        }).fillna(df_pop[cls.COL_REGION])
-        return df_pop.set_index(cls.COL_REGION)
-
-    @classmethod
     def beds_df(cls):
-        df_beds = HostpitalBeds.load().rename(columns={'country': cls.COL_REGION})
-        df_beds[cls.COL_REGION] = df_beds[cls.COL_REGION].map({
+        df_beds = HostpitalBeds.load().rename(columns={'country': COL_REGION})
+        df_beds[COL_REGION] = df_beds[COL_REGION].map({
             'United States': 'US',
             'United Kingdom (more)': 'United Kingdom',
             'Czech Republic': 'Czechia',
-        }).fillna(df_beds[cls.COL_REGION])
-        return df_beds.set_index(cls.COL_REGION)
+        }).fillna(df_beds[COL_REGION])
+        return df_beds.set_index(COL_REGION)
 
     @classmethod
     def overview_table_with_per_100k(cls):
         df = (cls.overview_table()
               .drop(['Cases.total.prev', 'Deaths.total.prev'], axis=1)
-              .set_index(cls.COL_REGION, drop=True)
+              .set_index(COL_REGION, drop=True)
               .sort_values('Cases.new', ascending=False))
         df['Fatality Rate'] /= 100
 
-        df_pop = cls.populations_df()
+        (df['age_adjusted_ifr'],
+         df['population'],
+         df['age_adjusted_icu_percentage']) = AgeAdjustedData.load()
 
-        df['population'] = df_pop['population']
         df.dropna(subset=['population'], inplace=True)
 
         for col, per_100k_col in zip(cls.ABS_COLS, cls.PER_100K_COLS):
@@ -235,11 +344,12 @@ class OverviewData:
             - Recent new cases can be adjusted using the same testing_ratio bias.
         """
 
+        df = cls.overview_table_with_per_100k()
+
         lagged_mortality_rate = (cls.dfc_deaths + 1) / (cls.lagged_cases(cls.death_lag) + 1)
-        testing_bias = lagged_mortality_rate / cls.cfr_lower_bound
+        testing_bias = lagged_mortality_rate / df['age_adjusted_ifr']
         testing_bias[testing_bias < 1] = 1
 
-        df = cls.overview_table_with_per_100k()
         df['lagged_fatality_rate'] = lagged_mortality_rate
         df['testing_bias'] = testing_bias
 
@@ -252,9 +362,9 @@ class OverviewData:
     def smoothed_growth_rates(cls, n_days):
         recent_dates = cls.dt_cols[-n_days:]
 
-        cases = (cls.dft_cases.groupby(cls.COL_REGION).sum()[recent_dates] + 1)  # with pseudo counts
+        cases = (cls.dft_cases.groupby(COL_REGION).sum()[recent_dates] + 1)  # with pseudo counts
 
-        diffs = cls.dft_cases.groupby(cls.COL_REGION).sum().diff(axis=1)[recent_dates]
+        diffs = cls.dft_cases.groupby(COL_REGION).sum().diff(axis=1)[recent_dates]
 
         cases, diffs = cases.T, diffs.T  # broadcasting works correctly this way
 
@@ -270,7 +380,7 @@ class OverviewData:
         weighted_std = ((daily_growth_rates - weighted_mean).pow(2) *
                         sampling_weights).sum(0).pow(0.5)
 
-        return weighted_mean, weighted_std
+        return weighted_mean - 1, weighted_std
 
     @classmethod
     def table_with_icu_capacities(cls):
@@ -284,12 +394,17 @@ class OverviewData:
         return df
 
     @classmethod
-    def table_with_projections(cls, projection_days=(7, 14, 30, 60, 90), debug_dfs=False):
+    def table_with_projections(cls, projection_days=(7, 14, 30), debug_dfs=False):
         df = cls.table_with_icu_capacities()
 
         df['affected_ratio'] = df['Cases.total'] / df['population']
 
+        df['growth_rate'], df['growth_rate_std'] = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
+
         past_active, past_recovered = cls._calculate_recovered_and_active_until_now(df)
+
+        df['infection_rate'] = cls._growth_to_infection_rate(
+            growth=df['growth_rate'], rec=past_recovered[-1], act=past_active[-1])
 
         df, traces = cls._run_model_forward(
             df,
@@ -302,14 +417,14 @@ class OverviewData:
                 debug_countries=df.index,
                 traces=traces,
                 simulation_start_day=len(past_recovered) - 1,
-                growth_rate=df['growth_rate'])
+                infection_rate=df['infection_rate'])
             return df, debug_dfs
         return df
 
     @classmethod
     def _calculate_recovered_and_active_until_now(cls, df):
         # estimated daily cases ratio of population
-        lagged_cases_ratios = (cls.dft_cases.groupby(cls.COL_REGION).sum()[cls.dt_cols].T *
+        lagged_cases_ratios = (cls.dft_cases.groupby(COL_REGION).sum()[cls.dt_cols].T *
                                df['testing_bias'].T / df['population'].T).T
         # protect from testing bias over-inflation
         lagged_cases_ratios[lagged_cases_ratios > 1] = 1
@@ -320,7 +435,7 @@ class OverviewData:
         zeros_series = lagged_cases_ratios[cls.dt_cols[0]] * 0  # this is to have consistent types
         for day in range(len(cls.dt_cols)):
             prev_rec = recs[day - 1] if day > 0 else zeros_series
-            tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 8 else zeros_series
+            tot_lagged_9 = lagged_cases_ratios[cls.dt_cols[day - 9]] if day >= 9 else zeros_series
             new_recs = prev_rec + (tot_lagged_9 - prev_rec) * cls.recovery_lagged9_rate
             new_recs[new_recs > 1] = 1
             recs.append(new_recs)
@@ -336,14 +451,8 @@ class OverviewData:
                            projection_days,
                            ):
 
-        cur_growth_rate, growsth_rate_std = cls.smoothed_growth_rates(n_days=cls.PREV_LAG)
-        df['growth_rate'] = (cur_growth_rate - 1)
-        df['growth_rate_std'] = growsth_rate_std
-        df['infection_rate'] = cls._growth_to_infection_rate(
-            growth=cur_growth_rate, rec=past_recovered, act=past_active)
-
         sus, act, rec = cls.run_sir_mode(
-            past_recovered, past_active, cur_growth_rate, n_days=projection_days[-1])
+            past_recovered, past_active, df['growth_rate'], n_days=projection_days[-1])
 
         # sample more growth rates
         sus_lists = [[s] for s in sus]
@@ -351,7 +460,7 @@ class OverviewData:
         rec_lists = [[r] for r in rec]
 
         for ratio in np.linspace(-1, 1, 10):
-            pert_growth = cur_growth_rate + ratio * growsth_rate_std
+            pert_growth = df['growth_rate'] + ratio * df['growth_rate_std']
             pert_growth[pert_growth < 0] = 0
             sus_other, act_other, rec_other = cls.run_sir_mode(
                 past_recovered, past_active, pert_growth, n_days=projection_days[-1])
@@ -375,7 +484,9 @@ class OverviewData:
         for day in [1] + list(projection_days):
             ind = day_one + day - 1
             suffix = f'.+{day}d' if day > 1 else ''
-            icu_max = cls.ICU_ratio * 1e5 / df['testing_bias']
+
+            icu_max = df['age_adjusted_icu_percentage'] * 1e5 / df['testing_bias']
+
             df[f'needICU.per100k{suffix}'] = act[ind] * icu_max
             df[f'needICU.per100k{suffix}.max'] = act_max[ind] * icu_max
             df[f'needICU.per100k{suffix}.min'] = act_min[ind] * icu_max
@@ -396,9 +507,9 @@ class OverviewData:
 
     @classmethod
     def _growth_to_infection_rate(cls, growth, rec, act):
-        daily_delta = growth - 1
-        tot = rec[-1] + act[-1]
-        active = act[-1]
+        daily_delta = growth
+        tot = rec + act
+        active = act
         # Explanation of the formula below:
         #   daily delta = delta total / total
         #   daily delta = new-infected / total
@@ -410,7 +521,7 @@ class OverviewData:
     def run_sir_mode(cls, past_rec, past_act, growth, n_days):
         rec, act = past_rec.copy(), past_act.copy()
 
-        infect_rate = cls._growth_to_infection_rate(growth, rec, act)
+        infect_rate = cls._growth_to_infection_rate(growth, rec[-1], act[-1])
 
         # simulate
         for i in range(n_days):
@@ -441,7 +552,7 @@ class OverviewData:
 
     @classmethod
     def _SIR_timeseries_for_countries(cls, debug_countries, traces,
-                                      simulation_start_day, growth_rate):
+                                      simulation_start_day, infection_rate):
         dfs = []
         for debug_country in debug_countries:
             debug = [{'day': day - simulation_start_day,
@@ -455,11 +566,10 @@ class OverviewData:
                       'Removed.max': traces['rec_max'][day][debug_country],
                       'Removed.min': traces['rec_min'][day][debug_country],
                       }
-                     for day in range(len(traces['rec_center']))
-                     if day > simulation_start_day]
+                     for day in range(len(traces['rec_center']))]
 
             title = (f"{debug_country}: "
-                     f"Growth Rate: {growth_rate[debug_country]:.0%}. "
+                     f"Transmission Rate: {infection_rate[debug_country]:.1%}. "
                      f"S/I/R init: {debug[0]['Susceptible']:.1%},"
                      f"{debug[0]['Infected']:.1%},{debug[0]['Removed']:.1%}")
             df = pd.DataFrame(debug).set_index('day')
@@ -470,21 +580,12 @@ class OverviewData:
 
     @classmethod
     def filter_df(cls, df, cases_filter=1000, deaths_filter=20, population_filter=3e5):
-        df = df.rename(index={'Bosnia and Herzegovina': 'Bosnia',
-                              'United Arab Emirates': 'UAE'})
         return df[((df['Cases.total'] > cases_filter) |
                    (df['Deaths.total'] > deaths_filter)) &
                   (df['population'] > population_filter)][df.columns.sort_values()]
 
 
-def pandas_console_options():
-    pd.set_option('display.max_colwidth', 300)
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.width', 1000)
-
-
-def altair_sir_plot(df, default_country):
+def altair_sir_plot(df_alt, default_country):
     import altair as alt
 
     alt.data_transformers.disable_max_rows()
@@ -493,21 +594,21 @@ def altair_sir_plot(df, default_country):
         name='Select',
         fields=['country'],
         init={'country': default_country},
-        bind=alt.binding_select(options=sorted(df['country'].unique()))
+        bind=alt.binding_select(options=sorted(df_alt['country'].unique()))
     )
 
-    title = (alt.Chart(df[['country', 'title']].drop_duplicates())
+    title = (alt.Chart(df_alt[['country', 'title']].drop_duplicates())
              .mark_text(dy=-180, dx=0, size=16)
              .encode(text='title:N')
              .transform_filter(select_country))
 
-    base = alt.Chart(df).encode(x='day:Q')
+    base = alt.Chart(df_alt).encode(x='day:Q')
 
-    line_cols = ['Infected', 'Susceptible', 'Removed']
-    colors = ['red', 'blue', 'green']
+    line_cols = ['Infected', 'Removed']  # 'Susceptible'
+    colors = ['red', 'green']
     lines = (base.mark_line()
              .transform_fold(line_cols)
-             .encode(x='day:Q',
+             .encode(x=alt.X('day:Q', title=f'days relative to today ({OverviewData.cur_date})'),
                      y=alt.Y('value:Q',
                              axis=alt.Axis(format='%', title='Percentage of Population')),
                      color=alt.Color('key:N',
@@ -519,7 +620,11 @@ def altair_sir_plot(df, default_country):
                              .encode(y=f'{col}\.max:Q', y2=f'{col}\.min:Q')
                               for col, color in zip(line_cols, colors)])
 
-    return ((lines + bands + title)
+    today_line = (alt.Chart(pd.DataFrame({'x': [0]}))
+                  .mark_rule(color='orange')
+                  .encode(x='x', size=alt.value(1)))
+
+    return ((lines + bands + title + today_line)
             .add_selection(select_country)
             .transform_filter(select_country)
             .configure_title(fontSize=20)
@@ -557,7 +662,7 @@ class GeoMap:
     def get_world_geo_df(cls):
         import geopandas
 
-        shapefile = 'data_files/110m_countries/ne_110m_admin_0_countries.shp'
+        shapefile = 'data_files/50m_countries/ne_50m_admin_0_countries.shp'
 
         world = geopandas.read_file(shapefile)[['ADMIN', 'ADM0_A3', 'geometry']]
         world.columns = ['country', 'iso_code', 'geometry']
@@ -575,7 +680,7 @@ class GeoMap:
     def make_geo_df(cls, df_all, cases_filter=1000, deaths_filter=20):
         world = cls.get_world_geo_df()
 
-        df_plot = (df_all.reset_index().rename(columns={'Country/Region': 'country'}))
+        df_plot = (df_all.reset_index().rename(columns={COL_REGION: 'country'}))
         df_plot_geo = pd.merge(world, df_plot, on='country', how='left')
 
         df_plot_geo = df_plot_geo[((df_plot_geo['Cases.total'] >= cases_filter)
@@ -585,9 +690,10 @@ class GeoMap:
     @classmethod
     def make_map_figure(cls,
                         df_plot_geo,
-                        col='needICU.per100k.+14d',
-                        title='ICU need<br>(in 14 days)',
-                        subtitle='Projected ICU need per 100k population in 14 days'):
+                        col='infection_rate',
+                        title='Transmition rate<br>percent (blue-red)',
+                        subtitle='Transmition rate: over 5% (red) '
+                                 'spreading, under 5% (blue) recovering'):
         import plotly.graph_objects as go
 
         df_plot_geo['text'] = (df_plot_geo.apply(
@@ -596,25 +702,28 @@ class GeoMap:
                 f"Cases (reported): {r['Cases.total']:,.0f} (+<b>{r['Cases.new']:,.0f}</b>)<br>"
                 f"Cases (estimated): {r['Cases.total.est']:,.0f} (+<b>{r['Cases.new.est']:,.0f}</b>)<br>"
                 f"Affected percent: <b>{r['affected_ratio.est']:.1%}</b><br>"
-                f"Infection rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
+                f"Transmition rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
                 f"Deaths: {r['Deaths.total']:,.0f} (+<b>{r['Deaths.new']:,.0f}</b>)<br>"
             ), axis=1))
 
+        percent = ('rate' in col or 'ratio' in col)
+
         fig = go.FigureWidget(
             data=go.Choropleth(
-                locations=df_plot_geo['iso_code'],
-                z=df_plot_geo[col].fillna(float('nan')),
+                locations=df_plot_geo.index,
+                geojson=df_plot_geo['geometry'].__geo_interface__,
+                z=df_plot_geo[col].fillna(float('nan')) * (100 if percent else 1),
                 zmin=0,
                 zmax=10,
                 text=df_plot_geo['text'],
                 ids=df_plot_geo['country'],
                 customdata=cls.error_series_to_string_list(
                     series=df_plot_geo[col],
-                    err_series=None if '+' not in col else df_plot_geo[col + '.err'],
-                    percent=('rate' in col or 'ratio' in col)
+                    err_series=df_plot_geo['growth_rate_std'],
+                    percent=percent
                 ),
                 hovertemplate="<b>%{id}</b>:<br><b>%{z:.1f}%{customdata}</b><br>%{text}<extra></extra>",
-                colorscale='sunsetdark',
+                colorscale='BLuered',
                 autocolorscale=False,
                 marker_line_color='#9fa8ad',
                 marker_line_width=0.5,
@@ -631,6 +740,7 @@ class GeoMap:
             autosize=True,
             margin=dict(t=0, b=0, l=0, r=0),
             template="plotly_white",
+            hoverlabel=dict(font_size=12),
             geo=dict(
                 showframe=False,
                 projection_type='natural earth',
