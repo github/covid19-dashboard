@@ -33,6 +33,7 @@ services:
       - "4000:4000"
     volumes:
       - .:/data/
+    dns: 8.8.8.8
     command: >
      bash -c "gem install bundler
      && jekyll serve --trace"
