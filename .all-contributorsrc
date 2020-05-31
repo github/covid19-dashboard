@@ -264,6 +264,69 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "TeepaBlue",
+      "name": "TeepaBlue",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42367122?v=4",
+      "profile": "https://github.com/TeepaBlue",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "Martin-Boehler",
+      "name": "Martin Boehler",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39620954?v=4",
+      "profile": "http://linkedin.com/in/Martin-Boehler",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "kannankumar",
+      "name": "Kannan Kumar",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/711743?v=4",
+      "profile": "http://kannankumar.github.io",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "Otman404",
+      "name": "Otman404",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/43283622?v=4",
+      "profile": "https://github.com/Otman404",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "alonsosilvaallende",
+      "name": "Alonso Silva Allende",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/30263736?v=4",
+      "profile": "http://www.dim.uchile.cl/~alsilva/",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "anomal",
+      "name": "Sophiah (Zing-Ming)",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1459721?v=4",
+      "profile": "https://github.com/anomal",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "arungupta21",
+      "name": "Arun Gupta",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7274372?v=4",
+      "profile": "https://github.com/arungupta21",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,

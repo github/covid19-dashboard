@@ -28,20 +28,21 @@ This website contains visualizations and analysis built from data sources that a
 
 - [Why outbreaks like the coronavirus spread exponentially and how to flatten the curve](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/?itid=hp_hp-banner-low_virus-simulator520pm%3Ahomepage%2Fstory-ans) Washington Post, Mar 14, 2020
 - [COVID-19 outbreak response: first assessment of mobility changes in Italy following lockdown](https://covid19mm.github.io/in-progress/2020/03/13/first-report-assessment.html) Mar 13, 2020
-- [Open letter from Italy to the interational scientific community](https://left.it/2020/03/13/covid_19-open-letter-from-italy-to-the-international-scientific-community/) Mar 13, 2020
-- [Covid-19, your community, and you — a data science perspective](https://www.fast.ai/2020/03/09/coronavirus/) Mar 9, 2020
+- [Open letter from Italy to the international scientific community](https://left.it/2020/03/13/covid_19-open-letter-from-italy-to-the-international-scientific-community/) Mar 13, 2020
+- [COVID-19, your community, and you — a data science perspective](https://www.fast.ai/2020/03/09/coronavirus/) Mar 9, 2020
 
 ## Projects
 
-- [Covid-19 in US and Canada](https://coronavirus.1point3acres.com/): This is the best information I have seen for the US. Even provides case details in some cases. Really well organized dashboard with a plethora of information.
+- [COVID-19 in US and Canada](https://coronavirus.1point3acres.com/): This is the best information I have seen for the US. Even provides case details in some cases. Really well organized dashboard with a plethora of information.
 - [nCoV2019.live](https://ncov2019.live/data): Dashboard that presents global statistics about COVID-19 in a tabular format.
 - [COVID-19 Clinical Trials Dashboard](https://kishorevasan.shinyapps.io/coronavirus_clinical_trials/): Interactive dashboard that tracks clinical trials related to COVID-19. Uses clinicaltrials.gov data and is updated using API calls.
 - [Search Trends for Coronavirus Symptoms, by Country](https://coronavirustracker.webflow.io/): Shows search trends for coronavirus symptoms in the native language of the top-50 populated countries in the world (excluding China).
-- [Python Open Source Dashboard](https://covid19-dash.herokuapp.com): Interactive Covid-19 Dashboard, built from scratch in Python on open source Plotly Dash with very few lines of code, including an animating global timeline map. Read 'About this Dashboard' in the Dashboard itself. It‘s open source and open for collaboration.
+- [Python Open Source Dashboard](https://covid19-dash.herokuapp.com): Interactive COVID-19 Dashboard, built from scratch in Python on open source Plotly Dash with very few lines of code, including an animating global timeline map. Read 'About this Dashboard' in the Dashboard itself. It‘s open source and open for collaboration.
 - [COVID-19 Tracker—Days since N](https://mentalbreaks.shinyapps.io/covid19/): Shiny app that allows users to select countries and compare cumulative outcomes and growth rates on a standardized x-axis. Easy download of plots and filtered data tables in PNG and CSV formats, respectively.
 - [Effectiveness of airport screening at detecting travellers infected with novel coronavirus COVID-19](https://cmmid.github.io/visualisations/traveller-screening): Simulation that illustrates the impact of airport screening.
--  [Covid-19 Online Screening Tool - screencovid.com](https://github.com/tconley/screencovid.com):  Assess your risk for COVID-19.
+-  [COVID-19 Online Screening Tool - screencovid.com](https://github.com/tconley/screencovid.com):  Assess your risk for COVID-19.
 - [Coronavirus Diary](https://github.com/joshua-s/coronavirus-diary): Coronavirus Diary is a mobile application that allows users to complete daily health checkups and receive personalized symptom assessments. If the user experiences symptoms in line with the disease, they will be prompted to contact their physician.
 - [A collection of Open Source COVID-19 projects](http://open-source-covid-19.weileizeng.com/). Is a collection of resources on open source, data, analysis, dashboards and maps.
 - [corona-cli](https://github.com/AhmadAwais/corona-cli):  🦠 Track the Coronavirus disease (COVID-19) or the Novel Coronavirus Strain in the command line. Both worldwide for all countries, for one country, or for the US States. Fast response time (< 100ms).
 - [Genomic Epidemiology](https://nextstrain.org/ncov) of novel coronavirus with visual depiction of genomes sampled between Dec 2019-present.
+- [COVID-19 World Monitor](https://thlaegler.github.io/covid-19-monitor): Dashboard combining latest COVID-19 Data with critical/acute Care Capacities, Testing Data and SEIR-Simulation
