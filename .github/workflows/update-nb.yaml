@@ -83,14 +83,6 @@ jobs:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
         RUN_ID: ${{ github.run_id	 }}
 
-    # - name: save notebooks & images
-    #   run: |
-    #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    #     git config --global user.name "github-actions[bot]"
-    #     git add images/
-    #     git commit -m'[bot] refresh notebooks'
-    #     git push -f
-
     - name: convert notebooks and word docs to posts
       uses: ./_action_files
 
