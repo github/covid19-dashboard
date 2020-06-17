@@ -4,6 +4,7 @@ from urllib import request
 
 import numpy as np
 import pandas as pd
+import altair as alt
 
 data_folder = (os.path.join(os.path.dirname(__file__), 'data_files')
                if '__file__' in locals() else 'data_files')
@@ -403,7 +404,7 @@ class CovidData:
 
         df = self.overview_table_with_extra_data()
 
-        lagged_mortality_rate = (self.dfc_deaths + 1) / (self.lagged_cases(self.death_lag) + 1)
+        lagged_mortality_rate = (self.dfc_deaths + 1) / (self.lagged_cases(self.death_lag) + 2)
         testing_bias = lagged_mortality_rate / df['age_adjusted_ifr']
         testing_bias[testing_bias < 1] = 1
 
@@ -653,8 +654,6 @@ class Model:
 
 
 def altair_sir_plot(df_alt, default_country):
-    import altair as alt
-
     alt.data_transformers.disable_max_rows()
 
     select_country = alt.selection_single(
@@ -698,6 +697,54 @@ def altair_sir_plot(df_alt, default_country):
             .configure_axis(labelFontSize=15, titleFontSize=18, grid=True)
             .properties(width=550, height=340))
 
+
+def altair_multiple_countries_infected(df_alt_all,
+                                       countries,
+                                       title,
+                                       days_back=60,
+                                       marker_day=10):
+    if not len(countries):
+        return
+
+    alt.data_transformers.disable_max_rows()
+
+    df_alt = df_alt_all[df_alt_all['day'].between(-days_back, 0) &
+                        (df_alt_all['country'].isin(countries))]
+
+    select_country = alt.selection_single(
+        name='Select',
+        fields=['country'],
+        bind='legend',
+        empty='all',
+        init={'country': countries[0]}
+    )
+
+    today_line = (alt.Chart(pd.DataFrame({'x': [-marker_day]}))
+                  .mark_rule(color='#c8d1ce')
+                  .encode(x='x', strokeWidth=alt.value(6), opacity=alt.value(0.5)))
+
+    lines = (alt.Chart(df_alt).mark_line().encode(
+        x=alt.X('day:Q',
+                scale=alt.Scale(type='symlog'),
+                axis=alt.Axis(labelOverlap='greedy', values=list(range(-days_back, 0, 5)),
+                              title=f'days relative to today ({CovidData.cur_date})')),
+        y=alt.Y('Infected:Q',
+                scale=alt.Scale(type='log'),
+                axis=alt.Axis(format='%', title='Infected percentage'),
+                ),
+        color=alt.Color('country:N',
+                        legend=alt.Legend(title='Country',
+                                          labelFontSize=14,
+                                          values=countries.to_list())),
+        opacity=alt.condition(select_country, alt.value(1), alt.value(0.4)),
+        strokeWidth=alt.condition(select_country, alt.value(4), alt.value(2)))
+    )
+
+    return ((lines + today_line)
+            .add_selection(select_country)
+            .configure_title(fontSize=20)
+            .configure_axis(labelFontSize=15, titleFontSize=18, grid=True)
+            .properties(title=title, width=550, height=340).interactive(bind_x=False))
 
 class PandasStyling:
     @staticmethod
