@@ -57,6 +57,7 @@ Markdown(f"***Based on data up to: {cur_data.cur_date}. \
 #hide
 df_data = df_cur.copy()
 df_data['transmission_rate_past'] = df_past['transmission_rate']
+df_data['transmission_rate_std_past'] = df_past['transmission_rate_std']
 df_data['needICU.per100k_past'] = df_past['needICU.per100k']
 
 # deaths toll changes
@@ -116,20 +117,15 @@ def style_news_infections(df):
                                              cols['transmission_rate_past']], na_rep="-"))
 
 
-# +
 # hide
-# optimistic rates
-rate_past_opt = df_past['transmission_rate'] - df_past['transmission_rate_std']
-rate_past_opt[rate_past_opt < 0] = 0
-rate_cur_opt = df_cur['transmission_rate'] - df_cur['transmission_rate_std']
-rate_cur_opt[rate_cur_opt < 0] = 0
-
-rate_diff = rate_cur_opt - rate_past_opt
+rate_diff = df_data['transmission_rate'] - df_data['transmission_rate_past']
 higher_trans = (
-        (df_cur['Cases.new.est'] > 100) &
-        (rate_diff > 0.02))
+        (df_data['Cases.new.est'] > 100) &
+        (rate_diff > 0.02) &
+        (rate_diff > df_data['transmission_rate_std_past']) &
+        (df_data['transmission_rate_past'] != 0)  # countries reporting infrequently
+)
 new_waves = rate_diff[higher_trans].sort_values(ascending=False).index
-# -
 
 # hide_input
 Markdown(f"## &#11093; Bad news: new waves {emoji_flags(new_waves)}")
@@ -161,8 +157,11 @@ infected_plots(new_waves, "Countries with new waves (vs. 10 days ago)")
 
 #hide
 lower_trans = (
+        (rate_diff < -0.02) &
         (df_cur['Cases.new.est'] > 100) &
-        (rate_diff < -0.02))
+        (rate_diff.abs() > df_data['transmission_rate_std']) &
+        (df_data['transmission_rate'] != 0)  # countries reporting infrequently
+)
 slowing_outbreaks = rate_diff[lower_trans].sort_values().index
 
 #hide_input

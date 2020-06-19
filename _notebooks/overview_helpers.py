@@ -445,6 +445,7 @@ class CovidData:
         cases = (self.dft_cases.groupby(COL_REGION).sum()[recent_dates] + 1)  # with pseudo counts
 
         diffs = self.dft_cases.groupby(COL_REGION).sum().diff(axis=1)[recent_dates]
+        diffs[diffs < 0] = 0  # total cases cannot go down
 
         cases, diffs = cases.T, diffs.T  # broadcasting works correctly this way
 
