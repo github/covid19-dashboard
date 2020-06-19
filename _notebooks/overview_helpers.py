@@ -471,8 +471,11 @@ class CovidData:
 
         past_active, past_recovered = self._calculate_recovered_and_active_until_now(df)
 
-        df['infection_rate'] = Model.growth_to_infection_rate(
-            growth=df['growth_rate'], rec=past_recovered[-1], act=past_active[-1])
+        df['transmission_rate'], df['transmission_rate_std'] = Model.growth_to_infection_rate(
+            growth=df['growth_rate'],
+            rec=past_recovered[-1],
+            act=past_active[-1],
+            growth_std=df['growth_rate_std'])
 
         df, traces = Model.run_model_forward(
             df,
@@ -485,7 +488,7 @@ class CovidData:
                 debug_countries=df.index,
                 traces=traces,
                 simulation_start_day=len(past_recovered) - 1,
-                infection_rate=df['infection_rate'])
+                infection_rate=df['transmission_rate'])
             return df, debug_dfs
         return df
 
@@ -580,7 +583,7 @@ class Model:
         return df, traces
 
     @classmethod
-    def growth_to_infection_rate(cls, growth, rec, act):
+    def growth_to_infection_rate(cls, growth, rec, act, growth_std=None):
         daily_delta = growth
         tot = rec + act
         active = act
@@ -589,13 +592,27 @@ class Model:
         #   daily delta = new-infected / total
         #   daily_delta = infect_rate * active * (1 - tot) / tot, so solving for infect_rate:
         infect_rate = (daily_delta * tot) / ((1 - tot) * active)
-        return infect_rate
+
+        # standard deviation
+        infect_std = 0
+        if growth_std is not None:
+            # higher bound
+            infect_higher = ((daily_delta + growth_std) * tot) / ((1 - tot) * active)
+
+            # lower bound
+            growth_lower = daily_delta - growth_std
+            growth_lower[growth_lower < 0] = 0
+            infect_lower = (growth_lower * tot) / ((1 - tot) * active)
+
+            infect_std = (infect_higher - infect_lower) / 2
+
+        return infect_rate, infect_std
 
     @classmethod
     def _run_sir_mode(cls, past_rec, past_act, growth, n_days):
         rec, act = past_rec.copy(), past_act.copy()
 
-        infect_rate = cls.growth_to_infection_rate(growth, rec[-1], act[-1])
+        infect_rate, _ = cls.growth_to_infection_rate(growth, rec[-1], act[-1])
 
         # simulate
         for i in range(n_days):
@@ -804,7 +821,7 @@ class GeoMap:
     @classmethod
     def make_map_figure(cls,
                         df_plot_geo,
-                        col='infection_rate',
+                        col='transmission_rate',
                         title='Transmission rate<br>percent (blue-red)',
                         subtitle='Transmission rate: over 5% (red) '
                                  'spreading, under 5% (blue) recovering'):
@@ -816,7 +833,7 @@ class GeoMap:
                 f"Cases (reported): {r['Cases.total']:,.0f} (+<b>{r['Cases.new']:,.0f}</b>)<br>"
                 f"Cases (estimated): {r['Cases.total.est']:,.0f} (+<b>{r['Cases.new.est']:,.0f}</b>)<br>"
                 f"Affected percent: <b>{r['affected_ratio.est']:.1%}</b><br>"
-                f"Transmission rate: <b>{r['infection_rate']:.1%}</b> ± {r['growth_rate_std']:.1%}<br>"
+                f"Transmission rate: <b>{r['transmission_rate']:.1%}</b> ± {r['transmission_rate_std']:.1%}<br>"
                 f"Deaths: {r['Deaths.total']:,.0f} (+<b>{r['Deaths.new']:,.0f}</b>)<br>"
             ), axis=1))
 
@@ -833,7 +850,7 @@ class GeoMap:
                 ids=df_plot_geo['country'],
                 customdata=cls.error_series_to_string_list(
                     series=df_plot_geo[col],
-                    err_series=df_plot_geo['growth_rate_std'],
+                    err_series=df_plot_geo['transmission_rate_std'],
                     percent=percent
                 ),
                 hovertemplate="<b>%{id}</b>:<br><b>%{z:.1f}%{customdata}</b><br>%{text}<extra></extra>",

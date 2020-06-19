@@ -56,7 +56,7 @@ Markdown(f"***Based on data up to: {cur_data.cur_date}. \
 # +
 #hide
 df_data = df_cur.copy()
-df_data['infection_rate_past'] = df_past['infection_rate']
+df_data['transmission_rate_past'] = df_past['transmission_rate']
 df_data['needICU.per100k_past'] = df_past['needICU.per100k']
 
 # deaths toll changes
@@ -66,7 +66,7 @@ df_data['Deaths.new.past'] = df_past['Deaths.new']
 df_data['Deaths.diff.per100k'] = df_data['Deaths.total.diff'] / (df_data['population'] / 1e5)
 
 # misses and explanations
-df_data['infection_rate.change'] = (df_data['infection_rate'] / df_data['infection_rate_past']) - 1
+df_data['transmission_rate.change'] = (df_data['transmission_rate'] / df_data['transmission_rate_past']) - 1
 df_data['affected_ratio.miss'] = (df_cur['affected_ratio.est'] / df_past['affected_ratio.est.+9d']) - 1
 df_data['needICU.per100k.miss'] = (df_cur['needICU.per100k'] / df_past['needICU.per100k.+9d']) - 1
 df_data['testing_bias.change'] = (df_data['testing_bias'] / df_past['testing_bias']) - 1
@@ -93,35 +93,35 @@ def emoji_flags(inds):
 # hide
 def style_news_infections(df):
     cols = {
-        'infection_rate': '<i>Current:</i><br>Estimated<br>daily<br>transmission<br>rate',
-        'infection_rate_past': f'<i>{day_diff} days ago:</i><br>Estimated<br>daily<br>transmission<br>rate',
+        'transmission_rate': '<i>Current:</i><br>Estimated<br>daily<br>transmission<br>rate',
+        'transmission_rate_past': f'<i>{day_diff} days ago:</i><br>Estimated<br>daily<br>transmission<br>rate',
         'Cases.new.est': 'Estimated <br> <i>recent</i> cases <br> in last 5 days',
         'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
     }
 
-    rate_norm = max(df['infection_rate'].max(), df['infection_rate_past'].max())
+    rate_norm = max(df['transmission_rate'].max(), df['transmission_rate_past'].max())
     return (index_format(df)[cols.keys()].rename(columns=cols).style
             .bar(subset=[cols['needICU.per100k']], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
             .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
             .apply(stylers.add_bar, color='#f49d5a',
-                   s_v=df['infection_rate'] / rate_norm, subset=cols['infection_rate'])
+                   s_v=df['transmission_rate'] / rate_norm, subset=cols['transmission_rate'])
             .apply(stylers.add_bar, color='#d8b193',
-                   s_v=df['infection_rate_past'] / rate_norm, subset=cols['infection_rate_past'])
+                   s_v=df['transmission_rate_past'] / rate_norm, subset=cols['transmission_rate_past'])
             .format('<b>{:.2f}</b>', subset=[cols['needICU.per100k']])
             .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
             .format('<b>{:.1%}</b>', subset=[cols['affected_ratio.est'],
-                                             cols['infection_rate'],
-                                             cols['infection_rate_past']], na_rep="-"))
+                                             cols['transmission_rate'],
+                                             cols['transmission_rate_past']], na_rep="-"))
 
 
 # +
 # hide
 # optimistic rates
-rate_past_opt = df_past['infection_rate'] - df_past['growth_rate_std']
+rate_past_opt = df_past['transmission_rate'] - df_past['transmission_rate_std']
 rate_past_opt[rate_past_opt < 0] = 0
-rate_cur_opt = df_cur['infection_rate'] - df_cur['growth_rate_std']
+rate_cur_opt = df_cur['transmission_rate'] - df_cur['transmission_rate_std']
 rate_cur_opt[rate_cur_opt < 0] = 0
 
 rate_diff = rate_cur_opt - rate_past_opt
@@ -138,7 +138,7 @@ Markdown(f"## &#11093; Bad news: new waves {emoji_flags(new_waves)}")
 #
 # - Countries are sorted by size of change in transmission rate.
 # - Includes only countries that were previously active (more than 100 estimated new cases).
-# - "Large increase" = at least +2% change and at least +3 standard deviations (vs. previous rate std).
+# - "Large increase" = at least +2% change.
 
 # hide_input
 style_news_infections(df_data.loc[new_waves])
@@ -172,7 +172,7 @@ Markdown(f"## &#128994; Good news: slowing waves {emoji_flags(slowing_outbreaks)
 #
 # - Countries are sorted by size of change in transmission rate.
 # - Includes only countries that were previously active (more than 100 estimated new cases).
-# - "Large decrease" = at least -2% change and at least -3 standard deviations (vs. previous rate std).
+# - "Large decrease" = at least -2% change.
 
 #hide_input
 style_news_infections(df_data.loc[slowing_outbreaks])
@@ -190,7 +190,7 @@ def style_news_icu(df):
         'needICU.per100k': '<i>Current:</i><br>Estimated<br>ICU need<br>per 100k<br>population',
         'needICU.per100k_past': f'<i>{day_diff} days ago:</i><br>Estimated<br>ICU need<br>per 100k<br>population',
         'Cases.new.est': 'Estimated<br><i>recent</i> cases<br> in last 5 days',
-        'infection_rate': 'Estimated<br>daily<br>transmission<br>rate',
+        'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
     }
 
@@ -200,12 +200,12 @@ def style_news_icu(df):
             .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
             .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
             .apply(stylers.add_bar, color='#f49d5a',
-                   s_v=df['infection_rate'] / df['infection_rate'].max(),
-                   subset=cols['infection_rate'])
+                   s_v=df['transmission_rate'] / df['transmission_rate'].max(),
+                   subset=cols['transmission_rate'])
             .format('<b>{:.2f}</b>', subset=[cols['needICU.per100k'], cols['needICU.per100k_past']])
             .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
             .format('<b>{:.1%}</b>', subset=[cols['affected_ratio.est'],
-                                             cols['infection_rate']]))
+                                             cols['transmission_rate']]))
 
 
 # hide
@@ -351,7 +351,7 @@ def style_death_burden(df):
         'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
     }
-    death_norm = df['Deaths.new.per100k'].max()
+    death_norm = max(df['Deaths.new.per100k'].max(), df['Deaths.new.per100k.past'].max())
     return (df[cols.keys()].rename(columns=cols).style
             .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['Deaths.new.per100k'], color='#7b7a7c', vmin=0, vmax=death_norm)
