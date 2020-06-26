@@ -32,15 +32,16 @@ import pandas as pd
 import overview_helpers
 
 
-helper = overview_helpers.OverviewData
+covid_data = overview_helpers.CovidData()
 stylers = overview_helpers.PandasStyling
-df_all = helper.table_with_projections()
-df_all.columns
+df_all, debug_dfs = covid_data.table_with_projections(debug_dfs=True)
+df = covid_data.filter_df(df_all)
+df.columns
 # -
 
 #hide_input
 from IPython.display import Markdown
-Markdown(f"***Based on data up to: {helper.cur_date}***")
+Markdown(f"***Based on data up to: {covid_data.cur_date}***")
 
 #hide
 geo_helper = overview_helpers.GeoMap
@@ -57,15 +58,15 @@ fig.update_layout(
         dict(
             buttons=[
                 geo_helper.button_dict(
-                    df_geo['infection_rate'], 'Transmission rate<br>percent (blue-red)',
+                    df_geo['transmission_rate'], 'Transmission rate<br>percent (blue-red)',
                     colorscale='Bluered', scale_max=10, percent=True,
                     subtitle='Transmission rate: over 5% (red) spreading, under 5% (blue) recovering',
-                    err_series=df_geo['growth_rate_std']),
+                    err_series=df_geo['transmission_rate_std']),
                 geo_helper.button_dict(
-                    df_geo['infection_rate'], 'Transmission rate<br>percent',
+                    df_geo['transmission_rate'], 'Transmission rate<br>percent',
                     colorscale='YlOrRd', scale_max=33, percent=True,
                     subtitle='Transmission rate (related to R0)',
-                    err_series=df_geo['growth_rate_std']),
+                    err_series=df_geo['transmission_rate_std']),
                 geo_helper.button_dict(
                     df_geo['Cases.new.per100k.est'], 'Recent cases<br>estimated per 100k',
                     colorscale='YlOrRd',
@@ -202,10 +203,7 @@ fig.show()
 
 # > Tip: The <b><font color="b21e3e">red (need for ICU)</font></b>  and the <b><font color="3ab1d8">blue (ICU spare capacity)</font></b>  bars are on the same 0-10 scale, for easy visual comparison of columns.
 
-#hide
-df_filt = helper.filter_df(df_all)
-df = df_filt.rename(index={'Bosnia and Herzegovina': 'Bosnia',
-                           'United Arab Emirates': 'UAE'})
+# hide
 
 # +
 #hide
@@ -215,25 +213,31 @@ df_pretty['needICU.per100k.+14d'] = stylers.with_errs_float(
     df_pretty, 'needICU.per100k.+14d', 'needICU.per100k.+14d.err')
 df_pretty['needICU.per100k.+30d'] = stylers.with_errs_float(
     df_pretty, 'needICU.per100k.+30d', 'needICU.per100k.+30d.err')
-df_pretty['infection_rate'] = stylers.with_errs_ratio(df_pretty, 'infection_rate', 'growth_rate_std')
+df_pretty['transmission_rate'] = stylers.with_errs_ratio(df_pretty, 'transmission_rate', 'transmission_rate_std')
 
 cols = {'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
-        'infection_rate': 'Estimated<br>daily<br>transmission<br>rate',
+        'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
        'needICU.per100k.+14d': 'Projected<br>ICU need<br>per 100k<br>In 14 days',
        'needICU.per100k.+30d': 'Projected<br>ICU need<br>per 100k<br>In 30 days',
        'icu_capacity_per100k': 'Pre-COVID<br>ICU<br>capacity<br> per 100k',
        'icu_spare_capacity_per100k': 'Pre-COVID<br>Estimated ICU<br>Spare capacity<br>per 100k',
       }
 
+def index_format(df):
+    df = covid_data.rename_long_names(df)
+    df.index = df.apply(
+        lambda s: f"{s['emoji_flag']} {s.name}", axis=1)
+    return df
+
 def style_icu_table(df_pretty, filt):
-    return df_pretty[filt][cols.keys()].rename(cols, axis=1).style\
+    return index_format(df_pretty[filt])[cols.keys()].rename(cols, axis=1).style\
         .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)\
         .apply(stylers.add_bar, color='#f43d64',
                s_v=df_data[filt]['needICU.per100k.+14d']/10, subset=cols['needICU.per100k.+14d'])\
         .apply(stylers.add_bar, color='#ef8ba0',
                s_v=df_data[filt]['needICU.per100k.+30d']/10, subset=cols['needICU.per100k.+30d'])\
         .apply(stylers.add_bar, color='#f49d5a',
-               s_v=df_data[filt]['infection_rate']/0.33, subset=cols['infection_rate'])\
+               s_v=df_data[filt]['transmission_rate']/0.33, subset=cols['transmission_rate'])\
         .bar(subset=[cols['icu_spare_capacity_per100k']], color='#3ab1d8', vmin=0, vmax=10)\
         .applymap(lambda _: 'color: blue', subset=cols['icu_spare_capacity_per100k'])\
         .format('<b>{:.1f}</b>', subset=cols['icu_capacity_per100k'], na_rep="-")\
@@ -246,12 +250,12 @@ def style_icu_table(df_pretty, filt):
 # ### Growing countries (transmission rate above 5%)
 
 #hide_input
-style_icu_table(df_pretty, df_data['infection_rate'] > 0.05)
+style_icu_table(df_pretty, df_data['transmission_rate'] > 0.05)
 
 # ### Recovering countries (tranmission rate below 5%)
 
 #hide_input
-style_icu_table(df_pretty, df_data['infection_rate'] <= 0.05)
+style_icu_table(df_pretty, df_data['transmission_rate'] <= 0.05)
 
 # # Appendix
 # <a id='appendix'></a>
@@ -263,10 +267,9 @@ style_icu_table(df_pretty, df_data['infection_rate'] <= 0.05)
 # > Tip: Choose a country from the drop-down menu to see the calculations used in the tables above and the dynamics of the model.
 
 #hide_input
-_, debug_dfs = helper.table_with_projections(debug_dfs=True)
 df_alt = pd.concat([d.reset_index() for d in debug_dfs], axis=0)
-df_alt_filt = df_alt[(df_alt['day'] > -60) & (df_alt['country'].isin(df_filt.index))]
-overview_helpers.altair_sir_plot(df_alt_filt, df_filt['Deaths.new.per100k'].idxmax())
+df_alt_filt = df_alt[(df_alt['day'] > -60) & (df_alt['country'].isin(df.index))]
+overview_helpers.altair_sir_plot(df_alt_filt, df['Deaths.new.per100k'].idxmax())
 
 # ## Projected Affected Population percentages
 # > Top 20 countries with most estimated recent cases.
@@ -288,23 +291,23 @@ df_pretty['affected_ratio.est.+14d'] = stylers.with_errs_ratio(
     df_pretty, 'affected_ratio.est.+14d', 'affected_ratio.est.+14d.err')
 df_pretty['affected_ratio.est.+30d'] = stylers.with_errs_ratio(
     df_pretty, 'affected_ratio.est.+30d', 'affected_ratio.est.+30d.err')
-df_pretty['infection_rate'] = stylers.with_errs_ratio(df_pretty, 'infection_rate', 'growth_rate_std')
+df_pretty['transmission_rate'] = stylers.with_errs_ratio(df_pretty, 'transmission_rate', 'transmission_rate_std')
 
 cols = {'Cases.new.est': 'Estimated <br> <i>new</i> cases <br> in last 5 days',        
        'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
-       'infection_rate': 'Estimated<br>daily<br>tranmission<br>rate',
+       'transmission_rate': 'Estimated<br>daily<br>tranmission<br>rate',
        'affected_ratio.est.+14d': 'Projected<br><i>total</i><br>affected<br>percentage<br>In 14 days',
        'affected_ratio.est.+30d': 'Projected<br><i>total</i><br>affected<br>percentage<br>In 30 days',
        'lagged_fatality_rate': 'Lagged<br>fatality <br> percentage',
       }
 
-df_pretty[cols.keys()].rename(cols, axis=1).style\
+index_format(df_pretty)[cols.keys()].rename(cols, axis=1).style\
     .apply(stylers.add_bar, color='#719974',
            s_v=df_data['affected_ratio.est.+14d'], subset=cols['affected_ratio.est.+14d'])\
     .apply(stylers.add_bar, color='#a1afa3',
            s_v=df_data['affected_ratio.est.+30d'], subset=cols['affected_ratio.est.+30d'])\
     .apply(stylers.add_bar, color='#f49d5a',
-           s_v=df_data['infection_rate']/0.33, subset=cols['infection_rate'])\
+           s_v=df_data['transmission_rate']/0.33, subset=cols['transmission_rate'])\
     .bar(subset=cols['Cases.new.est'], color='#b57b17')\
     .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)\
     .bar(subset=cols['lagged_fatality_rate'], color='#420412', vmin=0, vmax=0.2)\
@@ -316,13 +319,13 @@ df_pretty[cols.keys()].rename(cols, axis=1).style\
 # ## Methodology
 # - I'm not an epidemiologist. This is an attempt to understand what's happening, and what the future looks like if current trends remain unchanged.
 # - Everything is approximated and depends heavily on underlying assumptions.
-# - Projection is done using a simple [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model) with (see [examples](#examples)) combined with the approach in [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases):
-#     - Growth rate calculated over the 5 past days. This is pessimistic - because it includes the testing rate growth rate as well, and is slow to react to both improvements in test coverage and "flattening" due to social isolation.
-#     - Confidence bounds are calculated by from the weighted STD of the growth rate over the last 5 days. Model predictions are calculated for growth rates within 1 STD of the weighted mean. The maximum and minimum values for each day are used as confidence bands.
+# - Projection is done using a simple [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model) (see [examples](#examples)) combined with the approach in [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases):
+#     - Growth rate is calculated over the 5 past days.
+#     - Confidence bounds are calculated by from the weighted standard deviation of the growth rate over the last 5 days. Model predictions are calculated for growth rates within 1 STD of the weighted mean. The maximum and minimum values for each day are used as confidence bands.
 #     - For projections (into future) very noisy projections (with broad confidence bounds) are not shown in the tables.
-#     - Recovery probability being 1/20 (for 20 days to recover) where the rate estimated from [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases) is too high (on down-slopes).
-# - Total cases are estimated from deaths in each country:
-#     - Each country has different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today. We can than use this estimation to estimate the testing bias and multiply the current numbers by that.
+#     - Where the rate estimated from [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases) is too high (on down-slopes) recovery probability if 1/20 is used (equivalent 20 days to recover).
+# - Total cases are estimated from the reported deaths for each country:
+#     - Each country has different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today. We can than use this estimation to estimate the testing bias and multiply the current reported case numbers by that.
 #     - IFRs for each country is estimated using the age IFRs from [May 1 New York paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771) and [UN demographic data for 2020](https://population.un.org/wpp/Download/Standard/Population/). These IFRs can be found in `df['age_adjusted_ifr']` column. Some examples: US - 0.98%, UK - 1.1%, Qatar - 0.25%, Italy - 1.4%, Japan - 1.6%.
 #     - The average fatality lag is assumed to be 8 days on average for a case to go from being confirmed positive (after incubation + testing lag) to death. This is the same figure used by ["Estimating The Infected Population From Deaths"](https://covid19dashboards.com/covid-infected/).
 #     - Testing bias: the actual lagged fatality rate is than divided by the IFR to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
