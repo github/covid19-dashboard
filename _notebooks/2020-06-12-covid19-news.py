@@ -145,7 +145,7 @@ df_alt_all = pd.concat([d.reset_index() for d in debug_dfs], axis=0)
 
 def infected_plots(countries, title):
     return covid_helpers.altair_multiple_countries_infected(
-        df_alt_all, countries=countries, title=title, days_back=60, marker_day=day_diff)
+        df_alt_all, countries=countries, title=title, marker_day=day_diff)
 
 
 # -
