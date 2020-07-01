@@ -719,7 +719,7 @@ def altair_sir_plot(df_alt, default_country):
 def altair_multiple_countries_infected(df_alt_all,
                                        countries,
                                        title,
-                                       days_back=60,
+                                       days_back=90,
                                        marker_day=10):
     if not len(countries):
         return
@@ -727,7 +727,8 @@ def altair_multiple_countries_infected(df_alt_all,
     alt.data_transformers.disable_max_rows()
 
     df_alt = df_alt_all[df_alt_all['day'].between(-days_back, 0) &
-                        (df_alt_all['country'].isin(countries))]
+                        (df_alt_all['country'].isin(countries)) &
+                        (df_alt_all['Infected'] > 0)]
 
     select_country = alt.selection_single(
         name='Select',
