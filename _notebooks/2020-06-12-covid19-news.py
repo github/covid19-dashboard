@@ -25,7 +25,8 @@
 # - hide: false
 
 # > Warning: This dashboard was not built by an epidemiologist.
-#
+
+# > Note: Click a country name to open a search results page for that country's COVID-19 news.
 
 # +
 #hide
@@ -72,21 +73,13 @@ df_data['affected_ratio.miss'] = (df_cur['affected_ratio.est'] / df_past['affect
 df_data['needICU.per100k.miss'] = (df_cur['needICU.per100k'] / df_past['needICU.per100k.+9d']) - 1
 df_data['testing_bias.change'] = (df_data['testing_bias'] / df_past['testing_bias']) - 1
 
+# -
 
 
-# +
 #hide
-def index_format(df):
-    df = cur_data.rename_long_names(df)
-    df.index = df.apply(
-        lambda s: f"""<font size=3><b>{s['emoji_flag']} {s.name}</b></font>""", axis=1)
-    return df
-
 def emoji_flags(inds):
     return ' '.join(df_cur.loc[inds]['emoji_flag'])
 
-
-# -
 
 # # Transmission rate:
 # > Note: "transmission rate" here is a measure of speed of spread of infection, and means how much of the susceptible population each infected person is infecting per day (if everyone is susceptible). E.g. 10% means that 100 infected patients will infect 10 new people per day. Related to [R0](https://en.wikipedia.org/wiki/Basic_reproduction_number). See [Methodology](#Methodology) for details of calculation.
@@ -102,7 +95,8 @@ def style_news_infections(df):
     }
 
     rate_norm = max(df['transmission_rate'].max(), df['transmission_rate_past'].max())
-    return (index_format(df)[cols.keys()].rename(columns=cols).style
+    df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
+    return (df_show.style
             .bar(subset=[cols['needICU.per100k']], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
             .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
@@ -193,7 +187,8 @@ def style_news_icu(df):
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
     }
 
-    return (index_format(df)[cols.keys()].rename(columns=cols).style
+    df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
+    return (df_show.style
             .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['needICU.per100k_past'], color='#c67f8e', vmin=0, vmax=10)
             .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
@@ -209,14 +204,14 @@ def style_news_icu(df):
 
 # hide
 icu_diff = df_cur['needICU.per100k'] - df_past['needICU.per100k']
-icu_increase = icu_diff[icu_diff > 0.5].sort_values(ascending=False).index
+icu_increase = icu_diff[icu_diff > 0.2].sort_values(ascending=False).index
 
 # hide_input
 Markdown(f"## &#11093; Bad news: higher ICU need {emoji_flags(icu_increase)}")
 
 # > Large increases in need for ICU beds per 100k population vs. 10 days ago.
 #
-# - Only countries for which the ICU need increased by more than 0.5 (per 100k).
+# - Only countries for which the ICU need increased by more than 0.2 (per 100k).
 
 # hide_input
 style_news_icu(df_data.loc[icu_increase])
@@ -227,7 +222,7 @@ style_news_icu(df_data.loc[icu_increase])
 infected_plots(icu_increase, "Countries with Higher ICU need (vs. 10 days ago)")
 
 # hide
-icu_decrease = icu_diff[icu_diff < -0.5].sort_values().index
+icu_decrease = icu_diff[icu_diff < -0.1].sort_values().index
 
 # hide_input
 Markdown(f"## &#128994; Good news: lower ICU need {emoji_flags(icu_decrease)}")
@@ -235,7 +230,7 @@ Markdown(f"## &#128994; Good news: lower ICU need {emoji_flags(icu_decrease)}")
 
 # > Large decreases in need for ICU beds per 100k population vs. 10 days ago.
 #
-# - Only countries for which the ICU need decreased by more than 0.5 (per 100k).
+# - Only countries for which the ICU need decreased by more than 0.1 (per 100k).
 
 # hide_input
 style_news_icu(df_data.loc[icu_decrease])
@@ -272,7 +267,8 @@ def style_no_news(df):
         'last_case_date': 'Date<br>of last<br>reported case',
         'last_death_date': 'Date<br>of last<br>reported death',
     }
-    return (index_format(df)[cols.keys()].rename(columns=cols).style
+    df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
+    return (df_show.style
             .format('<b>{:,.0f}</b>', subset=[cols['Cases.total.est'], cols['Deaths.total']]))
 
 
@@ -342,7 +338,6 @@ infected_plots(not_active, "Continuosly inactive countries (now and 10 days ago)
 
 # hide
 def style_death_burden(df):
-    df = index_format(df)
     cols = {
         'Deaths.new.per100k': f'<i>Current</i>:<br>{cur_data.PREV_LAG} day<br>death<br>burden<br>per 100k',
         'Deaths.new.per100k.past': f'<i>{day_diff} days ago</i>:<br>{cur_data.PREV_LAG} day<br>death<br>burden<br>per 100k',
@@ -350,11 +345,13 @@ def style_death_burden(df):
         'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
     }
+    df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
     death_norm = max(df['Deaths.new.per100k'].max(), df['Deaths.new.per100k.past'].max())
-    return (df[cols.keys()].rename(columns=cols).style
+    return (df_show.style
             .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['Deaths.new.per100k'], color='#7b7a7c', vmin=0, vmax=death_norm)
-            .bar(subset=cols['Deaths.new.per100k.past'], color='#918f93', vmin=0, vmax=death_norm)
+            .bar(subset=cols['Deaths.new.per100k.past'], color='#918f93', vmin=0,
+                 vmax=death_norm)
             .bar(subset=cols['Deaths.total.diff'], color='#6b595d', vmin=0)
             .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
             .format('<b>{:.0f}</b>', subset=[cols['Deaths.total.diff'],
@@ -505,20 +502,23 @@ stacked_rem = alt.Chart(df_tot_filt).mark_area().encode(
 .configure_title(fontSize=20)
 # -
 
+# <a id='methodology'></a>
 # ## Methodology
-# - I'm not an epidemiologist.
-# - Tranmission rates calculation:
-#     - Case growth rate is calculated over the 5 past days.
-#     - Confidence bounds are calculated by from the weighted standard deviation of the growth rate over the last 5 days. Countries with highly noisy transmission rates are exluded from tranmission rate change tables ("new waves", "slowing waves"). 
-#     - Tranmission rate is calculated from cases growth rate by estimating the actively infected population change relative to the susceptible population.
-# - Recovery rate (for estimating actively infected): 
-#   - Where the rate estimated from [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases) is too high (on down-slopes) recovery probability if 1/20 is used (equivalent 20 days to recover).
+# - I'm not an epidemiologist. This is an attempt to understand what's happening, and what the future looks like if current trends remain unchanged.
+# - Everything is approximated and depends heavily on underlying assumptions.
+# - Transmission rate calculation:
+#     - Growth rate is calculated over the 5 past days by averaging the daily growth rates.
+#     - Confidence bounds are calculated from the weighted standard deviation of the growth rate over the last 5 days. Model predictions are calculated for growth rates within 1 STD of the weighted mean. The maximum and minimum values for each day are used as confidence bands.
+# Countries with highly noisy transmission rates are exluded from tranmission rate change tables ("new waves", "slowing waves").
+#     - Transmission rate, and its STD are calculated from growth rate and its STD using active cases estimation.
+#     - For projections (into future) very noisy projections (with broad confidence bounds) are not shown in the tables.
+#     - Where the rate estimated from [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases) is too high (on down-slopes) recovery probability if 1/20 is used (equivalent 20 days to recover).
 # - Total cases are estimated from the reported deaths for each country:
-#     - Each country has different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today. We can than use this estimation to estimate the testing bias and multiply the current reported case numbers by that.
-#     - IFRs for each country is estimated using the age IFRs from [May 1 New York paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771) and [UN demographic data for 2020](https://population.un.org/wpp/Download/Standard/Population/). These IFRs can be found in `df['age_adjusted_ifr']` column. Some examples: US - 0.98%, UK - 1.1%, Qatar - 0.25%, Italy - 1.4%, Japan - 1.6%.
+#     - Each country has a different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today.
+#     - IFRs for each country is estimated using the age adjusted IFRs from [May 1 New York paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771) and [UN demographic data for 2020](https://population.un.org/wpp/Download/Standard/Population/). These IFRs can be found in `df['age_adjusted_ifr']` column. Some examples: US - 0.98%, UK - 1.1%, Qatar - 0.25%, Italy - 1.4%, Japan - 1.6%.
 #     - The average fatality lag is assumed to be 8 days on average for a case to go from being confirmed positive (after incubation + testing lag) to death. This is the same figure used by ["Estimating The Infected Population From Deaths"](https://covid19dashboards.com/covid-infected/).
-#     - Testing bias: the actual lagged fatality rate is than divided by the IFR to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
+#     - Testing bias adjustment: the actual lagged fatality rate is than divided by the IFR to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
 # - ICU need is calculated and age-adjusted as follows:
 #     - UK ICU ratio was reported as [4.4% of active reported cases](https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf).
-#     - Using UKs ICU ratio and IFRs corrected for age demographics we can estimate each country's ICU ratio (the number of cases requiring ICU hospitalisation). For example using the IFR ratio between UK and Qatar to devide UK's 4.4% we get an ICU ratio of around 1% for Qatar which is also the ratio [they report to WHO here](https://apps.who.int/gb/COVID-19/pdf_files/30_04/Qatar.pdf).
-#     - The ICU need is calculated from reported cases rather than from total estimated active cases. This is because the ICU ratio (4.4%) is based on reported cases.
+#     - Using UKs ICU ratio, UK's testing bias, and IFRs corrected for age demographics we can estimate each country's ICU ratio (the number of cases requiring ICU hospitalisation).
+# ![](https://artdgn.goatcounter.com/count?p=c19d-news)
