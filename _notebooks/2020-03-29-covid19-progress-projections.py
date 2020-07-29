@@ -26,6 +26,8 @@
 
 # > Warning: This dashboard contains the results of a predictive model that was not built by an epidemiologist.
 
+# > Note: Click a country name to open a search results page for that country's COVID-19 news.
+
 # +
 #hide
 import pandas as pd
@@ -189,73 +191,54 @@ fig.show()
 # # Tables
 # <a id='tables'></a>
 # ## Projected need for ICU beds
-#
-# > Countries sorted by current ICU demand, split into Growing and Recovering countries by current transmission rate.
-#
-# - Details of estimation and prediction calculations are in [Appendix](#appendix), as well as [Plots of model predictions](#examples).
-# - Column definitions:
-#     - <font size=2><b>Estimated ICU need per 100k population</b>: number of ICU beds estimated to be needed per 100k population by COVID-19 patents.</font>
-#     - <font size=2><b>Estimated daily infection rate</b>: daily percentage rate of new infections relative to active infections during last 5 days.</font>
-#     - <font size=2><b>Projected ICU need per 100k in 14 days</b>: self explanatory.</font>
-#     - <font size=2><b>Projected ICU need per 100k in 30 days</b>: self explanatory.</font>
-#     - <font size=2><b>ICU capacity per 100k</b>: number of ICU beds per 100k population.</font>
-#     - <font size=2><b>Estimated ICU Spare capacity per 100k</b>: estimated ICU capacity per 100k population based on assumed normal occupancy rate of 70% and number of ICU beds (only for countries with ICU beds data).</font>
-
-# > Tip: The <b><font color="b21e3e">red (need for ICU)</font></b>  and the <b><font color="3ab1d8">blue (ICU spare capacity)</font></b>  bars are on the same 0-10 scale, for easy visual comparison of columns.
-
-# hide
+# > Countries sorted by current estimated need, split into Growing and Recovering
+# countries by current transmission rate. Only for countries with ICU need higher
+# than 0.1 beds per 100k. More details in [Appendix](#appendix).
 
 # +
 #hide
-df_data = df.sort_values('needICU.per100k', ascending=False)
-df_pretty = df_data.copy()
-df_pretty['needICU.per100k.+14d'] = stylers.with_errs_float(
-    df_pretty, 'needICU.per100k.+14d', 'needICU.per100k.+14d.err')
-df_pretty['needICU.per100k.+30d'] = stylers.with_errs_float(
-    df_pretty, 'needICU.per100k.+30d', 'needICU.per100k.+30d.err')
-df_pretty['transmission_rate'] = stylers.with_errs_ratio(df_pretty, 'transmission_rate', 'transmission_rate_std')
 
-cols = {'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
-        'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
-       'needICU.per100k.+14d': 'Projected<br>ICU need<br>per 100k<br>In 14 days',
-       'needICU.per100k.+30d': 'Projected<br>ICU need<br>per 100k<br>In 30 days',
-       'icu_capacity_per100k': 'Pre-COVID<br>ICU<br>capacity<br> per 100k',
-       'icu_spare_capacity_per100k': 'Pre-COVID<br>Estimated ICU<br>Spare capacity<br>per 100k',
-      }
+def style_icu_table(df):
+    df_icu = df.sort_values('needICU.per100k', ascending=False)
 
-def index_format(df):
-    df = covid_data.rename_long_names(df)
-    df.index = df.apply(
-        lambda s: f"{s['emoji_flag']} {s.name}", axis=1)
-    return df
-
-def style_icu_table(df_pretty, filt):
-    return index_format(df_pretty[filt])[cols.keys()].rename(cols, axis=1).style\
-        .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)\
+    cols = {'needICU.per100k': 'Estimated<br>current<br>ICU need<br>per 100k<br>population',
+            'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
+            'needICU.per100k.+14d': 'Projected<br>ICU need<br>per 100k<br>In 14 days',
+            'needICU.per100k.+30d': 'Projected<br>ICU need<br>per 100k<br>In 30 days',
+            'icu_capacity_per100k': 'Pre-COVID<br>ICU<br>capacity<br> per 100k',
+            }
+    df_show = stylers.country_index_emoji_link(df_icu, font_size=1)
+    df_show['needICU.per100k.+14d'] = stylers.with_errs_float(
+        df_show, 'needICU.per100k.+14d', 'needICU.per100k.+14d.err')
+    df_show['needICU.per100k.+30d'] = stylers.with_errs_float(
+        df_show, 'needICU.per100k.+30d', 'needICU.per100k.+30d.err')
+    df_show['transmission_rate'] = stylers.with_errs_ratio(
+        df_show, 'transmission_rate', 'transmission_rate_std')
+    df_show = df_show[cols.keys()].rename(columns=cols)
+    return (df_show.style
+        .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
         .apply(stylers.add_bar, color='#f43d64',
-               s_v=df_data[filt]['needICU.per100k.+14d']/10, subset=cols['needICU.per100k.+14d'])\
+               s_v=df_icu['needICU.per100k.+14d']/10, subset=cols['needICU.per100k.+14d'])
         .apply(stylers.add_bar, color='#ef8ba0',
-               s_v=df_data[filt]['needICU.per100k.+30d']/10, subset=cols['needICU.per100k.+30d'])\
+               s_v=df_icu['needICU.per100k.+30d']/10, subset=cols['needICU.per100k.+30d'])
         .apply(stylers.add_bar, color='#f49d5a',
-               s_v=df_data[filt]['transmission_rate']/0.33, subset=cols['transmission_rate'])\
-        .bar(subset=[cols['icu_spare_capacity_per100k']], color='#3ab1d8', vmin=0, vmax=10)\
-        .applymap(lambda _: 'color: blue', subset=cols['icu_spare_capacity_per100k'])\
-        .format('<b>{:.1f}</b>', subset=cols['icu_capacity_per100k'], na_rep="-")\
-        .format('<b>{:.1f}</b>', subset=cols['icu_spare_capacity_per100k'], na_rep="-")\
-        .format('<b>{:.2f}</b>', subset=cols['needICU.per100k'])
-
+               s_v=df_icu['transmission_rate']/0.33, subset=cols['transmission_rate'])
+        .bar(subset=[cols['icu_capacity_per100k']], color='#3ab1d8', vmin=0, vmax=40)
+        .applymap(lambda _: 'color: blue', subset=cols['icu_capacity_per100k'])
+        .format('<b>{:.1f}</b>', subset=cols['icu_capacity_per100k'], na_rep="-")
+        .format('<b>{:.2f}</b>', subset=cols['needICU.per100k']))
 
 # -
 
 # ### Growing countries (transmission rate above 5%)
 
 #hide_input
-style_icu_table(df_pretty, df_data['transmission_rate'] > 0.05)
+style_icu_table(df[(df['transmission_rate'] > 0.05) & (df['needICU.per100k'] > 0.1)])
 
 # ### Recovering countries (tranmission rate below 5%)
 
 #hide_input
-style_icu_table(df_pretty, df_data['transmission_rate'] <= 0.05)
+style_icu_table(df[(df['transmission_rate'] < 0.05) & (df['needICU.per100k'] > 0.1)])
 
 # # Appendix
 # <a id='appendix'></a>
@@ -272,67 +255,61 @@ df_alt_filt = df_alt[(df_alt['day'] > -60) & (df_alt['country'].isin(df.index))]
 overview_helpers.altair_sir_plot(df_alt_filt, df['Deaths.new.per100k'].idxmax())
 
 # ## Projected Affected Population percentages
-# > Top 20 countries with most estimated recent cases.
-#
-# - Sorted by number of estimated recent cases during the last 5 days.
-# - Column definitions:
-#     - <font size=2><b>Estimated <i>recent</i> cases in last 5 days</b>: self explanatory.</font>
-#     - <font size=2><b>Estimated <i>total</i> affected population percentage</b>: estimated percentage of total population already affected (infected, recovered, or dead).</font>
-#     - <font size=2><b>Estimated daily tranmission rate</b>: daily percentage rate of recent infections relative to active infections during last 5 days.</font>
-#     - <font size=2><b>Projected total affected percentage in 14 days</b>: of population.</font>
-#     - <font size=2><b>Projected total affected percentage in 30 days</b>: of population.</font>
-#     - <font size=2><b>Lagged fatality rate</b>: reported total deaths divided by total cases 8 days ago.</font>
+# > Top 20 countries with most estimated recent cases. Sorted by number of estimated recent cases during the last 5 days. More details in [Appendix](#appendix).
 
 # +
 #hide_input
-df_data = df.sort_values('Cases.new.est', ascending=False).head(20)
-df_pretty = df_data.copy()
-df_pretty['affected_ratio.est.+14d'] = stylers.with_errs_ratio(
-    df_pretty, 'affected_ratio.est.+14d', 'affected_ratio.est.+14d.err')
-df_pretty['affected_ratio.est.+30d'] = stylers.with_errs_ratio(
-    df_pretty, 'affected_ratio.est.+30d', 'affected_ratio.est.+30d.err')
-df_pretty['transmission_rate'] = stylers.with_errs_ratio(df_pretty, 'transmission_rate', 'transmission_rate_std')
+df_cases = df.sort_values('Cases.new.est', ascending=False).head(20)
 
-cols = {'Cases.new.est': 'Estimated <br> <i>new</i> cases <br> in last 5 days',        
+cols = {'Cases.new.est': 'Estimated <br> <i>recent</i> cases<br>during<br>last 5 days',
        'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
-       'transmission_rate': 'Estimated<br>daily<br>tranmission<br>rate',
+       'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
        'affected_ratio.est.+14d': 'Projected<br><i>total</i><br>affected<br>percentage<br>In 14 days',
        'affected_ratio.est.+30d': 'Projected<br><i>total</i><br>affected<br>percentage<br>In 30 days',
-       'lagged_fatality_rate': 'Lagged<br>fatality <br> percentage',
+       'lagged_fatality_rate': 'Lagged<br>fatality <br> rate',
       }
-
-index_format(df_pretty)[cols.keys()].rename(cols, axis=1).style\
+df_show = stylers.country_index_emoji_link(df_cases, font_size=1)
+df_show['affected_ratio.est.+14d'] = stylers.with_errs_ratio(
+    df_show, 'affected_ratio.est.+14d', 'affected_ratio.est.+14d.err')
+df_show['affected_ratio.est.+30d'] = stylers.with_errs_ratio(
+    df_show, 'affected_ratio.est.+30d', 'affected_ratio.est.+30d.err')
+df_show['transmission_rate'] = stylers.with_errs_ratio(
+    df_show, 'transmission_rate', 'transmission_rate_std')
+df_show = df_show[cols.keys()].rename(columns=cols)
+(df_show.style
     .apply(stylers.add_bar, color='#719974',
-           s_v=df_data['affected_ratio.est.+14d'], subset=cols['affected_ratio.est.+14d'])\
+           s_v=df_cases['affected_ratio.est.+14d'], subset=cols['affected_ratio.est.+14d'])
     .apply(stylers.add_bar, color='#a1afa3',
-           s_v=df_data['affected_ratio.est.+30d'], subset=cols['affected_ratio.est.+30d'])\
+           s_v=df_cases['affected_ratio.est.+30d'], subset=cols['affected_ratio.est.+30d'])
     .apply(stylers.add_bar, color='#f49d5a',
-           s_v=df_data['transmission_rate']/0.33, subset=cols['transmission_rate'])\
-    .bar(subset=cols['Cases.new.est'], color='#b57b17')\
-    .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)\
-    .bar(subset=cols['lagged_fatality_rate'], color='#420412', vmin=0, vmax=0.2)\
-    .applymap(lambda _: 'color: red', subset=cols['lagged_fatality_rate'])\
-    .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])\
-    .format('<b>{:.1%}</b>', subset=[cols['lagged_fatality_rate'], cols['affected_ratio.est']])
+           s_v=df_cases['transmission_rate']/0.33, subset=cols['transmission_rate'])
+    .bar(subset=cols['Cases.new.est'], color='#b57b17')
+    .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
+    .bar(subset=cols['lagged_fatality_rate'], color='#420412', vmin=0, vmax=0.2)
+    .applymap(lambda _: 'color: red', subset=cols['lagged_fatality_rate'])
+    .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
+    .format('<b>{:.1%}</b>', subset=[cols['lagged_fatality_rate'], cols['affected_ratio.est']]))
 # -
 
+# <a id='methodology'></a>
 # ## Methodology
 # - I'm not an epidemiologist. This is an attempt to understand what's happening, and what the future looks like if current trends remain unchanged.
 # - Everything is approximated and depends heavily on underlying assumptions.
 # - Projection is done using a simple [SIR model](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SIR_model) (see [examples](#examples)) combined with the approach in [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases):
-#     - Growth rate is calculated over the 5 past days.
+#     - Growth rate is calculated over the 5 past days by averaging the daily growth rates.
 #     - Confidence bounds are calculated by from the weighted standard deviation of the growth rate over the last 5 days. Model predictions are calculated for growth rates within 1 STD of the weighted mean. The maximum and minimum values for each day are used as confidence bands.
+#     - Transmission rate, and its STD are calculated from growth rate and its STD using active cases estimation mentioned above.
 #     - For projections (into future) very noisy projections (with broad confidence bounds) are not shown in the tables.
 #     - Where the rate estimated from [Total Outstanding Cases](https://covid19dashboards.com/outstanding_cases/#Appendix:-Methodology-of-Predicting-Recovered-Cases) is too high (on down-slopes) recovery probability if 1/20 is used (equivalent 20 days to recover).
 # - Total cases are estimated from the reported deaths for each country:
-#     - Each country has different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today. We can than use this estimation to estimate the testing bias and multiply the current reported case numbers by that.
-#     - IFRs for each country is estimated using the age IFRs from [May 1 New York paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771) and [UN demographic data for 2020](https://population.un.org/wpp/Download/Standard/Population/). These IFRs can be found in `df['age_adjusted_ifr']` column. Some examples: US - 0.98%, UK - 1.1%, Qatar - 0.25%, Italy - 1.4%, Japan - 1.6%.
+#     - Each country has a different testing policy and capacity and cases are under-reported in some countries. Using an estimated IFR (fatality rate) we can estimate the number of cases some time ago by using the total deaths until today.
+#     - IFRs for each country is estimated using the age adjusted IFRs from [May 1 New York paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3590771) and [UN demographic data for 2020](https://population.un.org/wpp/Download/Standard/Population/). These IFRs can be found in `df['age_adjusted_ifr']` column. Some examples: US - 0.98%, UK - 1.1%, Qatar - 0.25%, Italy - 1.4%, Japan - 1.6%.
 #     - The average fatality lag is assumed to be 8 days on average for a case to go from being confirmed positive (after incubation + testing lag) to death. This is the same figure used by ["Estimating The Infected Population From Deaths"](https://covid19dashboards.com/covid-infected/).
-#     - Testing bias: the actual lagged fatality rate is than divided by the IFR to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
+#     - Testing bias adjustment: the actual lagged fatality rate is than divided by the IFR to estimate the testing bias in a country. The estimated testing bias then multiplies the reported case numbers to estimate the *true* case numbers (*=case numbers if testing coverage was as comprehensive as in the heavily tested countries*).
 # - ICU need is calculated and age-adjusted as follows:
 #     - UK ICU ratio was reported as [4.4% of active reported cases](https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf).
-#     - Using UKs ICU ratio and IFRs corrected for age demographics we can estimate each country's ICU ratio (the number of cases requiring ICU hospitalisation). For example using the IFR ratio between UK and Qatar to devide UK's 4.4% we get an ICU ratio of around 1% for Qatar which is also the ratio [they report to WHO here](https://apps.who.int/gb/COVID-19/pdf_files/30_04/Qatar.pdf).
-#     - Active cases are taken from the SIR model. The ICU need is calculated from reported cases rather than from total estimated active cases. This is because the ICU ratio (4.4%) is based on reported cases.
+#     - Using UKs ICU ratio, UK's testing bias, and IFRs corrected for age demographics we can estimate each country's ICU ratio (the number of cases requiring ICU hospitalisation).
+#     - Active cases for ICU estimation are taken from the SIR model.
 #     - Pre COVID-19 ICU capacities are from [Wikipedia](https://en.wikipedia.org/wiki/List_of_countries_by_hospital_beds) (OECD countries mostly) and [CCB capacities in Asia](https://www.researchgate.net/publication/338520008_Critical_Care_Bed_Capacity_in_Asian_Countries_and_Regions).
-#     - Pre COVID-19 ICU spare capacity is based on 70% normal occupancy rate ([66% in US](https://www.sccm.org/Blog/March-2020/United-States-Resource-Availability-for-COVID-19), [75% OECD](https://www.oecd-ilibrary.org/social-issues-migration-health/health-at-a-glance-2019_4dd50c09-en))
-#
+#     The current capacities are likely much higher as some countries already doubled or even quadrupled their ICU capacities.
+# ![](https://artdgn.goatcounter.com/count?p=c19d-projections)
