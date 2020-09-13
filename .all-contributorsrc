@@ -327,6 +327,15 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "ujs",
+      "name": "ujs",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5633010?v=4",
+      "profile": "https://github.com/ujs",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 7,
