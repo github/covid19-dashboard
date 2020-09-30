@@ -4,6 +4,6 @@
 {% elsif page.layout == 'post' %}
     <a href="https://github.com/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/tree/{{page.branch | default: "master" }}/{{page.path}}" role="button">
 {% endif -%}
-        <img class="notebook-badge-image" src="{{ "assets/badges/github.svg" | relative_url }}" alt="View On GitHub">
+        <img class="notebook-badge-image" src="{{ 'assets/badges/github.svg' | relative_url }}" alt="View On GitHub">
     </a>
 </div>
