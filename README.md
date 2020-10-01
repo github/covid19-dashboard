@@ -9,14 +9,14 @@
 
 ## This project was built with [fastpages](https://github.com/fastai/fastpages)
 
-### Background
+### Background details
 
 This project is supported by a virtual team of open source collaborators that gather data, make visualizations and perform analysis regarding the COVID-19 epidemic. We saw that data scientists were struggling to share information with each other, so we used this project to aid in the sharing of data and information.  This project aims to offer an accessible way for data professionals to share dashboards (that are updated with new data automatically) without requiring any expertise in front end development.
 
 ### Contributing
 
 See the [contributing guide](CONTRIBUTING.md).
-## Contributors ✨
+## Happy Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-36-orange.svg?style=flat-square)](#contributors-)
