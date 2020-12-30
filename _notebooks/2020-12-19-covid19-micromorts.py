@@ -56,6 +56,21 @@ df_all['monthly_average_micromorts'] = df_all['monthly_deadly_infection_risk'] *
 df_all['monthly_population_risk'] = df_all['monthly_deadly_infection_risk'] * df_all['population']
 
 #hide
+# errors
+df_all['daily_infection_chance_err'] = (
+    df_all['daily_infection_chance'] * df_all['transmission_rate_std'] /
+    df_all['transmission_rate'])
+df_all['monthly_infection_chance_err'] = (
+    (1 - df_all['daily_infection_chance'] + df_all['daily_infection_chance_err']) ** 30 -
+    (1 - df_all['daily_infection_chance'] - df_all['daily_infection_chance_err']) ** 30
+) / 2
+df_all['monthly_average_micromorts_err'] = (
+    df_all['monthly_infection_chance_err'] * df_all['age_adjusted_ifr'] * 1e6)
+df_all['monthly_population_risk_err'] = (
+    df_all['monthly_population_risk'] * df_all['monthly_infection_chance_err'] /
+    df_all['monthly_infection_chance'])
+
+#hide
 # retrospective empirical risk from recent deaths
 df_all['daily_recent_empirical_risk'] = df_all['Deaths.new.per100k'] / 1e5
 df_all['monthly_recent_empirical_risk'] = 1 - (1 - df_all['daily_recent_empirical_risk']) ** (30 / 5)
@@ -78,6 +93,7 @@ age_ifrs = {
 }
 for age_range, ifr in age_ifrs.items():
     df_all[f'monthly_micromorts_{age_range}'] = 1e6 * ifr * df_all['monthly_infection_chance']
+    df_all[f'monthly_micromorts_{age_range}_err'] = 1e6 * ifr * df_all['monthly_infection_chance_err']
 
 #hide
 geo_helper = covid_helpers.GeoMap
@@ -93,23 +109,24 @@ def micromorts_hover_func(r: pd.Series, age_range=None):
         ifr, ifr_str = age_ifrs[age_range], f'age range {age_range}'
         micromorts_col=f'monthly_micromorts_{age_range}'
     mm = r[micromorts_col]
+    err = r[f'{micromorts_col}_err']
     return (
         f"<br>Risk of death due to one month<br>"
         f"of exposure is comparable to:<br>"
-        f"  - <b>{mm * 10:.0f}</b> km by Motorcycle<br>"
-        f"  - <b>{mm * 370:.0f}</b> km by Car<br>"
-        f"  - <b>{mm * 1600:.0f}</b> km by Plane<br>"  
-        f"  - <b>{mm / 5:.0f}</b> scuba dives<br>"       
-        f"  - <b>{mm / 8:.0f}</b> sky diving jumps<br>"         
-        f"  - <b>{mm / 430:.0f}</b> base jumping jumps<br>"
-        f"  - <b>{mm / 12000:.0f}</b> Everest climbs<br><br>"      
+        f"  - <b>{mm * 10:.0f}</b> ± {err * 10:.0f} km by Motorcycle<br>"
+        f"  - <b>{mm * 370:.0f}</b> ± {err * 370:.0f} km by Car<br>"
+        f"  - <b>{mm * 1600:.0f}</b> ± {err * 1600:.0f} km by Plane<br>"  
+        f"  - <b>{mm / 5:.0f}</b> ± {err / 5:.0f} scuba dives<br>"       
+        f"  - <b>{mm / 8:.0f}</b> ± {err / 8:.0f} sky diving jumps<br>"         
+        f"  - <b>{mm / 430:.0f}</b> ± {err / 430:.0f} base jumping jumps<br>"
+        f"  - <b>{mm / 12000:.0f}</b> ± {err / 12000:.0f} Everest climbs<br><br>"      
         f"Contagious percent of population:"
         f"  <b>{r['current_active_ratio']:.1%}</b><br>"
         f"Susceptible percent of population:"
         f"  <b>{(1 - r['current_active_ratio'] - r['current_recovered_ratio']):.1%}</b><br>"
-        f"Transmission rate: <b>{r['transmission_rate']:.1%}</b><br>"
+        f"Transmission rate: <b>{r['transmission_rate']:.1%}</b> ± {r['transmission_rate_std']:.1%}<br>"
         f"Chance of infection over a month:"
-        f"  <b>{r['monthly_infection_chance']:.1%}</b><br>"
+        f"  <b>{r['monthly_infection_chance']:.1%}</b> ± {r['monthly_infection_chance_err']:.1%}<br>"
         f"Chance of death after infection<br> (for {ifr_str}):"
         f"  <b>{ifr:.2%}</b>"
     )
@@ -127,7 +144,7 @@ def stats_hover_text_func(r: pd.Series):
         f"  <b>{r['current_active_ratio']:.1%}</b><br>"
         f"Susceptible percent of population:"
         f"  <b>{(1 - r['current_active_ratio'] - r['current_recovered_ratio']):.1%}</b><br>"
-        f"Transmission rate: <b>{r['transmission_rate']:.1%}</b><br>"
+        f"Transmission rate: <b>{r['transmission_rate']:.1%}</b> ± {r['transmission_rate_std']:.1%}<br>"
         f"Chance of infection over a month:"
         f"  <b>{r['monthly_infection_chance']:.1%}</b><br>"
     )
@@ -147,7 +164,7 @@ fig = geo_helper.make_map_figure(
     hover_text_func=functools.partial(micromorts_hover_func, age_range=default_age),
     scale_max=None,
     colorscale=colorscale,
-    err_col=None,
+    err_col=f'monthly_micromorts_{default_age}_err',
 )
 
 #hide
@@ -161,7 +178,7 @@ fig.update_layout(
                     colorbar_title='Micromorts',
                     colorscale=colorscale, scale_max=None, percent=False,
                     subtitle=f"Ages {age_range}: risk of deadly infection due to a month's exposure",
-                    err_series=None,
+                    err_series=df_geo[f'monthly_micromorts_{age_range}_err'],
                     hover_text_list=micromorts_hover_texts_for_age_range(age_range)
                 ) 
                 for age_range in reversed(list(age_ifrs.keys()))
@@ -172,30 +189,32 @@ fig.update_layout(
                     colorbar_title='Micromorts',
                     colorscale=colorscale, scale_max=None, percent=False,
                     subtitle="Risk of deadly infection due to a month's exposure",
-                    err_series=None,
+                    err_series=df_geo['monthly_average_micromorts_err'],
                     hover_text_list=micromorts_hover_texts_for_age_range(None)
                 ),
-            ] + [
                 geo_helper.button_dict(
                     df_geo['monthly_infection_chance'],
                     title='<b>Monthly infection chance</b>',
                     colorbar_title='%',
                     colorscale='Reds', scale_max=None, percent=True,
                     subtitle="Chance of being infected during a month's exposure",
-                    err_series=None, 
+                    err_series=df_geo['monthly_infection_chance_err'],
                     hover_text_list=df_geo.apply(stats_hover_text_func, axis=1).tolist()
-                )
-            ] + [
+                ),
+                geo_helper.button_dict(
+                    df_geo['owid_vaccination_ratio'], '<b>Vaccination<br>percent</b>',
+                    colorscale='Blues', scale_max=None, percent=True,
+                    colorbar_title='%',
+                    subtitle='Latest reported vaccination percent (OWID)'),
                 geo_helper.button_dict(
                     df_geo['monthly_population_risk'],
                     title='<b>Montly total population risk</b>',
                     colorbar_title='Possible deaths',
                     colorscale='amp', scale_max=None, percent=False,
                     subtitle="Total possible deaths due to a month's exposure",
-                    err_series=None,
+                    err_series=df_geo['monthly_population_risk_err'],
                     hover_text_list=df_geo.apply(stats_hover_text_func, axis=1).tolist()
-                )
-            ] + [
+                ),
                 geo_helper.button_dict(
                     (df_geo['monthly_average_micromorts'] /
                      df_geo['monthly_recent_empirical_micromorts']),
@@ -205,7 +224,7 @@ fig.update_layout(
                     subtitle="Ratio of average monthly risk to recent deaths expressed as risk",
                     err_series=None,
                     hover_text_list=df_geo.apply(stats_hover_text_func, axis=1).tolist()
-                )
+                ),
             ],
             direction="down", bgcolor='#dceae1',
             pad={"t": 10},

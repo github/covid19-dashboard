@@ -1,3 +1,4 @@
+import functools
 import os
 import re
 from typing import Tuple, List
@@ -18,6 +19,9 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 10000)
 
 SAVE_JHU_DATA = False
+
+func_cache = functools.lru_cache(maxsize=None)  # simple memory caching
+
 
 class SourceData:
     df_mappings = pd.read_csv(os.path.join(data_folder, 'mapping_countries.csv'))
@@ -61,6 +65,44 @@ class SourceData:
     @staticmethod
     def get_dates(df):
         return df.columns[~df.columns.isin(['Province/State', COL_REGION, 'Lat', 'Long'])]
+
+
+class OWID:
+    # data docs: https://github.com/owid/covid-19-data/tree/master/public/data
+
+    # large file
+    url_full = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
+    # only the latest slice
+    url_latest = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv'
+
+    icu_per_mil_col = 'icu_patients_per_million'
+    vaccination_percent_col = 'total_vaccinations_per_hundred'
+
+    @classmethod
+    @func_cache
+    def latest_snapshot(cls):
+        df_raw = pd.read_csv(cls.url_latest)
+        df = (df_raw
+              .rename(columns={'location': COL_REGION})
+              .dropna(subset=[COL_REGION]))
+        df[COL_REGION] = df[COL_REGION].replace({
+            'United States': 'US',
+            'Taiwan': 'Taiwan*',
+            'Democratic Republic of Congo': 'Congo (Kinshasa)',
+            'Congo': 'Congo (Brazzaville)',
+            'Myanmar': 'Burma',
+            'Palestine': 'West Bank and Gaza',
+            'Timor': 'Timor-Leste',
+        })
+        return df.set_index(COL_REGION)
+
+    @classmethod
+    def latest_icu_per_mil(cls):
+        return cls.latest_snapshot()[cls.icu_per_mil_col].dropna()
+
+    @classmethod
+    def latest_vaccination_percent(cls):
+        return cls.latest_snapshot()[cls.vaccination_percent_col].dropna()
 
 
 class AgeAdjustedData:
@@ -446,6 +488,10 @@ class CovidData:
         # add ICU capacity data
         df_beds = self.beds_df()
         df['icu_capacity_per100k'] = df_beds['icu_per_100k']
+
+        # add OWID data
+        df['owid_icu_per_100k'] = OWID.latest_icu_per_mil() / 10
+        df['owid_vaccination_ratio'] = OWID.latest_vaccination_percent() / 100
 
         return df
 
