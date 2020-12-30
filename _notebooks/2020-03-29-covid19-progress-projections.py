@@ -71,6 +71,7 @@ fig = geo_helper.make_map_figure(
 #hide
 df_geo['affected_ratio.change.monthly.rate'] = (df_geo['affected_ratio.est.+7d'] -
                                                 df_geo['affected_ratio.est']) * 30 / 7
+df_geo['icu_estimation_error'] = df_geo['needICU.per100k'] / df_geo['owid_icu_per_100k']
 
 #hide_input
 fig.update_layout(
@@ -121,6 +122,11 @@ fig.update_layout(
                     colorbar_title='%',
                     subtitle='Estimated current affected population percentage'),
                 geo_helper.button_dict(
+                    df_geo['owid_vaccination_ratio'], 'Vaccination<br>percent',
+                    colorscale='Blues', scale_max=None, percent=True,
+                    colorbar_title='%',
+                    subtitle='Latest reported vaccination percent (OWID)'),
+                geo_helper.button_dict(
                     df_geo['affected_ratio.est.+14d'], 'Affected percent<br>(in 14 days)',
                     colorscale='Bluyl', scale_max=25, percent=True,
                     colorbar_title='%',
@@ -164,10 +170,20 @@ fig.update_layout(
         dict(
             buttons=[
                 geo_helper.button_dict(
-                    df_geo['needICU.per100k'], 'ICU need<br>(current)',
+                    df_geo['needICU.per100k'], 'ICU need<br>(estimated)',
                     colorscale='Sunsetdark', scale_max=10,
                     colorbar_title='ICU beds / 100k',
                     subtitle='Estimated current ICU need per 100k population'),
+                geo_helper.button_dict(
+                    df_geo['owid_icu_per_100k'], 'ICU need<br>(reported)',
+                    colorscale='Sunsetdark', scale_max=10,
+                    colorbar_title='ICU beds / 100k',
+                    subtitle='Latest reported ICU need per 100k population (OWID)'),
+                geo_helper.button_dict(
+                    df_geo['icu_estimation_error'], 'ICU estimation<br>error',
+                    colorscale='Bluered', scale_max=200, percent=True,
+                    colorbar_title='%',
+                    subtitle='Ratio between estimated and latest reported ICU need as %'),
                 geo_helper.button_dict(
                     df_geo['needICU.per100k.+14d'],  'ICU need<br>(in 14 days)',
                     colorscale='Sunsetdark', scale_max=10,
