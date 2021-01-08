@@ -4,6 +4,7 @@ seaborn
 papermill
 ipykernel
 jupyter
+jupytext
 folium
 plotly
 plotnine

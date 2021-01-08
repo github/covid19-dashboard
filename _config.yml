@@ -106,3 +106,7 @@ kramdown:
   auto_ids: true
   hard_wrap: false
   syntax_highlighter: rouge
+  
+feed:
+  posts_limit: 2 #default posts_limit: 10
+  excerpt_only: true
