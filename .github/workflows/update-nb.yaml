@@ -41,10 +41,10 @@ jobs:
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
+#     - name: Setup Node
+#       uses: actions/setup-node@v1
+#       with:
+#         node-version: '10.x'
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -53,9 +53,9 @@ jobs:
 
     - name: install dependencies
       run: |
-        sudo apt-get update -y
-        sudo apt-get -y --force-yes install chromium-chromedriver
-        npm install -g electron@6.1.4 orca
+        # sudo apt-get update -y
+        # sudo apt-get -y --force-yes install chromium-chromedriver
+        # npm install -g electron@6.1.4 orca
         pip3 install -r ./_notebooks/requirements.txt
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
