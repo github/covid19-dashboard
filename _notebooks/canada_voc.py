@@ -8,6 +8,7 @@ df = pd.read_csv(url)
 prov_dict = {
 	"AB" : "Alberta",
 	"BC" : "British Columbia",
+	"CA" : "Canada",
 	"NB" : "New Brunswick",
 	"NL" : "Newfoundland and Labrador",
 	"NS" : "Nova Scotia",
@@ -18,8 +19,13 @@ prov_dict = {
 	"PE" : "Prince Edward Island",
 	"QC" : "Quebec",
 	"SK" : "Saskatchewan",
-	"YK" : "Yukon"
+	"YK" : "Yukon",
+	"YT" : "Yukon"
 }
+
+def to_province(prov):
+	return prov_dict(prov);
+
 dfuk = df.copy()
 dfuk["Variant"] = "B.1.1.7 (United Kingdom)"
 dfuk["Count"] = dfuk["b117"].fillna(0)
@@ -33,18 +39,20 @@ dfbr["Variant"] = "P.1 (Brazil)"
 dfbr["Count"] = dfbr["p1"].fillna(0)
 
 dfvoc = dfuk.append(dfsa).append(dfbr)
+dfvoc["Province"] = dfvoc.apply(lambda r: prov_dict[r["prov"]], axis=1)
 
-dfvocmax = dfvoc.groupby(["prov", "Variant"]).max().reset_index() \
-[["prov", "Variant", "Count"]] \
+dfvocmax = dfvoc.groupby(["Province", "Variant"]).max().reset_index() \
+[["Province", "Variant", "Count"]] \
 .rename(columns={"Count" : "MaxCount"}) 
 
-dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["prov", "Variant"], right_on=["prov", "Variant"])
+dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["Province", "Variant"], right_on=["Province", "Variant"])
 
-dfprov = dfvoc[dfvoc["prov"] != "CA"].sort_values(by=["Variant", "MaxCount", "report_date"], ascending=[True, False, True])
+dfprov = dfvoc[dfvoc["Province"] != "Canada"].sort_values(by=["Variant", "MaxCount", "report_date"], ascending=[True, False, True])
 
 lineprov = px.line(dfprov, 
-       x="report_date", y="Count", color="Variant", facet_row="prov",
-        height=8000, title="Variants over time"
+       x="report_date", y="Count", color="Variant", facet_row="Province",
+       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative Cases", "Province" : "Province or Territory"},
+       height=8000, title="Cumulative cases infected with a Variant of Concern over Time by Province or Territory by Variant"
       )
 
 
