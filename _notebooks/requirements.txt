@@ -4,11 +4,11 @@ seaborn
 papermill
 ipykernel
 jupyter
+jupytext
 folium
 plotly
 plotnine
 psutil
-pymc3
 arviz
 xlrd
 altair

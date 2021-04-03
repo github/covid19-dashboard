@@ -31,7 +31,7 @@
 # +
 #hide
 import pandas as pd
-import overview_helpers as covid_helpers
+import covid_helpers as covid_helpers
 
 stylers = covid_helpers.PandasStyling
 
@@ -71,7 +71,7 @@ df_data['Deaths.diff.per100k'] = df_data['Deaths.total.diff'] / (df_data['popula
 df_data['transmission_rate.change'] = (df_data['transmission_rate'] / df_data['transmission_rate_past']) - 1
 df_data['affected_ratio.miss'] = (df_cur['affected_ratio.est'] / df_past['affected_ratio.est.+9d']) - 1
 df_data['needICU.per100k.miss'] = (df_cur['needICU.per100k'] / df_past['needICU.per100k.+9d']) - 1
-df_data['testing_bias.change'] = (df_data['testing_bias'] / df_past['testing_bias']) - 1
+df_data['testing_bias.change'] = (df_data['current_testing_bias'] / df_past['current_testing_bias']) - 1
 
 # -
 
@@ -103,7 +103,8 @@ def style_news_infections(df):
             .apply(stylers.add_bar, color='#f49d5a',
                    s_v=df['transmission_rate'] / rate_norm, subset=cols['transmission_rate'])
             .apply(stylers.add_bar, color='#d8b193',
-                   s_v=df['transmission_rate_past'] / rate_norm, subset=cols['transmission_rate_past'])
+                   s_v=df['transmission_rate_past'] / rate_norm,
+                   subset=cols['transmission_rate_past'])
             .format('<b>{:.2f}</b>', subset=[cols['needICU.per100k']])
             .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
             .format('<b>{:.1%}</b>', subset=[cols['affected_ratio.est'],
@@ -136,7 +137,6 @@ style_news_infections(df_data.loc[new_waves])
 # +
 # hide
 df_alt_all = pd.concat([d.reset_index() for d in debug_dfs], axis=0)
-
 def infected_plots(countries, title):
     return covid_helpers.altair_multiple_countries_infected(
         df_alt_all, countries=countries, title=title, marker_day=day_diff)
@@ -185,21 +185,21 @@ def style_news_icu(df):
         'Cases.new.est': 'Estimated<br><i>recent</i> cases<br> in last 5 days',
         'transmission_rate': 'Estimated<br>daily<br>transmission<br>rate',
         'affected_ratio.est': 'Estimated <br><i>total</i><br>affected<br>population<br>percentage',
-    }
+      }
 
     df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
     return (df_show.style
-            .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
-            .bar(subset=cols['needICU.per100k_past'], color='#c67f8e', vmin=0, vmax=10)
-            .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
-            .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
-            .apply(stylers.add_bar, color='#f49d5a',
-                   s_v=df['transmission_rate'] / df['transmission_rate'].max(),
-                   subset=cols['transmission_rate'])
-            .format('<b>{:.2f}</b>', subset=[cols['needICU.per100k'], cols['needICU.per100k_past']])
-            .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
-            .format('<b>{:.1%}</b>', subset=[cols['affected_ratio.est'],
-                                             cols['transmission_rate']]))
+        .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
+        .bar(subset=cols['needICU.per100k_past'], color='#c67f8e', vmin=0, vmax=10)
+        .bar(subset=cols['Cases.new.est'], color='#b57b17', vmin=0)
+        .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
+        .apply(stylers.add_bar, color='#f49d5a',
+               s_v=df['transmission_rate']/df['transmission_rate'].max(),
+               subset=cols['transmission_rate'])
+        .format('<b>{:.2f}</b>', subset=[cols['needICU.per100k'], cols['needICU.per100k_past']])
+        .format('<b>{:,.0f}</b>', subset=cols['Cases.new.est'])
+        .format('<b>{:.1%}</b>', subset=[cols['affected_ratio.est'],
+                                         cols['transmission_rate']]))
 
 
 # hide
@@ -266,13 +266,13 @@ def style_no_news(df):
         'Deaths.total': 'Total<br>reported<br>deaths',
         'last_case_date': 'Date<br>of last<br>reported case',
         'last_death_date': 'Date<br>of last<br>reported death',
-    }
+      }
     df_show = stylers.country_index_emoji_link(df)[cols.keys()].rename(columns=cols)
     return (df_show.style
-            .format('<b>{:,.0f}</b>', subset=[cols['Cases.total.est'], cols['Deaths.total']]))
+        .format('<b>{:,.0f}</b>', subset=[cols['Cases.total.est'], cols['Deaths.total']]))
 
 
-# hide
+#hide
 significant_past = ((df_past['Cases.total.est'] > 1000) & (df_past['Deaths.total'] > 10))
 active_in_past = ((df_past['Cases.new'] > 0) | (df_past['Deaths.new'] > 0))
 no_cases_filt = ((df_cur['Cases.total'] - df_past['Cases.total']) == 0)
@@ -350,8 +350,7 @@ def style_death_burden(df):
     return (df_show.style
             .bar(subset=cols['needICU.per100k'], color='#b21e3e', vmin=0, vmax=10)
             .bar(subset=cols['Deaths.new.per100k'], color='#7b7a7c', vmin=0, vmax=death_norm)
-            .bar(subset=cols['Deaths.new.per100k.past'], color='#918f93', vmin=0,
-                 vmax=death_norm)
+            .bar(subset=cols['Deaths.new.per100k.past'], color='#918f93', vmin=0, vmax=death_norm)
             .bar(subset=cols['Deaths.total.diff'], color='#6b595d', vmin=0)
             .bar(subset=cols['affected_ratio.est'], color='#5dad64', vmin=0, vmax=1.0)
             .format('<b>{:.0f}</b>', subset=[cols['Deaths.total.diff'],
@@ -365,10 +364,10 @@ def style_death_burden(df):
 # hide
 death_change_ratio = df_data['Deaths.new.per100k'] / df_data['Deaths.new.per100k.past']
 filt = (
-        (df_data['Deaths.new'] > 10) &
-        (df_data['Deaths.new.past'] > 10) &
-        (df_data['Deaths.new.per100k'] > 0.1) &
-        (death_change_ratio > 2))
+    (df_data['Deaths.new'] > 10) &
+    (df_data['Deaths.new.past'] > 10) &
+    (df_data['Deaths.new.per100k'] > 0.1) &
+    (death_change_ratio > 2))
 higher_death_burden = df_data[filt]['Deaths.diff.per100k'].sort_values(ascending=False).index
 
 # hide_input
@@ -387,10 +386,10 @@ infected_plots(higher_death_burden, "Countries with higher death burden (vs. 10 
 
 # hide
 filt = (
-        (df_data['Deaths.new'] > 10) &
-        (df_data['Deaths.new.past'] > 10) &
-        (df_data['Deaths.new.per100k.past'] > 0.1) &
-        (death_change_ratio < 0.5))
+    (df_data['Deaths.new'] > 10) &
+    (df_data['Deaths.new.past'] > 10) &
+    (df_data['Deaths.new.per100k.past'] > 0.1) &
+    (death_change_ratio < 0.5))
 lower_death_burden = df_data[filt]['Deaths.diff.per100k'].sort_values(ascending=False).index
 
 # hide_input
@@ -428,12 +427,6 @@ df_alt_filt = df_alt_all[(df_alt_all['day'] > -60) &
                          (df_alt_all['country'].isin(news_countries))]
 covid_helpers.altair_sir_plot(df_alt_filt, new_waves[0])
 
-# ## Future World projections (all countries stacked)
-# The outputs of the models for all countries in stacked plots.
-# > Tip: Hover the mouse of the area to see which country is which and the countries S/I/R ratios at that point. 
-#
-# > Tip: The plots are zoomable and draggable.
-
 #hide
 df_tot = df_alt_all.rename(columns={'country': cur_data.COL_REGION}
                           ).set_index(cur_data.COL_REGION)
@@ -443,10 +436,28 @@ for c in df_tot.columns[df_alt_all.dtypes == float]:
 df_tot = df_tot.reset_index()
 df_tot.columns = [c.replace('.', '-') for c in df_tot.columns]
 
+#hide_input
+df_now = df_tot[df_tot['day'] == 0]
+pop = df_now['population'].sum()
+s_now = df_now['Susceptible-total'].sum() / pop
+i_now = df_now['Infected-total'].sum() / pop
+r_now = df_now['Removed-total'].sum() / pop
+Markdown("## World totals:\n"
+         f"Infected &#128567;: **{i_now:.1%}**, "
+         f"Removed &#128532;: **{r_now:.1%}**, "
+         f"Susceptible &#128543;: **{s_now:.1%}**")
+
+# ## Future World projections (all countries stacked)
+# The outputs of the models for all countries in stacked plots.
+# > Tip: Hover the mouse of the area to see which country is which and the countries S/I/R ratios at that point.
+#
+# > Tip: The plots are zoomable and draggable.
+
 # +
 #hide
 # filter by days
-df_tot = df_tot[(df_tot['day'].between(-30, 30) & (df_tot['day'] % 3 == 0)) | (df_tot['day'] % 10 == 0)]
+days = 30
+df_tot = df_tot[df_tot['day'].between(-days, days) | (df_tot['day'] % 10 == 0)]
 
 # filter out noisy countries for actively infected plot:
 df_tot_filt = df_tot[df_tot[cur_data.COL_REGION].isin(df_cur.index.unique())]
@@ -465,11 +476,12 @@ today_line = (alt.Chart(pd.DataFrame({'x': [0]}))
                   .encode(x='x', size=alt.value(1)))
 
 # make plot
-max_y = df_tot_filt[df_tot_filt['day']==30]['Infected-total'].sum()
+max_y = (df_tot_filt[df_tot_filt['day'].between(-days, days)]
+         .groupby('day')['Infected-total'].sum().max())
 stacked_inf = alt.Chart(df_tot_filt).mark_area().encode(
     x=alt.X('day:Q',
             title=f'days relative to today ({cur_data.cur_date})',
-            scale=alt.Scale(domain=(-30, 30))),
+            scale=alt.Scale(domain=(-days, days))),
     y=alt.Y("Infected-total:Q", stack=True, title="Number of people",
            scale=alt.Scale(domain=(0, max_y))),
     color=alt.Color("Country/Region:N", legend=None),
@@ -485,11 +497,11 @@ stacked_inf = alt.Chart(df_tot_filt).mark_area().encode(
 
 # +
 #hide_input
-max_y = df_tot_filt[df_tot_filt['day']==30]['Removed-total'].sum()
+max_y = df_tot_filt[df_tot_filt['day']==days]['Removed-total'].sum()
 stacked_rem = alt.Chart(df_tot_filt).mark_area().encode(
     x=alt.X('day:Q',
             title=f'days relative to today ({cur_data.cur_date})',
-            scale=alt.Scale(domain=(-30, 30))),
+            scale=alt.Scale(domain=(-days, days))),
     y=alt.Y("Removed-total:Q", stack=True, title="Number of people",
            scale=alt.Scale(domain=(0, max_y))),
     color=alt.Color("Country/Region:N", legend=None),
