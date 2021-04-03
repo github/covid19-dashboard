@@ -23,11 +23,8 @@ prov_dict = {
 	"YT" : "Yukon"
 }
 
-def to_province(prov):
-	return prov_dict(prov);
-
 dfuk = df.copy()
-dfuk["Variant"] = "B.1.1.7 (United Kingdom)"
+dfuk["Variant"] = "B.1.1.7 (UK)"
 dfuk["Count"] = dfuk["b117"].fillna(0)
 
 dfsa = df.copy()
@@ -52,7 +49,8 @@ dfprov = dfvoc[dfvoc["Province"] != "Canada"].sort_values(by=["Variant", "MaxCou
 lineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative Cases", "Province" : "Province or Territory"},
-       height=8000, title="Cumulative cases infected with a Variant of Concern over Time by Province or Territory by Variant"
+       title="Cumulative cases infected with a Variant of Concern over Time by Province or Territory by Variant",
+       height=8000, facet_row_spacing=0.01
       )
 
 
