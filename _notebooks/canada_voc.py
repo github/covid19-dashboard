@@ -33,11 +33,14 @@ dfbr["Variant"] = "P.1 (Brazil)"
 dfbr["Count"] = dfbr["p1"].fillna(0)
 
 dfvoc = dfuk.append(dfsa).append(dfbr)
-dfvoc["Total"] = dfvoc.apply(lambda r: r["b117"] + r["b1351"] + r["p1"], axis=1)
 
-#dfvoc = dfvoc.sort_values(by=["Total", "Variant"], ascending=[False, True])
+dfvocmax = dfvoc.groupby(["prov", "Variant"]).max().reset_index() \
+[["prov", "Variant", "Count"]] \
+.rename(columns={"Count" : "MaxCount"}) 
 
-dfprov = dfvoc[dfvoc["prov"] != "CA"].sort_values(by=["Variant", "report_date"], ascending=[True, True])
+dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["prov", "Variant"], right_on=["prov", "Variant"])
+
+dfprov = dfvoc[dfvoc["prov"] != "CA"].sort_values(by=["Variant", "MaxCount", "report_date"], ascending=[True, False, True])
 
 lineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="prov",
