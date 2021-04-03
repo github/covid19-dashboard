@@ -9,12 +9,12 @@ prov_dict = {
 	"AB" : "Alberta",
 	"BC" : "British Columbia",
 	"CA" : "Canada",
+	"MB" : "Manitoba",	
 	"NB" : "New Brunswick",
 	"NL" : "Newfoundland and Labrador",
 	"NS" : "Nova Scotia",
 	"NT" : "Northwest Territories",
 	"NU" : "Nunavut",
-	"MB" : "Manitoba",
 	"ON" : "Ontario",
 	"PE" : "Prince Edward Island",
 	"QC" : "Quebec",
@@ -48,9 +48,9 @@ dfprov = dfvoc[dfvoc["Province"] != "Canada"].sort_values(by=["Variant", "MaxCou
 
 lineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="Province",
-       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative Cases", "Province" : "Province or Territory"},
-       title="Cumulative cases infected with a Variant of Concern over Time by Province or Territory by Variant",
-       height=8000, facet_row_spacing=0.01
+       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
+       title="Cumulative cases infected with a Variant of Concern<br>over Time by Province or Territory by Variant",
+       height=5000, facet_row_spacing=0.01
       )
 
 
