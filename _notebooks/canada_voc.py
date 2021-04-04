@@ -1,9 +1,9 @@
 import pandas as pd
 import plotly.express as px
+from datetime import datetime
 
 url = 'https://health-infobase.canada.ca/src/data/covidLive/covid19-epiSummary-voc.csv'  
-
-df = pd.read_csv(url)
+urlepi = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv'
 
 prov_dict = {
 	"AB" : "Alberta",
@@ -23,34 +23,54 @@ prov_dict = {
 	"YT" : "Yukon"
 }
 
+
+df = pd.read_csv(url)
+df["Province"] = df.apply(lambda r: prov_dict[r["prov"]], axis=1)
+
 dfuk = df.copy()
 dfuk["Variant"] = "B.1.1.7 (UK)"
 dfuk["Count"] = dfuk["b117"].fillna(0)
+dfuk["New"] = dfuk.groupby(["prov"])["Count"].diff()
+dfuk = dfuk[["report_date", "Province", "Variant", "Count", "New"]].rename(columns={"report_date" : "Date"}) 
 
 dfsa = df.copy()
 dfsa["Variant"] = "B.1.351 (South Africa)"
 dfsa["Count"] = dfsa["b1351"].fillna(0)
+dfsa["New"] = dfsa.groupby(["prov"])["Count"].diff()
+dfsa = dfsa[["report_date", "Province", "Variant", "Count", "New"]].rename(columns={"report_date" : "Date"}) 
 
 dfbr = df.copy()
 dfbr["Variant"] = "P.1 (Brazil)"
 dfbr["Count"] = dfbr["p1"].fillna(0)
+dfbr["New"] = dfbr.groupby(["prov"])["Count"].diff()
+dfbr = dfbr[["report_date", "Province", "Variant", "Count", "New"]].rename(columns={"report_date" : "Date"}) 
 
 dfvoc = dfuk.append(dfsa).append(dfbr)
-dfvoc["Province"] = dfvoc.apply(lambda r: prov_dict[r["prov"]], axis=1)
 
 dfvocmax = dfvoc.groupby(["Province", "Variant"]).max().reset_index() \
 [["Province", "Variant", "Count"]] \
-.rename(columns={"Count" : "MaxCount"}) 
+.rename(columns={"Count" : "MaxVocCount"}) 
 
 dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["Province", "Variant"], right_on=["Province", "Variant"])
 
-dfprov = dfvoc[dfvoc["Province"] != "Canada"].sort_values(by=["Variant", "MaxCount", "report_date"], ascending=[True, False, True])
+dfprov = dfvoc[dfvoc["Province"] != "Canada"].sort_values(by=["Variant", "MaxVocCount", "Date"], ascending=[True, False, True])
 
 lineprov = px.line(dfprov, 
-       x="report_date", y="Count", color="Variant", facet_row="Province",
+       x="Date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
        title="Cumulative cases infected with a Variant of Concern<br>over Time by Province or Territory by Variant",
        height=5000, facet_row_spacing=0.01, template="simple_white"
       )
 
+dfepi = pd.read_csv(urlepi)
+dfepi["Date"] = dfepi.apply(lambda r: datetime.strptime(r["date"], '%d-%m-%Y').strftime("%Y-%m-%d"), axis=1)
+
+dfnv = pd.merge(df, dfepi, how="left", left_on=["report_date", "Province"], right_on=["Date", "prname"])
+dfnv["Variant"] = "non-VOC"
+dfnv["Count"] = dfnv["numconf"] - dfnv["b117"] - dfnv["b1351"] - dfnv["p1"]
+dfnv["New"] = dfnv.groupby(["Province"])["Count"].diff()
+dfnv = dfnv[["Date", "Province", "Variant", "Count", "New"]]
+
+dfvocd = dfvoc.append(dfnv)
+dfprovd = dfvocd[dfvocd["Province"] != "Canada"].sort_values(by=["Variant", "MaxVocCount", "Date"], ascending=[True, False, True])
 
