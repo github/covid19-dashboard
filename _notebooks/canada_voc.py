@@ -49,6 +49,8 @@ dfvocmax = dfvoc.groupby(["Province", "Variant"]).max().reset_index() \
 dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["Province", "Variant"], right_on=["Province", "Variant"])
 dfvoc = dfvoc.sort_values(by=["Variant", "MaxVocCount", "report_date"], ascending=[True, False, True])
 
+dfvoc["New"] = dfvoc.groupby(["Province", "Variant"])["Count"].diff()
+
 dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 
 figlineprov = px.line(dfprov, 
@@ -58,11 +60,7 @@ figlineprov = px.line(dfprov,
        height=5000, facet_row_spacing=0.01, template="simple_white", color_discrete_sequence=colours
       )
 
-
-dfprovd = dfprov.copy()
-dfprovd["New"] = dfprovd.groupby(["prov", "Variant"])["Count"].diff()
-
-figbarprovd = px.bar(dfprovd, x="report_date", y="New", color="Variant", facet_row="Province",
+figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
        hover_name="Variant",
        title="New cases with a Variant of Concern over Time<br>by Province/Territory",
