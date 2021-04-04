@@ -3,7 +3,6 @@ import plotly.express as px
 from datetime import datetime
 
 url = 'https://health-infobase.canada.ca/src/data/covidLive/covid19-epiSummary-voc.csv'  
-urlepi = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv'
 
 prov_dict = {
 	"AB" : "Alberta",
@@ -23,7 +22,7 @@ prov_dict = {
 	"YT" : "Yukon"
 }
 
-colours = ["royalblue", "darkred", "green", "lightgray"]
+colours = ["#012169", "#E03C31", "green", "lightgray"]
 
 
 df = pd.read_csv(url)
@@ -52,25 +51,22 @@ dfvoc = dfvoc.sort_values(by=["Variant", "MaxVocCount", "report_date"], ascendin
 
 dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 
-lineprov = px.line(dfprov, 
+figlineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="Province",
-       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
-       title="Cumulative cases infected with a Variant of Concern<br>over Time by Province or Territory by Variant",
+       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
+       title="Cumulative cases with a Variant of Concern over Time<br>by Province/Territory by Variant",
        height=5000, facet_row_spacing=0.01, template="simple_white", color_discrete_sequence=colours
       )
+
 
 dfvocd = dfvoc.copy()
 dfvocd["New"] = dfvoc.groupby(["prov", "Variant"])["Count"].diff()
 
-dfepi = pd.read_csv(urlepi)
-dfepi["Date"] = dfepi.apply(lambda r: datetime.strptime(r["date"], '%d-%m-%Y').strftime("%Y-%m-%d"), axis=1)
-
-#dfnv = pd.merge(df, dfepi, how="right", left_on=["report_date", "Province"], right_on=["Date", "prname"])
-#dfnv["Variant"] = "non-VOC"
-#dfnv["Count"] = dfnv["numconf"] - dfnv["b117"] - dfnv["b1351"] - dfnv["p1"]
-#dfnv = dfnv.sort_values(by=["Province", "Date"])
-#dfnv["New"] = dfnv.groupby(["Province"])["Count"].diff()
-
-#dfvocd = dfvoc.append(dfnv[["Date", "Province", "Variant", "Count", "New"]])
 dfprovd = dfvocd[dfvocd["Province"] != "Canada"].sort_values(by=["Variant", "MaxVocCount", "report_date"], ascending=[True, False, True])
 
+figbarprovd = px.bar(dfprovd, x="report_date", y="New", color="Variant", facet_row="Province",
+       labels={"report_date" : "Time (Reported Date)", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
+       hover_name="Variant",
+       title="New cases with a Variant of Concern over Time<br>by Province/Territory",
+       height=5000, template="plotly_white", color_discrete_sequence=colours
+       )
