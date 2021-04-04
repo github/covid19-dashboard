@@ -59,10 +59,8 @@ figlineprov = px.line(dfprov,
       )
 
 
-dfvocd = dfvoc.copy()
-dfvocd["New"] = dfvoc.groupby(["prov", "Variant"])["Count"].diff()
-
-dfprovd = dfvocd[dfvocd["Province"] != "Canada"].sort_values(by=["Variant", "MaxVocCount", "report_date"], ascending=[True, False, True])
+dfprovd = dfprov.copy()
+dfprovd["New"] = dfprovd.groupby(["prov", "Variant"])["Count"].diff()
 
 figbarprovd = px.bar(dfprovd, x="report_date", y="New", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
