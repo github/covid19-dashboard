@@ -55,9 +55,9 @@ dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 
 figlineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="Province",
-       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
+       labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
        title="Cumulative cases with a Variant of Concern by Reported Date<br>by Province/Territory by Variant",
-       height=5000, facet_row_spacing=0.01, template="simple_white", color_discrete_sequence=colours
+       height=5000, template="simple_white", color_discrete_sequence=colours
       )
 
 figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_row="Province",
