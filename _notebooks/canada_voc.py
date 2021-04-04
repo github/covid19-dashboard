@@ -23,6 +23,8 @@ prov_dict = {
 	"YT" : "Yukon"
 }
 
+colours = ["royalblue", "darkred", "green", "lightgray"]
+
 
 df = pd.read_csv(url)
 df["Province"] = df.apply(lambda r: prov_dict[r["prov"]], axis=1)
@@ -59,18 +61,18 @@ lineprov = px.line(dfprov,
        x="Date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
        title="Cumulative cases infected with a Variant of Concern<br>over Time by Province or Territory by Variant",
-       height=5000, facet_row_spacing=0.01, template="simple_white"
+       height=5000, facet_row_spacing=0.01, template="simple_white", color_discrete_sequence=colours
       )
 
 dfepi = pd.read_csv(urlepi)
 dfepi["Date"] = dfepi.apply(lambda r: datetime.strptime(r["date"], '%d-%m-%Y').strftime("%Y-%m-%d"), axis=1)
 
-dfnv = pd.merge(df, dfepi, how="left", left_on=["report_date", "Province"], right_on=["Date", "prname"])
+dfnv = pd.merge(df, dfepi, how="right", left_on=["report_date", "Province"], right_on=["Date", "prname"])
 dfnv["Variant"] = "non-VOC"
 dfnv["Count"] = dfnv["numconf"] - dfnv["b117"] - dfnv["b1351"] - dfnv["p1"]
+dfnv = dfnv.sort_values(by=["Province", "Date"])
 dfnv["New"] = dfnv.groupby(["Province"])["Count"].diff()
-dfnv = dfnv[["Date", "Province", "Variant", "Count", "New"]]
 
-dfvocd = dfvoc.append(dfnv)
+dfvocd = dfvoc.append(dfnv[["Date", "Province", "Variant", "Count", "New"]])
 dfprovd = dfvocd[dfvocd["Province"] != "Canada"].sort_values(by=["Variant", "MaxVocCount", "Date"], ascending=[True, False, True])
 
