@@ -50,7 +50,7 @@ lineprov = px.line(dfprov,
        x="report_date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Time (Reported Date)", "Count" : "Cumulative cases", "Province" : "Province or Territory"},
        title="Cumulative cases infected with a Variant of Concern<br>over Time by Province or Territory by Variant",
-       height=5000, facet_row_spacing=0.01, template="simple_white"
+       height=5000, template="simple_white"
       )
 
 
