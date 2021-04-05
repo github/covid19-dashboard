@@ -29,8 +29,8 @@ def get_prov(prov):
 	except:
 		return prov
 
-df = pd.read_csv(url)
-df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ].sort_values(by=["report_date"], ascending=[True])
+df = pd.read_csv(url).fillna(0)
+df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
 df["Province"] = df.apply(lambda r: get_prov(r["prov"]), axis=1)
 
 dfuk = df.copy()
@@ -52,7 +52,7 @@ dfvocmax = dfvoc.groupby(["Province", "Variant"]).max().reset_index() \
 .rename(columns={"Count" : "MaxVocCount"}) 
 
 dfvoc = pd.merge(dfvoc, dfvocmax, how="left", left_on=["Province", "Variant"], right_on=["Province", "Variant"])
-dfvoc = dfvoc.sort_values(by=["Variant", "MaxVocCount", "report_date"], ascending=[True, False, True])
+dfvoc = dfvoc.sort_values(by=["Variant", "MaxVocCount", "Province", "report_date"], ascending=[True, False, True, True])
 
 dfvoc["New"] = dfvoc.groupby(["Province", "Variant"])["Count"].diff()
 
