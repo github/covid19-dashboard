@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-from datetime import datetime
 
 url = 'https://health-infobase.canada.ca/src/data/covidLive/covid19-epiSummary-voc.csv'  
 
@@ -24,9 +23,15 @@ prov_dict = {
 
 colours = ["#012169", "#E03C31", "green", "lightgray"]
 
+def get_prov(prov):
+	try:
+		return prov_dict[prov]
+	except:
+		return prov
 
 df = pd.read_csv(url)
-df["Province"] = df.apply(lambda r: prov_dict[r["prov"]], axis=1)
+df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ].sort_values(by=["report_date"], ascending=[True])
+df["Province"] = df.apply(lambda r: get_prov(r["prov"]), axis=1)
 
 dfuk = df.copy()
 dfuk["Variant"] = "B.1.1.7 (UK)"
@@ -56,8 +61,8 @@ dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 figlineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Reported Date", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
-       title="Cumulative cases with a Variant of Concern by Reported Date<br>by Province/Territory by Variant",
-       height=5000, template="simple_white", color_discrete_sequence=colours
+       title="Cumulative cases with a Variant of Concern<br>by Reported Date by Province/Territory by Variant",
+       height=5000, template="plotly_white", color_discrete_sequence=colours
       )
 
 figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_row="Province",
