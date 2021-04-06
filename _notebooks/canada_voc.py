@@ -23,7 +23,7 @@ prov_dict = {
 
 colours = ["#012169", "#E03C31", "green", "lightgray"]
 
-def get_prov(prov):
+def get_province(prov):
 	try:
 		return prov_dict[prov]
 	except:
@@ -31,19 +31,19 @@ def get_prov(prov):
 
 df = pd.read_csv(url).fillna(0)
 df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
-df["Province"] = df.apply(lambda r: get_prov(r["prov"]), axis=1)
+df["Province"] = df.apply(lambda r: get_province(r["prov"]), axis=1)
 
 dfuk = df.copy()
 dfuk["Variant"] = "B.1.1.7 (UK)"
-dfuk["Count"] = dfuk["b117"].fillna(0)
+dfuk["Count"] = dfuk["b117"]
 
 dfsa = df.copy()
 dfsa["Variant"] = "B.1.351 (South Africa)"
-dfsa["Count"] = dfsa["b1351"].fillna(0)
+dfsa["Count"] = dfsa["b1351"]
 
 dfbr = df.copy()
 dfbr["Variant"] = "P.1 (Brazil)"
-dfbr["Count"] = dfbr["p1"].fillna(0)
+dfbr["Count"] = dfbr["p1"]
 
 dfvoc = dfuk.append(dfsa).append(dfbr)
 
@@ -62,12 +62,12 @@ figlineprov = px.line(dfprov,
        x="report_date", y="Count", color="Variant", facet_row="Province",
        labels={"report_date" : "Reported Date", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
        title="Cumulative cases with a Variant of Concern<br>by Reported Date by Province/Territory by Variant",
-       height=5000, template="plotly_white", color_discrete_sequence=colours
+       height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
       )
 
 figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_row="Province",
        labels={"report_date" : "Reported Date", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
        hover_name="Variant",
        title="New cases with a Variant of Concern by Reported Date<br>by Province/Territory",
-       height=5000, template="plotly_white", color_discrete_sequence=colours
+       height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
        )
