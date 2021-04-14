@@ -77,7 +77,7 @@ dfcan = dfvoc[dfvoc["Province"] == "Canada"]
 figlinecan_c = px.line(dfcan, 
        x="report_date", y="Count", color="Variant", 
        labels={"report_date" : "Reported Date", "Count" : "Cumulative cases"},
-       title="Cumulative cases with a Variant of Concern<br>by Reported Date by Variant",
+       title="Cumulative cases in Canada with a Variant of Concern<br>by Reported Date by Variant",
        template="plotly_white", color_discrete_sequence=colours
       )
       
@@ -85,7 +85,7 @@ figlinecan_c = px.line(dfcan,
 figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
        labels={"report_date" : "Reported Date", "New" : "New Cases", "Variant" : "Variant of Concern"},
        hover_name="Variant",
-       title="New cases with a Variant of Concern by Reported Date",
+       title="New cases in Canada with a Variant of Concern by Reported Date",
        template="plotly_white", color_discrete_sequence=colours
        )    
 
