@@ -59,13 +59,13 @@ dfvoc["New"] = dfvoc.groupby(["Province", "Variant"])["Count"].diff()
 dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 
 figlineprov = px.line(dfprov, 
-       x="report_date", y="Count", color="Variant", facet_row="Province",
+       x="report_date", y="Count", color="Variant", facet_col="Province", facet_col_wrap=1,
        labels={"report_date" : "Reported Date", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
        title="Cumulative cases with a Variant of Concern<br>by Reported Date by Province/Territory by Variant",
        height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
       )
 
-figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_row="Province",
+figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_col="Province", facet_col_wrap=1,
        labels={"report_date" : "Reported Date", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
        hover_name="Variant",
        title="New cases with a Variant of Concern by Reported Date<br>by Province/Territory",
