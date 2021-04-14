@@ -71,3 +71,21 @@ figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_co
        title="New cases with a Variant of Concern by Reported Date<br>by Province/Territory",
        height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
        )
+       
+dfcan = dfvoc[dfvoc["Province"] == "Canada"]
+
+figlinecan_c = px.line(dfcan, 
+       x="report_date", y="Count", color="Variant", 
+       labels={"report_date" : "Reported Date", "Count" : "Cumulative cases"},
+       title="Cumulative cases with a Variant of Concern<br>by Reported Date by Variant",
+       template="plotly_white", color_discrete_sequence=colours
+      )
+      
+
+figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
+       labels={"report_date" : "Reported Date", "New" : "New Cases", "Variant" : "Variant of Concern"},
+       hover_name="Variant",
+       title="New cases with a Variant of Concern by Reported Date",
+       template="plotly_white", color_discrete_sequence=colours
+       )    
+
