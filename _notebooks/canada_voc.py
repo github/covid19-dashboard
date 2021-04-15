@@ -60,15 +60,15 @@ dfprov = dfvoc[dfvoc["Province"] != "Canada"]
 
 figlineprov = px.line(dfprov, 
        x="report_date", y="Count", color="Variant", facet_col="Province", facet_col_wrap=1,
-       labels={"report_date" : "Reported Date", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
-       title="Cumulative cases with a Variant of Concern<br>by Reported Date by Province/Territory by Variant",
+       labels={"report_date" : "Reported date", "Count" : "Cumulative cases", "Province" : "Province/Territory"},
+       title="Cumulative cases with a variant of concern<br>by reported date by province/territory by variant",
        height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
       )
 
 figbarprovd = px.bar(dfprov, x="report_date", y="New", color="Variant", facet_col="Province", facet_col_wrap=1,
-       labels={"report_date" : "Reported Date", "New" : "New Cases", "Province" : "Province/Territory", "Variant" : "Variant of Concern"},
+       labels={"report_date" : "Reported date", "New" : "New cases", "Province" : "Province/Territory", "Variant" : "Variant of concern"},
        hover_name="Variant",
-       title="New cases with a Variant of Concern by Reported Date<br>by Province/Territory",
+       title="New cases with a variant of concern by reported date<br>by province/territory",
        height=5000, template="plotly_white", color_discrete_sequence=colours, facet_row_spacing=0.025
        )
        
@@ -76,16 +76,16 @@ dfcan = dfvoc[dfvoc["Province"] == "Canada"]
 
 figlinecan_c = px.line(dfcan, 
        x="report_date", y="Count", color="Variant", 
-       labels={"report_date" : "Reported Date", "Count" : "Cumulative cases"},
-       title="Cumulative cases in Canada with a Variant of Concern<br>by Reported Date by Variant",
+       labels={"report_date" : "Reported date", "Count" : "Cumulative cases"},
+       title="Cumulative cases in Canada with a variant of concern<br>by reported date by variant",
        template="plotly_white", color_discrete_sequence=colours
       )
       
 
 figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
-       labels={"report_date" : "Reported Date", "New" : "New Cases", "Variant" : "Variant of Concern"},
+       labels={"report_date" : "Reported date", "New" : "New cases", "Variant" : "Variant of concern"},
        hover_name="Variant",
-       title="New cases in Canada with a Variant of Concern by Reported Date",
+       title="New cases in Canada with a variant of concern by reported date",
        template="plotly_white", color_discrete_sequence=colours
        )    
 
