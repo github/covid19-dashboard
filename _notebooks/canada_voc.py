@@ -29,19 +29,27 @@ def get_province(prov):
 	except:
 		return prov
 
-df = pd.read_csv(url).fillna(0)
-df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
-df["Province"] = df.apply(lambda r: get_province(r["prov"]), axis=1)
+def get_area(prov):
+	if prov == 'YK':
+		return 'YT'
+	else:
+		return prov
 
-dfuk = df.copy()
+
+df = pd.read_csv(url).fillna(0)
+dfclean = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
+dfclean["Province"] = dfclean.apply(lambda r: get_province(r["prov"]), axis=1)
+dfclean["Area"] = dfclean.apply(lambda r: get_area(r["prov"]), axis=1)
+
+dfuk = dfclean.copy()
 dfuk["Variant"] = "B.1.1.7 (UK)"
 dfuk["Count"] = dfuk["b117"]
 
-dfsa = df.copy()
+dfsa = dfclean.copy()
 dfsa["Variant"] = "B.1.351 (South Africa)"
 dfsa["Count"] = dfsa["b1351"]
 
-dfbr = df.copy()
+dfbr = dfclean.copy()
 dfbr["Variant"] = "P.1 (Brazil)"
 dfbr["Count"] = dfbr["p1"]
 
@@ -87,5 +95,25 @@ figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
        hover_name="Variant",
        title="New cases in Canada with a variant of concern by reported date",
        template="plotly_white", color_discrete_sequence=colours
-       )    
+       )
+
+# Accessibility
+
+def join(df, area, variant):
+	dfarea = dfclean[dfclean["Area"] == area][["report_date", variant]].rename(columns={"report_date" : "Date", variant : area}) 
+	return pd.merge(df, dfarea, how="left", left_on=["Date"], right_on=["Date"])
+
+def create_table(variant):
+	df_max = dfclean[dfclean["Area"]!="CA"].groupby(["Area"]).max().reset_index()[["Area", variant]].sort_values(by=[variant], ascending=[False])
+	areas = df_max["Area"].tolist()
+
+	df_variant = pd.DataFrame()
+	df_variant["Date"] = dfclean[dfclean["Area"]=="CA"]["report_date"]
+
+	for area in areas:
+	    df_variant = join(df_variant, area, "b117")
+	    
+	return join(df_variant, "CA", "b117").set_index("Date").sort_values(by=["Date"], ascending=[False]).round().astype(int)
+	
+df_uk = create_table("b117")
 
