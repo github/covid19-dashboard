@@ -29,19 +29,27 @@ def get_province(prov):
 	except:
 		return prov
 
-df = pd.read_csv(url).fillna(0)
-df = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
-df["Province"] = df.apply(lambda r: get_province(r["prov"]), axis=1)
+def get_area(prov):
+	if prov == 'YK':
+		return 'YT'
+	else:
+		return prov
 
-dfuk = df.copy()
+
+df = pd.read_csv(url).fillna(0)
+dfclean = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df["b117"] >= 0) & (df["b1351"] >= 0) & (df["p1"] >= 0) ]
+dfclean["Province"] = dfclean.apply(lambda r: get_province(r["prov"]), axis=1)
+dfclean["Area"] = dfclean.apply(lambda r: get_area(r["prov"]), axis=1)
+
+dfuk = dfclean.copy()
 dfuk["Variant"] = "B.1.1.7 (UK)"
 dfuk["Count"] = dfuk["b117"]
 
-dfsa = df.copy()
+dfsa = dfclean.copy()
 dfsa["Variant"] = "B.1.351 (South Africa)"
 dfsa["Count"] = dfsa["b1351"]
 
-dfbr = df.copy()
+dfbr = dfclean.copy()
 dfbr["Variant"] = "P.1 (Brazil)"
 dfbr["Count"] = dfbr["p1"]
 
@@ -87,5 +95,31 @@ figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
        hover_name="Variant",
        title="New cases in Canada with a variant of concern by reported date",
        template="plotly_white", color_discrete_sequence=colours
-       )    
+       )
+
+# Accessibility
+
+date_name = "Date"         
+
+
+def join(df, area, variant):
+	dfarea = dfclean[dfclean["Area"] == area][["report_date", variant]].rename(columns={"report_date" : date_name, variant : area}) 
+	return pd.merge(df, dfarea, how="left", left_on=[date_name], right_on=[date_name])
+
+def create_table(variant):
+	df_max = dfclean[dfclean["Area"]!="CA"].groupby(["Area"]).max().reset_index()[["Area", variant]].sort_values(by=[variant, "Area"], ascending=[False, True])
+	areas = df_max["Area"].tolist()
+
+	df_variant = pd.DataFrame()
+	df_variant[date_name] = dfclean[dfclean["Area"]=="CA"]["report_date"]
+
+	for area in areas:
+	    df_variant = join(df_variant, area, variant)
+	    
+	df_variant = join(df_variant, "CA", variant)
+	return df_variant.set_index(date_name).sort_values(by=[date_name], ascending=[False]).round().astype(int)
+	
+df_uk = create_table("b117")
+df_sa = create_table("b1351")
+df_br = create_table("p1")
 
