@@ -111,9 +111,11 @@ def create_table(variant):
 	df_variant["Date"] = dfclean[dfclean["Area"]=="CA"]["report_date"]
 
 	for area in areas:
-	    df_variant = join(df_variant, area, "b117")
+	    df_variant = join(df_variant, area, variant)
 	    
-	return join(df_variant, "CA", "b117").set_index("Date").sort_values(by=["Date"], ascending=[False]).round().astype(int)
+	return join(df_variant, "CA", variant).set_index("Date").sort_values(by=["Date"], ascending=[False]).round().astype(int)
 	
 df_uk = create_table("b117")
+df_sa = create_table("b1351")
+df_br = create_table("p1")
 
