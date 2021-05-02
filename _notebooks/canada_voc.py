@@ -99,21 +99,25 @@ figbarcan_d = px.bar(dfcan, x="report_date", y="New", color="Variant",
 
 # Accessibility
 
+date_name = "Date"         
+
+
 def join(df, area, variant):
-	dfarea = dfclean[dfclean["Area"] == area][["report_date", variant]].rename(columns={"report_date" : "Date", variant : area}) 
-	return pd.merge(df, dfarea, how="left", left_on=["Date"], right_on=["Date"])
+	dfarea = dfclean[dfclean["Area"] == area][["report_date", variant]].rename(columns={"report_date" : date_name, variant : area}) 
+	return pd.merge(df, dfarea, how="left", left_on=[date_name], right_on=[date_name])
 
 def create_table(variant):
-	df_max = dfclean[dfclean["Area"]!="CA"].groupby(["Area"]).max().reset_index()[["Area", variant]].sort_values(by=[variant], ascending=[False])
+	df_max = dfclean[dfclean["Area"]!="CA"].groupby(["Area"]).max().reset_index()[["Area", variant]].sort_values(by=[variant, "Area"], ascending=[False, True])
 	areas = df_max["Area"].tolist()
 
 	df_variant = pd.DataFrame()
-	df_variant["Date"] = dfclean[dfclean["Area"]=="CA"]["report_date"]
+	df_variant[date_name] = dfclean[dfclean["Area"]=="CA"]["report_date"]
 
 	for area in areas:
 	    df_variant = join(df_variant, area, variant)
 	    
-	return join(df_variant, "CA", variant).set_index("Date").sort_values(by=["Date"], ascending=[False]).round().astype(int)
+	df_variant = join(df_variant, "CA", variant)
+	return df_variant.set_index(date_name).sort_values(by=[date_name], ascending=[False]).round().astype(int)
 	
 df_uk = create_table("b117")
 df_sa = create_table("b1351")
