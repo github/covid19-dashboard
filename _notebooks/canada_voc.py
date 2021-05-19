@@ -107,7 +107,8 @@ def join(df, area, variant):
 	return pd.merge(df, dfarea, how="left", left_on=[date_name], right_on=[date_name])
 
 def create_table(variant):
-	df_max = dfclean[dfclean["Area"]!="CA"].groupby(["Area"]).max().reset_index()[["Area", variant]].sort_values(by=[variant, "Area"], ascending=[False, True])
+	date_max = dfclean.max()["report_date"]
+	df_max = dfclean[(dfclean["Area"]!="CA") & (dfclean["report_date"] == date_max)][["Area", variant]].sort_values(by=[variant, "Area"], ascending=[False, True])
 	areas = df_max["Area"].tolist()
 
 	df_variant = pd.DataFrame()
