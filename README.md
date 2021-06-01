@@ -11,7 +11,7 @@
 
 ### Background
 
-This project showcases how you can use [fastpages](https://github.com/fastai/fastpages) to create a static dashboard that update regularly using Jupyter Notebooks.  Using fastpages, data professionals can share dashboards (that are updated with new data automatically) without requiring any expertise in front end development.
+This project showcases how you can use [fastpages](https://github.com/fastai/fastpages) to create a static dashboard that updates regularly using Jupyter Notebooks.  Using fast pages, data professionals can share dashboards (that are updated with new data automatically) without requiring any expertise in front-end development.
 
 The content of this site shows statistics and reports regarding Covid-19.
 
