@@ -2,12 +2,10 @@ name: Update Notebooks And Refresh Page
 on:
   schedule:
     - cron:  '0 */6 * * *'
-  issues:
-    types: [opened]
+  workflow_dispatch:
 
 jobs:
   update-notebooks:
-    if: (github.event_name == 'schedule' || (github.event.issue.title == '[dashboard] Refresh Notebooks'  && github.actor == 'hamelsmu' && github.event_name == 'issues')) && github.repository == 'github/covid19-dashboard'
     runs-on: ubuntu-latest
     steps:
   
@@ -21,41 +19,16 @@ jobs:
         actor: ${{ github.actor }}
         event_name: ${{ github.event_name }}
 
-
-    - name: Comment With Link To Workflow On Issue
-      if: github.event_name == 'issues'
-      uses: actions/github-script@0.6.0
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          var run_id = process.env.RUN_ID;
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `Automated refresh of notebooks instantiated with run id [${run_id}](https://github.com/github/covid19-dashboard/actions/runs/${run_id}).`
-          })
-      env:
-        RUN_ID: ${{ github.run_id	 }}
-
     - name: Copy Repository Contents
       uses: actions/checkout@v2
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-
     - name: Set up Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.6
+        python-version: 3.8
 
     - name: install dependencies
       run: |
-        sudo apt-get update -y
-        sudo apt-get -y --force-yes install chromium-chromedriver
-        npm install -g electron@6.1.4 orca
         pip3 install -r ./_notebooks/requirements.txt
         python3 -m ipykernel install --user --name python3
         sudo chmod -R 777 .
@@ -82,14 +55,6 @@ jobs:
       env:
         ERROR_STRING: ${{ steps.update_nb.outputs.error_str }}
         RUN_ID: ${{ github.run_id	 }}
-
-    # - name: save notebooks & images
-    #   run: |
-    #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    #     git config --global user.name "github-actions[bot]"
-    #     git add images/
-    #     git commit -m'[bot] refresh notebooks'
-    #     git push -f
 
     - name: convert notebooks and word docs to posts
       uses: ./_action_files

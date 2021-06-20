@@ -11,7 +11,9 @@
 
 ### Background
 
-This project is supported by a virtual team of open source collaborators that gather data, make visualizations and perform analysis regarding the COVID-19 epidemic. We saw that data scientists were struggling to share information with each other, so we used this project to aid in the sharing of data and information.  This project aims to offer an accessible way for data professionals to share dashboards (that are updated with new data automatically) without requiring any expertise in front end development.
+This project showcases how you can use [fastpages](https://github.com/fastai/fastpages) to create a static dashboard that update regularly using Jupyter Notebooks.  Using fastpages, data professionals can share dashboards (that are updated with new data automatically) without requiring any expertise in front end development.
+
+The content of this site shows statistics and reports regarding Covid-19.
 
 ### Contributing
 
@@ -19,7 +21,7 @@ See the [contributing guide](CONTRIBUTING.md).
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-35-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-36-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -72,6 +74,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://www.dim.uchile.cl/~alsilva/"><img src="https://avatars0.githubusercontent.com/u/30263736?v=4" width="100px;" alt=""/><br /><sub><b>Alonso Silva Allende</b></sub></a><br /><a href="#content-alonsosilvaallende" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/anomal"><img src="https://avatars0.githubusercontent.com/u/1459721?v=4" width="100px;" alt=""/><br /><sub><b>Sophiah (Zing-Ming)</b></sub></a><br /><a href="#content-anomal" title="Content">🖋</a></td>
     <td align="center"><a href="https://github.com/arungupta21"><img src="https://avatars3.githubusercontent.com/u/7274372?v=4" width="100px;" alt=""/><br /><sub><b>Arun Gupta</b></sub></a><br /><a href="#content-arungupta21" title="Content">🖋</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ujs"><img src="https://avatars1.githubusercontent.com/u/5633010?v=4" width="100px;" alt=""/><br /><sub><b>ujs</b></sub></a><br /><a href="#content-ujs" title="Content">🖋</a></td>
   </tr>
 </table>
 
