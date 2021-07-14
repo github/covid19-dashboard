@@ -1,0 +1,2902 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>COVID-19 Tracking U.S. Cases | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="COVID-19 Tracking U.S. Cases" />
+<meta name="author" content="Pratap Vardhan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tracking coronavirus total cases, deaths and new cases in US by states." />
+<meta property="og:description" content="Tracking coronavirus total cases, deaths and new cases in US by states." />
+<link rel="canonical" href="https://covid19dashboards.com/covid-overview-us/" />
+<meta property="og:url" content="https://covid19dashboards.com/covid-overview-us/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-21T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="COVID-19 Tracking U.S. Cases" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Pratap Vardhan" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Pratap Vardhan"},"description":"Tracking coronavirus total cases, deaths and new cases in US by states.","@type":"BlogPosting","headline":"COVID-19 Tracking U.S. Cases","url":"https://covid19dashboards.com/covid-overview-us/","datePublished":"2020-03-21T00:00:00-05:00","dateModified":"2020-03-21T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/covid-overview-us/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>COVID-19 Tracking U.S. Cases | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="COVID-19 Tracking U.S. Cases" />
+<meta name="author" content="Pratap Vardhan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tracking coronavirus total cases, deaths and new cases in US by states." />
+<meta property="og:description" content="Tracking coronavirus total cases, deaths and new cases in US by states." />
+<link rel="canonical" href="https://covid19dashboards.com/covid-overview-us/" />
+<meta property="og:url" content="https://covid19dashboards.com/covid-overview-us/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-21T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="COVID-19 Tracking U.S. Cases" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Pratap Vardhan" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Pratap Vardhan"},"description":"Tracking coronavirus total cases, deaths and new cases in US by states.","@type":"BlogPosting","headline":"COVID-19 Tracking U.S. Cases","url":"https://covid19dashboards.com/covid-overview-us/","datePublished":"2020-03-21T00:00:00-05:00","dateModified":"2020-03-21T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/covid-overview-us/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">COVID-19 Dashboards</a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger">
+            <a class="page-link" href="https://github.com/github/covid19-dashboard"><svg class="octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a><a class="page-link" href="/about/">About</a><a class="page-link" href="/related/">Related</a><a class="page-link" href="/categories/">Tags</a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">COVID-19 Tracking U.S. Cases</h1><p class="page-description">Tracking coronavirus total cases, deaths and new cases in US by states.</p><p class="post-meta post-meta-title"><!-- <time class="dt-published" datetime="2020-03-21T00:00:00-05:00" itemprop="datePublished">
+        Mar 21, 2020
+      </time> -->by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Pratap Vardhan</span></span>
+    </p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#overview">overview</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#interactive">interactive</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#usa">usa</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/github/covid19-dashboard/tree/master/_notebooks/2020-03-21-covid19-overview-us.ipynb" role="button">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div><div class="px-2">
+    <a href="https://colab.research.google.com/github/github/covid19-dashboard/blob/master/_notebooks/2020-03-21-covid19-overview-us.ipynb">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-03-21-covid19-overview-us.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="overview">
+  <div class="text-center toplinksgithub">
+  <a href="../covid-overview/">World</a><a href="../covid-overview-us/">US</a><a href="../covid-overview-europe/">Europe</a>
+</div>
+  <div>
+    <div class="kpi-hed text-center">US</div>
+    <div class="d-flex kpi-box">
+      <div class="kpi">
+    <div class="kname">Confirmed Cases</div>
+    <div class="num">33,893,767</div>
+    <div class="grow ">(<b>+124,128</b>)</div>
+  </div>
+      <div class="kpi">
+    <div class="kname">Deaths</div>
+    <div class="num">607,369</div>
+    <div class="grow ">(<b>+1,623</b>)</div>
+  </div>
+    </div>
+  </div>
+  <p class="text-center text-uppercase fs9">Updated on <b>July 13, 2021</b> ( +change since 5 days ago.)</p>
+  <div class="d-flex" style="justify-content:space-between;">
+    
+    <div class="kpi-sm">
+    <div class="kpi-hed">New York</div>
+    <div class="d-flex kpi-box">
+      <div class="kpi">
+    <div class="kname">Cases</div>
+    <div class="num">2,119,875</div>
+    <div class="grow ">(<b>+3,605</b>)</div>
+  </div>
+      <div class="kpi">
+    <div class="kname">Deaths</div>
+    <div class="num">53,159</div>
+    <div class="grow ">(<b>+21</b>)</div>
+  </div>
+    </div>
+  </div>
+    
+    <div class="kpi-sm">
+    <div class="kpi-hed">Washington</div>
+    <div class="d-flex kpi-box">
+      <div class="kpi">
+    <div class="kname">Cases</div>
+    <div class="num">459,282</div>
+    <div class="grow ">(<b>+2,639</b>)</div>
+  </div>
+      <div class="kpi">
+    <div class="kname">Deaths</div>
+    <div class="num">6,070</div>
+    <div class="grow ">(<b>+30</b>)</div>
+  </div>
+    </div>
+  </div>
+    
+    <div class="kpi-sm">
+    <div class="kpi-hed">California</div>
+    <div class="d-flex kpi-box">
+      <div class="kpi">
+    <div class="kname">Cases</div>
+    <div class="num">3,844,675</div>
+    <div class="grow ">(<b>+14,797</b>)</div>
+  </div>
+      <div class="kpi">
+    <div class="kname">Deaths</div>
+    <div class="num">63,972</div>
+    <div class="grow ">(<b>+563</b>)</div>
+  </div>
+    </div>
+  </div>
+    
+  </div>
+  <p class="text-center" style="font-size: 14px;max-width: 400px;">
+  In the last <b>5 days</b>, <b class="color-neg">124,128</b> new Coronavirus cases have been reported in the US.
+  Of which <b class="color-neg">3,605</b> (3%) are from <b>New York</b> State.
+  <b>Washington</b> has reported <b class="color-neg">2,639</b> new cases in the last 5 days.
+</p>
+  <table class="table" style="width:575px;">
+    <thead>
+      <tr>
+        <th class="text-right" style="width:120px;"></th>
+        <th class="text-left" style="width:140px;"><svg width="100" height="20" viewBox="0,0,100,20" style="overflow: visible; display: block;">
+  <g>
+    
+    <rect x="0" y="8" width="25" height="10" fill="rgba(255, 152, 0, 0.1)"></rect>
+    
+    <rect x="25" y="8" width="25" height="10" fill="rgba(255, 152, 0, 0.4)"></rect>
+    
+    <rect x="50" y="8" width="25" height="10" fill="rgba(255, 152, 0, 0.7)"></rect>
+    
+    <rect x="75" y="8" width="25" height="10" fill="rgba(255, 152, 0, 1)"></rect>
+    
+  </g>
+  <g style="font-size:10px;text-anchor:middle;">
+    
+    <g transform="translate(25, 6)"><text>5</text></g>
+    
+    <g transform="translate(50, 6)"><text>50</text></g>
+    
+    <g transform="translate(75, 6)"><text>500</text></g>
+    
+    </g>
+</svg></th>
+        <th colspan="7"></th>
+      </tr>
+      <tr>
+        <th class="text-right" style="width:120px;">State</th>
+        <th class="text-left" style="width:140px;">New Cases</th>
+        <th class="text-left" colspan="2">Total Cases</th>
+        <th colspan="2">Deaths</th>
+        <th class="fs9">Fatality</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="font-size:9px;">
+        <td></td>
+        <td style="display:flex;justify-content:space-between;">
+          <div>Jun. 29</div>
+          <div>Jul. 13</div>
+        </td>
+        <td></td>
+        <td colspan="4" class="text-left change" style="font-size: 9px;">(+NEW) since Jul, 08</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>California</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>3,844,675</b></td>
+        <td class="change neg">(<b>+14,797</b>)</td>
+        <td class="pl1">63,972</td>
+        <td class="change neg">(<b>+563</b>)</td>
+        <td class="pl1">1.7%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Texas</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>3,016,622</b></td>
+        <td class="change neg">(<b>+9,897</b>)</td>
+        <td class="pl1">52,824</td>
+        <td class="change neg">(<b>+109</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Florida</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>2,376,643</b></td>
+        <td class="change neg">(<b>+25,913</b>)</td>
+        <td class="pl1">38,211</td>
+        <td class="change neg">(<b>+114</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>New York</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>2,119,875</b></td>
+        <td class="change neg">(<b>+3,605</b>)</td>
+        <td class="pl1">53,159</td>
+        <td class="change neg">(<b>+21</b>)</td>
+        <td class="pl1">2.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Illinois</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,401,498</b></td>
+        <td class="change neg">(<b>+2,563</b>)</td>
+        <td class="pl1">25,793</td>
+        <td class="change neg">(<b>+45</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Pennsylvania</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,219,161</b></td>
+        <td class="change neg">(<b>+1,064</b>)</td>
+        <td class="pl1">27,756</td>
+        <td class="change neg">(<b>+30</b>)</td>
+        <td class="pl1">2.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Georgia</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,117,534</b></td>
+        <td class="change neg">(<b>+3,623</b>)</td>
+        <td class="pl1">20,830</td>
+        <td class="change neg">(<b>+56</b>)</td>
+        <td class="pl1">1.9%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Ohio</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,114,835</b></td>
+        <td class="change neg">(<b>+1,452</b>)</td>
+        <td class="pl1">20,411</td>
+        <td class="change neg">(<b>+45</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>New Jersey</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,026,649</b></td>
+        <td class="change neg">(<b>+1,570</b>)</td>
+        <td class="pl1">26,517</td>
+        <td class="change neg">(<b>+24</b>)</td>
+        <td class="pl1">2.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>North Carolina</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,020,940</b></td>
+        <td class="change neg">(<b>+2,986</b>)</td>
+        <td class="pl1">13,515</td>
+        <td class="change neg">(<b>+27</b>)</td>
+        <td class="pl1">1.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Michigan</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>1,001,061</b></td>
+        <td class="change neg">(<b>+1,535</b>)</td>
+        <td class="pl1">21,077</td>
+        <td class="change neg">(<b>+60</b>)</td>
+        <td class="pl1">2.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Arizona</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>901,906</b></td>
+        <td class="change neg">(<b>+2,998</b>)</td>
+        <td class="pl1">18,055</td>
+        <td class="change neg">(<b>+52</b>)</td>
+        <td class="pl1">2.0%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Tennessee</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>858,378</b></td>
+        <td class="change neg">(<b>+2,174</b>)</td>
+        <td class="pl1">12,526</td>
+        <td class="change neg">(<b>+22</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Indiana</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>761,838</b></td>
+        <td class="change neg">(<b>+1,853</b>)</td>
+        <td class="pl1">13,933</td>
+        <td class="change neg">(<b>+24</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Massachusetts</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>711,446</b></td>
+        <td class="change neg">(<b>+817</b>)</td>
+        <td class="pl1">18,012</td>
+        <td class="change neg">(<b>+1</b>)</td>
+        <td class="pl1">2.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Virginia</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>683,202</b></td>
+        <td class="change neg">(<b>+1,312</b>)</td>
+        <td class="pl1">11,459</td>
+        <td class="change neg">(<b>+18</b>)</td>
+        <td class="pl1">1.7%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Wisconsin</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>679,392</b></td>
+        <td class="change neg">(<b>+721</b>)</td>
+        <td class="pl1">8,189</td>
+        <td class="change neg">(<b>+31</b>)</td>
+        <td class="pl1">1.2%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Missouri</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>651,287</b></td>
+        <td class="change neg">(<b>+7,501</b>)</td>
+        <td class="pl1">10,068</td>
+        <td class="change neg">(<b>+68</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Minnesota</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>606,963</b></td>
+        <td class="change neg">(<b>+712</b>)</td>
+        <td class="pl1">7,720</td>
+        <td class="change neg">(<b>+10</b>)</td>
+        <td class="pl1">1.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>South Carolina</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>600,283</b></td>
+        <td class="change neg">(<b>+1,772</b>)</td>
+        <td class="pl1">9,856</td>
+        <td class="change neg">(<b>+12</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Colorado</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>566,809</b></td>
+        <td class="change neg">(<b>+2,809</b>)</td>
+        <td class="pl1">7,015</td>
+        <td class="change neg">(<b>+36</b>)</td>
+        <td class="pl1">1.2%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Alabama</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>555,215</b></td>
+        <td class="change neg">(<b>+2,304</b>)</td>
+        <td class="pl1">11,402</td>
+        <td class="change neg">(<b>+15</b>)</td>
+        <td class="pl1">2.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Louisiana</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>490,904</b></td>
+        <td class="change neg">(<b>+4,315</b>)</td>
+        <td class="pl1">10,798</td>
+        <td class="change neg">(<b>+27</b>)</td>
+        <td class="pl1">2.2%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Kentucky</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>468,857</b></td>
+        <td class="change neg">(<b>+1,518</b>)</td>
+        <td class="pl1">7,313</td>
+        <td class="change neg">(<b>+14</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Maryland</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>463,600</b></td>
+        <td class="change neg">(<b>+548</b>)</td>
+        <td class="pl1">9,765</td>
+        <td class="change neg">(<b>+7</b>)</td>
+        <td class="pl1">2.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Oklahoma</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>462,070</b></td>
+        <td class="change neg">(<b>+1,939</b>)</td>
+        <td class="pl1">7,406</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Washington</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>459,282</b></td>
+        <td class="change neg">(<b>+2,639</b>)</td>
+        <td class="pl1">6,070</td>
+        <td class="change neg">(<b>+30</b>)</td>
+        <td class="pl1">1.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Utah</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>420,756</b></td>
+        <td class="change neg">(<b>+2,364</b>)</td>
+        <td class="pl1">2,402</td>
+        <td class="change neg">(<b>+13</b>)</td>
+        <td class="pl1">0.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Iowa</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>374,358</b></td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">6,149</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Arkansas</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>358,949</b></td>
+        <td class="change neg">(<b>+4,644</b>)</td>
+        <td class="pl1">5,970</td>
+        <td class="change neg">(<b>+26</b>)</td>
+        <td class="pl1">1.7%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Connecticut</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>350,245</b></td>
+        <td class="change neg">(<b>+447</b>)</td>
+        <td class="pl1">8,279</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">2.4%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Nevada</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>340,600</b></td>
+        <td class="change neg">(<b>+3,341</b>)</td>
+        <td class="pl1">5,731</td>
+        <td class="change neg">(<b>+24</b>)</td>
+        <td class="pl1">1.7%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Mississippi</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>325,072</b></td>
+        <td class="change neg">(<b>+1,431</b>)</td>
+        <td class="pl1">7,451</td>
+        <td class="change neg">(<b>+14</b>)</td>
+        <td class="pl1">2.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Kansas</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>322,505</b></td>
+        <td class="change neg">(<b>+1,494</b>)</td>
+        <td class="pl1">5,219</td>
+        <td class="change neg">(<b>+23</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Nebraska</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>225,460</b></td>
+        <td class="change neg">(<b>+352</b>)</td>
+        <td class="pl1">2,527</td>
+        <td class="change neg">(<b>+4</b>)</td>
+        <td class="pl1">1.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Oregon</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>211,112</b></td>
+        <td class="change neg">(<b>+1,070</b>)</td>
+        <td class="pl1">2,829</td>
+        <td class="change neg">(<b>+10</b>)</td>
+        <td class="pl1">1.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>New Mexico</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>206,666</b></td>
+        <td class="change neg">(<b>+538</b>)</td>
+        <td class="pl1">4,361</td>
+        <td class="change neg">(<b>+6</b>)</td>
+        <td class="pl1">2.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Idaho</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>196,387</b></td>
+        <td class="change neg">(<b>+612</b>)</td>
+        <td class="pl1">2,167</td>
+        <td class="change neg">(<b>+2</b>)</td>
+        <td class="pl1">1.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Puerto Rico</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>174,559</b></td>
+        <td class="change neg">(<b>+510</b>)</td>
+        <td class="pl1">2,555</td>
+        <td class="change neg">(<b>+2</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>West Virginia</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>164,685</b></td>
+        <td class="change neg">(<b>+286</b>)</td>
+        <td class="pl1">2,909</td>
+        <td class="change neg">(<b>+5</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Rhode Island</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>152,842</b></td>
+        <td class="change neg">(<b>+94</b>)</td>
+        <td class="pl1">2,731</td>
+        <td class="change neg">(<b>+1</b>)</td>
+        <td class="pl1">1.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>South Dakota</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>124,641</b></td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">2,039</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.6%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Montana</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>114,523</b></td>
+        <td class="change neg">(<b>+225</b>)</td>
+        <td class="pl1">1,676</td>
+        <td class="change neg">(<b>+4</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>North Dakota</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>110,930</b></td>
+        <td class="change neg">(<b>+91</b>)</td>
+        <td class="pl1">1,563</td>
+        <td class="change neg">(<b>+2</b>)</td>
+        <td class="pl1">1.4%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Delaware</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>110,112</b></td>
+        <td class="change neg">(<b>+181</b>)</td>
+        <td class="pl1">1,695</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>New Hampshire</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>99,800</b></td>
+        <td class="change neg">(<b>+115</b>)</td>
+        <td class="pl1">1,381</td>
+        <td class="change neg">(<b>+7</b>)</td>
+        <td class="pl1">1.4%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Alaska</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>71,291</b></td>
+        <td class="change neg">(<b>+305</b>)</td>
+        <td class="pl1">364</td>
+        <td class="change neg">(<b>+4</b>)</td>
+        <td class="pl1">0.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Maine</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>69,284</b></td>
+        <td class="change neg">(<b>+92</b>)</td>
+        <td class="pl1">862</td>
+        <td class="change neg">(<b>+1</b>)</td>
+        <td class="pl1">1.2%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Wyoming</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>63,235</b></td>
+        <td class="change neg">(<b>+370</b>)</td>
+        <td class="pl1">760</td>
+        <td class="change neg">(<b>+9</b>)</td>
+        <td class="pl1">1.2%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>District of Columbia</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>49,536</b></td>
+        <td class="change neg">(<b>+102</b>)</td>
+        <td class="pl1">1,144</td>
+        <td class="change neg">(<b>+1</b>)</td>
+        <td class="pl1">2.3%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Hawaii</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.7);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>37,135</b></td>
+        <td class="change neg">(<b>+358</b>)</td>
+        <td class="pl1">518</td>
+        <td class="change neg">(<b>+2</b>)</td>
+        <td class="pl1">1.4%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Vermont</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>24,497</b></td>
+        <td class="change neg">(<b>+52</b>)</td>
+        <td class="pl1">258</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.1%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Guam</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.1);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>9,436</b></td>
+        <td class="change neg">(<b>+44</b>)</td>
+        <td class="pl1">143</td>
+        <td class="change neg">(<b>+2</b>)</td>
+        <td class="pl1">1.5%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Virgin Islands</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:rgba(255, 152, 0, 0.4);border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>4,043</b></td>
+        <td class="change neg">(<b>+73</b>)</td>
+        <td class="pl1">32</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">0.8%</td>
+      </tr>
+    
+      <tr>
+        <td class="mw"><b>Northern Mariana Islands</b></td>
+        <td style="vertical-align: middle;"><div class="d-flex" style="height:15px;">
+    
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+    <div style="width:9px;background:#eee;border-right:1px solid rgba(255,255,255,0.5);"></div>
+    
+  </div></td>
+        <td class="pl1"><b>183</b></td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">2</td>
+        <td class="change neg">(<b>+0</b>)</td>
+        <td class="pl1">1.1%</td>
+      </tr>
+    
+    </tbody>
+  </table>
+</div>
+<style>
+.overview {
+  min-width: 500px;
+  font-size: 10px;
+  font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important;
+}
+.overview .toplinksgithub a {
+  background: #d3d3d3;
+  font-size: 14px;
+  color: #1d87ae;
+  margin: 10px;
+  padding: 2px 10px;
+}
+.overview p {
+  margin: 6px auto !important;
+  padding: 0;
+}
+@media screen and (max-width: 660px) {
+  .overview p { max-width: none !important; }
+}
+.overview b {
+  font-weight: bolder;
+}
+.overview .kpi-hed {
+  font-weight: bold;
+  font-size: 20px;
+}
+.overview .kpi-box {
+  justify-content: space-around;
+  background: #ececec;
+  padding: 10px 0 !important;
+  margin: 5px 0 !important;
+  min-width: 180px;
+}
+.overview .kpi .num {
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: bold;
+}
+.overview .kpi .grow {
+  line-height: 12px;
+  font-size: 12px;
+}
+.overview .table .change.pos , .overview .kpi .grow.pos {
+  color: #118822;
+}
+.overview .table .change.neg, .overview .kpi .grow, .color-neg {
+  color: #cc1100;
+}
+.overview p .color-neg {
+  background: #ececec;
+  padding: 0 5px;
+}
+.overview .kpi .kname {
+  font-size: 12px;
+}
+.overview .kpi-sm .kpi-hed {
+  font-size: 14px;
+  line-height: 10px;
+  padding-top: 10px !important;
+}
+.overview .kpi-sm .num {
+  font-size: 20px;
+  line-height: 20px;
+}
+.overview .kpi-sm .kname {
+  font-size: 11px;
+  line-height: 10px;
+}
+.overview .table {
+  border-collapse: collapse;
+  margin: auto !important;
+  text-align: right;
+  margin-top: 14px;
+  color: black;
+  font-size: 13px;
+  display: table !important;
+}
+.overview .table .change {
+  color: #999;
+  font-size: 80%;
+  text-align: start;
+  vertical-align: inherit;
+  font-weight: normal;
+  padding-left: 1px !important;
+}
+.overview .table th {
+  font-weight: normal;
+}
+.overview .table tbody tr {
+  border-bottom: 1px solid #eee;
+  background: none;
+}
+.overview .table td, .overview .table th {
+  padding: 1px 1px 1px 10px !important;
+  vertical-align: middle;
+  border: none;
+  background: none;
+}
+.overview .table th {
+  text-align: center;
+  text-transform: uppercase;
+}
+.overview .table thead {
+  border-bottom: 1px solid black;
+}
+.overview .fs9 {
+  font-size: 9px;
+}
+.overview .d-flex {
+  display: flex;
+}
+.overview .text-center { text-align: center !important; }
+.overview .text-left { text-align: left !important; }
+.overview .text-right { text-align: right !important; }
+.overview .text-uppercase { text-transform: uppercase !important; }
+.overview div {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+</style></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Visualizations by <a href="https://twitter.com/PratapVardhan">Pratap Vardhan</a><sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup></p>
+<div class="footnotes">
+<hr />
+<ol><li id="fn-1"><p>Source: <a href="https://github.com/nytimes/covid-19-data">"The New York Times"</a>. Link to <a href="https://github.com/pratapvardhan/notebooks/blob/master/covid19/covid19-overview-us.ipynb">notebook</a>, <a href="https://gramener.com/enumter/covid19/united-states.html">orignal interactive</a><a href="#fnref-1" class="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances --><a class="u-url" href="/covid-overview-us/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A site that displays up to date COVID-19 stats, powered by fastpages.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/hamelsmu" title="hamelsmu"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/HamelHusain" title="HamelHusain"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Where is the curve flattening? | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Where is the curve flattening?" />
+<meta name="author" content="Daniel Cox, Martin Boehler" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”." />
+<meta property="og:description" content="Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”." />
+<link rel="canonical" href="https://covid19dashboards.com/us-inflection/" />
+<meta property="og:url" content="https://covid19dashboards.com/us-inflection/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:image" content="https://covid19dashboards.com/images/where-are-we-winning.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-30T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://covid19dashboards.com/images/where-are-we-winning.png" />
+<meta property="twitter:title" content="Where is the curve flattening?" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Daniel Cox, Martin Boehler" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Daniel Cox, Martin Boehler"},"description":"Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”.","@type":"BlogPosting","headline":"Where is the curve flattening?","url":"https://covid19dashboards.com/us-inflection/","datePublished":"2020-03-30T00:00:00-05:00","dateModified":"2020-03-30T00:00:00-05:00","image":"https://covid19dashboards.com/images/where-are-we-winning.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/us-inflection/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Where is the curve flattening? | COVID-19 Dashboards</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Where is the curve flattening?" />
+<meta name="author" content="Daniel Cox, Martin Boehler" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”." />
+<meta property="og:description" content="Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”." />
+<link rel="canonical" href="https://covid19dashboards.com/us-inflection/" />
+<meta property="og:url" content="https://covid19dashboards.com/us-inflection/" />
+<meta property="og:site_name" content="COVID-19 Dashboards" />
+<meta property="og:image" content="https://covid19dashboards.com/images/where-are-we-winning.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-30T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://covid19dashboards.com/images/where-are-we-winning.png" />
+<meta property="twitter:title" content="Where is the curve flattening?" />
+<meta name="twitter:site" content="@HamelHusain" />
+<meta name="twitter:creator" content="@Daniel Cox, Martin Boehler" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Daniel Cox, Martin Boehler"},"description":"Inflection-sensitive chart for detecting successful interventions - from the article “How to tell if we’re beating Covid-19”.","@type":"BlogPosting","headline":"Where is the curve flattening?","url":"https://covid19dashboards.com/us-inflection/","datePublished":"2020-03-30T00:00:00-05:00","dateModified":"2020-03-30T00:00:00-05:00","image":"https://covid19dashboards.com/images/where-are-we-winning.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://covid19dashboards.com/us-inflection/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://covid19dashboards.com/feed.xml" title="COVID-19 Dashboards" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-4','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">COVID-19 Dashboards</a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger">
+            <a class="page-link" href="https://github.com/github/covid19-dashboard"><svg class="octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a><a class="page-link" href="/about/">About</a><a class="page-link" href="/related/">Related</a><a class="page-link" href="/categories/">Tags</a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Where is the curve flattening?</h1><p class="page-description">Inflection-sensitive chart for detecting successful interventions - from the article &quot;How to tell if we&#39;re beating Covid-19&quot;.</p><p class="post-meta post-meta-title"><!-- <time class="dt-published" datetime="2020-03-30T00:00:00-05:00" itemprop="datePublished">
+        Mar 30, 2020
+      </time> -->by 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Daniel Cox, Martin Boehler</span></span>
+    </p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#compare">compare</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#growth">growth</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#interactive">interactive</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#altair">altair</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#europe">europe</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#US">US</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#states">states</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#world">world</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#countries">countries</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/github/covid19-dashboard/tree/master/_notebooks/2020-03-30-us-inflection.ipynb" role="button">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div><div class="px-2">
+    <a href="https://colab.research.google.com/github/github/covid19-dashboard/blob/master/_notebooks/2020-03-30-us-inflection.ipynb">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Africa">Africa </a></li>
+<li class="toc-entry toc-h2"><a href="#America">America </a></li>
+<li class="toc-entry toc-h2"><a href="#Asia-Pacific">Asia-Pacific </a></li>
+<li class="toc-entry toc-h2"><a href="#Europe">Europe </a></li>
+<li class="toc-entry toc-h2"><a href="#United-States-of-America">United States of America </a></li>
+<li class="toc-entry toc-h2"><a href="#Explanation">Explanation </a></li>
+<li class="toc-entry toc-h2"><a href="#Caveats">Caveats </a></li>
+<li class="toc-entry toc-h2"><a href="#References">References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-03-30-us-inflection.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered celltag_papermill-error-cell-tag">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><span style="color:red; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:2em;">An Exception was encountered at '<a href="#papermill-error-cell">In [10]</a>'.</span></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>States/countries will drift off the diagonal when they are flattening the curve.
+</p>
+<div class="flash flash-success">
+    <svg class="octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 8.5l-6 6-3-3L8.5 10l1.5 1.5L14.5 7 16 8.5zM5.7 12.2l.8.8H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h7c.55 0 1 .45 1 1v6.5l-.8-.8c-.39-.39-1.03-.39-1.42 0L5.7 10.8a.996.996 0 000 1.41v-.01zM4 4h5V3H4v1zm0 2h5V5H4v1zm0 2h3V7H4v1zM3 9H2v1h1V9zm0-2H2v1h1V7zm0-2H2v1h1V5zm0-2H2v1h1V3z"></path></svg>
+    <strong>Tip: </strong>To highlight states/countries click (shift+ for multiple) on the name in the legend. Click outside the legend to highlight all states/countries.
+</div>
+<p>Only entries with at least 100 confirmed cases are considered.</p>
+<p>The top 5 entries are initially highlighted.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered celltag_papermill-error-cell-tag">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><span id="papermill-error-cell" style="color:red; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:2em;">Execution using papermill encountered an exception here and stopped:</span></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Africa">
+<a class="anchor" href="#Africa" aria-hidden="true"><span class="octicon octicon-link"></span></a>Africa<a class="anchor-link" href="#Africa"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="America">
+<a class="anchor" href="#America" aria-hidden="true"><span class="octicon octicon-link"></span></a>America<a class="anchor-link" href="#America"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Asia-Pacific">
+<a class="anchor" href="#Asia-Pacific" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asia-Pacific<a class="anchor-link" href="#Asia-Pacific"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Europe">
+<a class="anchor" href="#Europe" aria-hidden="true"><span class="octicon octicon-link"></span></a>Europe<a class="anchor-link" href="#Europe"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="United-States-of-America">
+<a class="anchor" href="#United-States-of-America" aria-hidden="true"><span class="octicon octicon-link"></span></a>United States of America<a class="anchor-link" href="#United-States-of-America"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Explanation">
+<a class="anchor" href="#Explanation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Explanation<a class="anchor-link" href="#Explanation"> </a>
+</h2>
+<p>The exponential growth stage of a pandemic must end sometime, either as the virus runs out of people to infect, or as societies get it under control. However, it can be difficult to tell exactly when exponential growth is ending, for several reasons:</p>
+<ul>
+<li>Humans aren't wired to understand exponentials at a glance.</li>
+<li>It can be difficult to compare regions with differing first-infection dates, testing rates, and populations.</li>
+<li>The news tends to report individual data points, without the contextual information necessary to interpret it.</li>
+<li>If the plot doesn't explicitly plot the rate of new cases, a change must be quite dramatic before it becomes distinguishable.</li>
+</ul>
+<p>This visualization plots the (sliding average of) daily new cases against the total cases. This has the advantage of aligning all of them onto a baseline trajectory of exponential growth, with a very clear downward plummet when a given state gets the virus under control. As explained in the caveats below, this visualization has a very specific purpose: to make it clear whether a given state has managed to exit the exponential trajectory or not.</p>
+<p><em>minutephysics</em> has an excellent video on this visualization type, <a href="https://youtu.be/54XLXg4fYsc">How to tell if we're beating Covid-19</a>.</p>
+<h2 id="Caveats">
+<a class="anchor" href="#Caveats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caveats<a class="anchor-link" href="#Caveats"> </a>
+</h2>
+<ol>
+<li>The logarithmic scales can make it seem as if states are closer together than they actually are. For example, at time of writing (April 5th) New York (the leader in US cases) and New Jersey (the runner-up) look as though it's a close race, but New York has over three times as any cases as New Jersey.</li>
+<li>The logarithmic scale can also obscure a resurgence of infections after a significant downturn, since the trace won't move much to the right during a short period late in time.</li>
+<li>Time is not represented by the x-axis, which is unusual for most charts made about Covid-19. This is the plot's main advantage, because it aligns states onto roughly the same trajectory regardless of population or testing rate, but it may be unexpected.</li>
+<li>The true number of cases is unknown, so the actual slope of the log-log change plot is unknown. All countries/states are also increasing their testing rate over time, so these data may imply that the infection rate is increasing faster than it actually is.</li>
+<li>The data these plots rely on are incomplete, and come in less smoothly than they may imply. Healthcare systems around the world collect and report data when they can.</li>
+<li>This chart plots the logarithm of the sliding window average of the daily growth rate on the y-axis, not the raw daily growth rate, because there's too much variability day-to-day to visually detect the trend. This also makes the plot a pessimistic estimate of where each state is on its trajectory.</li>
+</ol>
+<h2 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
+</h2>
+<ul>
+<li>The initial animated implementation and descriptions were made by <a href="https://twitter.com/danielpcox">Daniel Cox</a>, with thanks to Henry of <em>minutephysics</em> for <a href="https://youtu.be/54XLXg4fYsc">How to tell if we're beating Covid-19</a>, and <a href="covidtracking.com">covidtracking.com</a> for US data.</li>
+<li>The visualizations for the US, Africa, America, Asia-Pacific and Europe were made by <a href="https://www.linkedin.com/in/martin-boehler/">Martin Boehler</a>, with thanks to Daniel Cox for this great inspiration and initial implementation, and <a href="https://systems.jhu.edu/">Johns Hopkins University CSSE</a> for the <a href="https://github.com/CSSEGISandData/COVID-19">2019 Novel Coronavirus Covid-19 (2019-nCoV) Data Repository</a>.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/us-inflection/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A site that displays up to date COVID-19 stats, powered by fastpages.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/hamelsmu" title="hamelsmu"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/HamelHusain" title="HamelHusain"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
