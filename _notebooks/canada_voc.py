@@ -41,19 +41,19 @@ dfclean = df[ (df["report_date"] > "2021") & (df["report_date"] < "2023") & (df[
 dfclean["Province"] = dfclean.apply(lambda r: get_province(r["prov"]), axis=1)
 dfclean["Area"] = dfclean.apply(lambda r: get_area(r["prov"]), axis=1)
 
-dfuk = dfclean.copy()
-dfuk["Variant"] = "B.1.1.7 (UK)"
-dfuk["Count"] = dfuk["b117"]
+dfAlpha = dfclean.copy()
+dfAlpha["Variant"] = "B.1.1.7 (Alpha)"
+dfAlpha["Count"] = dfAlpha["b117"]
 
-dfsa = dfclean.copy()
-dfsa["Variant"] = "B.1.351 (South Africa)"
-dfsa["Count"] = dfsa["b1351"]
+dfBeta = dfclean.copy()
+dfBeta["Variant"] = "B.1.351 (Beta)"
+dfBeta["Count"] = dfBeta["b1351"]
 
-dfbr = dfclean.copy()
-dfbr["Variant"] = "P.1 (Brazil)"
-dfbr["Count"] = dfbr["p1"]
+dfGamma = dfclean.copy()
+dfGamma["Variant"] = "P.1 (Gamma)"
+dfGamma["Count"] = dfGamma["p1"]
 
-dfvoc = dfuk.append(dfsa).append(dfbr)
+dfvoc = dfAlpha.append(dfBeta).append(dfGamma)
 
 dfvocmax = dfvoc.groupby(["Province", "Variant"]).max().reset_index() \
 [["Province", "Variant", "Count"]] \
@@ -120,7 +120,7 @@ def create_table(variant):
 	df_variant = join(df_variant, "CA", variant)
 	return df_variant.set_index(date_name).sort_values(by=[date_name], ascending=[False]).round().astype(int)
 	
-df_uk = create_table("b117")
-df_sa = create_table("b1351")
-df_br = create_table("p1")
+df_Alpha = create_table("b117")
+df_Beta = create_table("b1351")
+df_Gamma = create_table("p1")
 
