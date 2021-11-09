@@ -125,7 +125,7 @@ uvicorn==0.11.3
 uvloop==0.14.0
 wcwidth==0.1.8
 webencodings==0.5.1
-websockets==8.1
+websockets==9.1
 widgetsnbextension==3.5.1
 xarray==0.15.0
 xlrd==1.2.0
