@@ -86,7 +86,7 @@ prompt-toolkit==3.0.4
 psutil==5.7.2
 ptyprocess==0.6.0
 py-lru-cache==0.1.4
-Pygments==2.6.1
+Pygments==2.7.4
 pymc3==3.9.2
 pyparsing==2.4.6
 pyproj==2.6.1.post1
