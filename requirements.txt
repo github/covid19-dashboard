@@ -75,7 +75,7 @@ pathspec==0.7.0
 patsy==0.5.1
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==7.2.0
+Pillow==9.0.1
 Pint==0.11
 plotly==4.9.0
 plotnine==0.7.0
